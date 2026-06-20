@@ -1,5 +1,5 @@
 // Service Worker — Calendário da Amélia
-const CACHE = 'amelia-v1';
+const CACHE = 'amelia-v2';
 const ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 // Install: cache assets
