@@ -17,54 +17,38 @@
   :root {
     --raphael: #2d7a4f; --raphael-light: #e8f5ee; --raphael-mid: #a8d5b8;
     --yasmim: #7c3fa0; --yasmim-light: #f3eafa; --yasmim-mid: #c9a0e0;
-    --pink: #f9a8d4; --pink-dark: #ec4899;
-    --bg: #f8f7fc; --card: #ffffff; --text: #1a1a2e; --muted: #888; --border: #e8e4f0;
+    --pink: #f9a8d4; --bg: #f8f7fc; --card: #ffffff; --text: #1a1a2e; --muted: #888; --border: #e8e4f0;
   }
   body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 0 48px; }
 
-  /* ── LOGIN SCREEN ── */
-  #loginScreen {
-    position: fixed; inset: 0; background: linear-gradient(160deg, #fce7f3 0%, #f3e8ff 100%);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    z-index: 200; padding: 32px 24px; gap: 0;
-  }
+  #loginScreen { position: fixed; inset: 0; background: linear-gradient(160deg, #fce7f3 0%, #f3e8ff 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 200; padding: 32px 24px; }
   #loginScreen.hidden { display: none; }
   .login-icon { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 18px; box-shadow: 0 8px 32px rgba(236,72,153,0.25); }
-  .login-title { font-size: 1.6rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+  .login-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 4px; }
   .login-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 32px; }
   .login-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 12px; align-self: flex-start; width: 100%; max-width: 320px; }
   .login-btns { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; }
   .login-btn { padding: 16px; border-radius: 16px; border: 2px solid transparent; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.15s; }
   .login-btn.raphael { background: var(--raphael-light); border-color: var(--raphael); color: var(--raphael); }
   .login-btn.yasmim { background: var(--yasmim-light); border-color: var(--yasmim); color: var(--yasmim); }
-  .login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
   .login-btn .lb-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
 
-  /* ── APP HEADER ── */
-  #appHeader {
-    background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%);
-    padding: 16px 16px 12px; display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1.5px solid var(--border);
-  }
+  #appHeader { background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%); padding: 16px 16px 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px solid var(--border); }
   .header-left { display: flex; align-items: center; gap: 10px; }
   .header-icon { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
   .header-title { font-size: 1rem; font-weight: 800; }
-  .header-right { display: flex; align-items: center; gap: 8px; }
-  .user-chip { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; cursor: pointer; border: 1.5px solid transparent; transition: all 0.15s; }
+  .user-chip { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; cursor: pointer; border: 1.5px solid transparent; }
   .user-chip.raphael { background: var(--raphael-light); border-color: var(--raphael); color: var(--raphael); }
   .user-chip.yasmim { background: var(--yasmim-light); border-color: var(--yasmim); color: var(--yasmim); }
   .user-chip .chip-dot { width: 8px; height: 8px; border-radius: 50%; }
   .user-chip.raphael .chip-dot { background: var(--raphael); }
   .user-chip.yasmim .chip-dot { background: var(--yasmim); }
 
-  /* ── NOTIF PERMISSION BANNER ── */
   #notifBanner { max-width: 500px; margin: 12px auto 0; background: #fff8e1; border: 2px solid #f59e0b; border-radius: 14px; padding: 12px 16px; font-size: 0.82rem; display: flex; align-items: center; gap: 10px; }
   #notifBanner.hidden { display: none; }
   #notifBanner button { margin-left: auto; padding: 6px 14px; border-radius: 10px; border: none; background: #f59e0b; color: #fff; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.8rem; cursor: pointer; white-space: nowrap; }
 
-  /* ── MAIN CONTENT ── */
   #mainContent { padding: 16px 16px 0; }
-
   .sync-badge { max-width: 500px; margin: 0 auto 10px; display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; color: var(--muted); justify-content: flex-end; }
   .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #ccc; }
   .sync-dot.online { background: #22c55e; }
@@ -76,8 +60,7 @@
   .legend-dot { width: 14px; height: 14px; border-radius: 50%; }
 
   .nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 16px; }
-  .nav button { background: var(--card); border: 2px solid var(--border); border-radius: 50%; width: 38px; height: 38px; font-size: 1.1rem; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
-  .nav button:hover { border-color: var(--raphael); color: var(--raphael); }
+  .nav button { background: var(--card); border: 2px solid var(--border); border-radius: 50%; width: 38px; height: 38px; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .nav h2 { font-size: 1.1rem; font-weight: 800; min-width: 180px; text-align: center; }
 
   .calendar { background: var(--card); border-radius: 20px; border: 1.5px solid var(--border); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.06); max-width: 500px; margin: 0 auto 24px; }
@@ -126,7 +109,6 @@
   .upcoming-text { color: var(--muted); font-weight: 600; }
   .pattern-note { max-width: 500px; margin: 0 auto; text-align: center; font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
 
-  /* ── MODAL ── */
   .modal-overlay { position: fixed; inset: 0; background: rgba(20,10,40,0.45); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.18s; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
   .modal { background: var(--card); border-radius: 22px; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.18); overflow: hidden; transform: translateY(16px); transition: transform 0.18s; }
@@ -141,18 +123,15 @@
   .owner-btn.active-raphael { background: var(--raphael-light); border-color: var(--raphael); color: var(--raphael); }
   .owner-btn.active-yasmim { background: var(--yasmim-light); border-color: var(--yasmim); color: var(--yasmim); }
   .owner-btn .btn-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .reset-btn { width: 100%; margin-top: 6px; padding: 8px; border-radius: 10px; border: 1.5px dashed var(--border); background: transparent; font-family: 'Nunito', sans-serif; font-size: 0.8rem; color: var(--muted); cursor: pointer; transition: all 0.15s; }
-  .reset-btn:hover { border-color: #f59e0b; color: #b45309; }
+  .reset-btn { width: 100%; margin-top: 6px; padding: 8px; border-radius: 10px; border: 1.5px dashed var(--border); background: transparent; font-family: 'Nunito', sans-serif; font-size: 0.8rem; color: var(--muted); cursor: pointer; }
   .events-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
   .event-item { display: flex; align-items: center; gap: 8px; background: var(--bg); border-radius: 10px; padding: 8px 10px; border: 1.5px solid var(--border); }
   .event-item .ev-icon { font-size: 1rem; flex-shrink: 0; }
   .event-item .ev-text { flex: 1; font-size: 0.85rem; font-weight: 600; }
-  .event-item .ev-delete { background: none; border: none; cursor: pointer; font-size: 1rem; color: #ccc; padding: 0; line-height: 1; transition: color 0.12s; }
-  .event-item .ev-delete:hover { color: #e05; }
+  .event-item .ev-delete { background: none; border: none; cursor: pointer; font-size: 1rem; color: #ccc; padding: 0; line-height: 1; }
   .empty-events { text-align: center; font-size: 0.82rem; color: var(--muted); padding: 10px 0; }
   .add-event-row { display: flex; gap: 8px; }
-  .add-event-input { flex: 1; padding: 9px 12px; border-radius: 10px; border: 1.5px solid var(--border); font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--text); background: var(--bg); outline: none; transition: border-color 0.15s; }
-  .add-event-input:focus { border-color: var(--raphael); }
+  .add-event-input { flex: 1; padding: 9px 12px; border-radius: 10px; border: 1.5px solid var(--border); font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--text); background: var(--bg); outline: none; }
   .add-event-btn { padding: 9px 14px; border-radius: 10px; border: none; background: var(--raphael); color: #fff; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; cursor: pointer; flex-shrink: 0; }
   .modal-footer { padding: 12px 20px 18px; border-top: 1.5px solid var(--border); display: flex; justify-content: flex-end; }
   .close-btn { padding: 9px 22px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--bg); font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; color: var(--text); }
@@ -160,73 +139,49 @@
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
 <div id="loginScreen">
   <img src="icon-192.png" class="login-icon" alt="Amélia">
   <div class="login-title">Calendário da Amélia</div>
   <div class="login-sub">Quem está acessando?</div>
   <div class="login-label">Selecione seu nome</div>
   <div class="login-btns">
-    <button class="login-btn raphael" onclick="doLogin('raphael')">
-      <div class="lb-dot" style="background:var(--raphael)"></div>
-      Raphael
-    </button>
-    <button class="login-btn yasmim" onclick="doLogin('yasmim')">
-      <div class="lb-dot" style="background:var(--yasmim)"></div>
-      Yasmim
-    </button>
+    <button class="login-btn raphael" onclick="doLogin('raphael')"><div class="lb-dot" style="background:var(--raphael)"></div>Raphael</button>
+    <button class="login-btn yasmim" onclick="doLogin('yasmim')"><div class="lb-dot" style="background:var(--yasmim)"></div>Yasmim</button>
   </div>
 </div>
 
-<!-- APP HEADER -->
 <div id="appHeader" style="display:none">
   <div class="header-left">
     <img src="icon-192.png" class="header-icon" alt="Amélia">
     <div class="header-title">Calendário da Amélia</div>
   </div>
-  <div class="header-right">
-    <div class="user-chip" id="userChip" onclick="doLogout()">
-      <div class="chip-dot"></div>
-      <span id="userChipName"></span>
-      <span style="font-size:0.7rem;opacity:0.6">trocar</span>
-    </div>
+  <div class="user-chip" id="userChip" onclick="doLogout()">
+    <div class="chip-dot"></div>
+    <span id="userChipName"></span>
+    <span style="font-size:0.7rem;opacity:0.6">trocar</span>
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div id="mainContent" style="display:none; padding-top:12px">
-
-  <!-- Notif permission -->
   <div id="notifBanner" class="hidden">
     🔔 Ative as notificações para saber quando algo mudar!
     <button onclick="requestNotifPermission()">Ativar</button>
   </div>
-
-  <div class="sync-badge">
-    <div class="sync-dot" id="syncDot"></div>
-    <span id="syncLabel">conectando…</span>
-  </div>
-
+  <div class="sync-badge"><div class="sync-dot" id="syncDot"></div><span id="syncLabel">conectando…</span></div>
   <div class="legend" style="margin-top:8px">
-    <div class="legend-item"><div class="legend-dot" style="background:var(--raphael)"></div> Raphael</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--yasmim)"></div> Yasmim</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--raphael)"></div>Raphael</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--yasmim)"></div>Yasmim</div>
   </div>
-
-  <div class="today-info" id="todayInfo">
-    <div class="today-dot-big" id="todayDot"></div>
-    <div id="todayText"></div>
-  </div>
+  <div class="today-info"><div class="today-dot-big" id="todayDot"></div><div id="todayText"></div></div>
   <div class="upcoming-panel" id="upcomingPanel">
     <div class="upcoming-label">📌 Compromissos do mês</div>
     <div class="upcoming-list" id="upcomingList"></div>
   </div>
-
   <div class="nav" style="margin-top:16px">
     <button id="prevBtn">◀</button>
     <h2 id="monthTitle"></h2>
     <button id="nextBtn">▶</button>
   </div>
-
   <div class="calendar">
     <div class="weekdays">
       <div class="weekday-label">Dom</div><div class="weekday-label">Seg</div>
@@ -236,9 +191,7 @@
     </div>
     <div class="days-grid" id="daysGrid"></div>
   </div>
-
   <div class="stats" id="stats"></div>
-
   <p class="pattern-note">
     Semana A: Seg+Ter com Raphael · Qua+Qui com Yasmim · Sex+Sáb+Dom com Raphael<br>
     Semana B: Seg+Ter com Yasmim · Qua+Qui com Raphael · Sex+Sáb+Dom com Yasmim<br>
@@ -246,7 +199,6 @@
   </p>
 </div>
 
-<!-- DAY MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-header">
@@ -256,124 +208,104 @@
     <div class="modal-body">
       <div class="section-title">Responsável do dia</div>
       <div class="owner-toggle">
-        <button class="owner-btn" id="btnRaphael" onclick="setOwner('raphael')">
-          <div class="btn-dot" style="background:var(--raphael)"></div> Raphael
-        </button>
-        <button class="owner-btn" id="btnYasmim" onclick="setOwner('yasmim')">
-          <div class="btn-dot" style="background:var(--yasmim)"></div> Yasmim
-        </button>
+        <button class="owner-btn" id="btnRaphael" onclick="setOwner('raphael')"><div class="btn-dot" style="background:var(--raphael)"></div>Raphael</button>
+        <button class="owner-btn" id="btnYasmim" onclick="setOwner('yasmim')"><div class="btn-dot" style="background:var(--yasmim)"></div>Yasmim</button>
       </div>
       <button class="reset-btn" onclick="resetOwner()">↺ Voltar ao padrão automático</button>
       <div style="margin-top:18px">
         <div class="section-title" style="margin-bottom:10px">📌 Compromissos</div>
         <div class="events-list" id="eventsList"></div>
         <div class="add-event-row">
-          <input class="add-event-input" id="eventInput" placeholder="Ex: Consulta médica 14h" maxlength="60"
-            onkeydown="if(event.key==='Enter') addEvent()" />
+          <input class="add-event-input" id="eventInput" placeholder="Ex: Consulta médica 14h" maxlength="60" onkeydown="if(event.key==='Enter') addEvent()" />
           <button class="add-event-btn" onclick="addEvent()">+</button>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="close-btn" onclick="closeModal()">Fechar</button>
-    </div>
+    <div class="modal-footer"><button class="close-btn" onclick="closeModal()">Fechar</button></div>
   </div>
 </div>
 
 <script type="module">
-import { initializeApp }          from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, onValue, set, remove, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
 
-// ── Firebase config ──────────────────────────────────────────────
 const firebaseConfig = {
-  apiKey:            "AIzaSyBaHMewuyReIt9U72PEIwA7iipg1ZTBIFE",
-  authDomain:        "calendario-amelia-2202c.firebaseapp.com",
-  databaseURL:       "https://calendario-amelia-2202c-default-rtdb.firebaseio.com",
-  projectId:         "calendario-amelia-2202c",
-  storageBucket:     "calendario-amelia-2202c.firebasestorage.app",
+  apiKey: "AIzaSyBaHMewuyReIt9U72PEIwA7iipg1ZTBIFE",
+  authDomain: "calendario-amelia-2202c.firebaseapp.com",
+  databaseURL: "https://calendario-amelia-2202c-default-rtdb.firebaseio.com",
+  projectId: "calendario-amelia-2202c",
+  storageBucket: "calendario-amelia-2202c.firebasestorage.app",
   messagingSenderId: "329381802500",
-  appId:             "1:329381802500:web:9e6d1b7c9110478974fb51"
+  appId: "1:329381802500:web:9e6d1b7c9110478974fb51"
 };
-
-// ── VAPID key placeholder (fill after enabling FCM) ──────────────
-// 🔧 After enabling Firebase Cloud Messaging, paste your VAPID public key here:
 const VAPID_KEY = "BPUanq3Gib0FCP-Y3RrhxWX4-ovsmndL2lFDVg7asHi2tqo0bYvDAnQi1vN4ksXCGsSXe6oqIZYMExYupEMkGq4";
 
 const app = initializeApp(firebaseConfig);
 const db  = getDatabase(app);
 
-// ── Register service worker ───────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(console.error);
-}
+// Service worker
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
-// ── State ─────────────────────────────────────────────────────────
-let currentUser = localStorage.getItem('amelia_user') || null;
-let overrides   = {};
-let events      = {};
-let modalDateKey = null;
-let viewYear, viewMonth;
-const today = new Date(); today.setHours(0,0,0,0);
-viewYear = today.getFullYear(); viewMonth = today.getMonth();
-
-// ── Sync status ───────────────────────────────────────────────────
-function setSyncStatus(state, label) {
-  document.getElementById('syncDot').className = 'sync-dot ' + state;
-  document.getElementById('syncLabel').textContent = label;
-}
-
-// ── Firebase listeners ────────────────────────────────────────────
-onValue(ref(db, 'overrides'), snap => {
-  overrides = snap.val() || {};
-  if (currentUser) render();
-});
-onValue(ref(db, 'events'), snap => {
-  events = snap.val() || {};
-  if (currentUser) { render(); if (modalDateKey) renderEventsList(); }
-});
-setSyncStatus('online', 'conectado · tempo real');
-
-// ── FCM / Notifications ───────────────────────────────────────────
-let messaging = null;
-try { messaging = getMessaging(app); } catch(e) {}
-
-async function requestNotifPermission() {
-  if (!messaging) return;
+// FCM — carrega de forma assíncrona, nunca bloqueia o app
+let _messaging = null, _getToken = null;
+(async () => {
   try {
+    if (!('Notification' in window) || !('serviceWorker' in navigator)) return;
+    const m = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js");
+    _messaging = m.getMessaging(app);
+    _getToken  = m.getToken;
+    m.onMessage(_messaging, p => {
+      const {title, body} = p.notification || {};
+      if (Notification.permission === 'granted' && title) new Notification(title, {body, icon:'./icon-192.png'});
+    });
+  } catch(e) { console.warn('FCM indisponível:', e); }
+})();
+
+// State
+let currentUser  = localStorage.getItem('amelia_user') || null;
+let overrides    = {};
+let events       = {};
+let modalDateKey = null;
+const today = new Date(); today.setHours(0,0,0,0);
+let viewYear = today.getFullYear(), viewMonth = today.getMonth();
+
+// Sync badge
+function setSyncStatus(s, l) {
+  document.getElementById('syncDot').className = 'sync-dot ' + s;
+  document.getElementById('syncLabel').textContent = l;
+}
+
+// Firebase listeners
+onValue(ref(db,'overrides'), s => { overrides = s.val()||{}; if(currentUser) render(); });
+onValue(ref(db,'events'),    s => { events = s.val()||{}; if(currentUser){render(); if(modalDateKey) renderEventsList();} });
+setSyncStatus('online','conectado · tempo real');
+
+// Notifications
+async function requestNotifPermission() {
+  try {
+    if (!('Notification' in window)) return;
     const perm = await Notification.requestPermission();
     if (perm !== 'granted') return;
     document.getElementById('notifBanner').classList.add('hidden');
-    const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: await navigator.serviceWorker.ready });
-    if (token && currentUser) {
-      await set(ref(db, `fcmTokens/${currentUser}`), token);
-    }
-  } catch(e) { console.error('FCM error:', e); }
+    if (!_messaging || !_getToken) return;
+    const swReg = await navigator.serviceWorker.ready;
+    const token = await _getToken(_messaging, {vapidKey: VAPID_KEY, serviceWorkerRegistration: swReg});
+    if (token && currentUser) await set(ref(db,`fcmTokens/${currentUser}`), token);
+  } catch(e) { console.warn('Notif error:', e); }
 }
 window.requestNotifPermission = requestNotifPermission;
 
-// Receive foreground messages
-if (messaging) {
-  onMessage(messaging, payload => {
-    const { title, body } = payload.notification || {};
-    if (Notification.permission === 'granted' && title) {
-      new Notification(title, { body, icon: './icon-192.png' });
-    }
-  });
-}
-
 async function sendNotifToOther(title, body) {
-  // Write a notification request to Firebase — Cloud Function picks it up and sends FCM push
-  await push(ref(db, 'notifQueue'), {
-    from: currentUser,
-    to: currentUser === 'raphael' ? 'yasmim' : 'raphael',
-    title,
-    body,
-    ts: Date.now()
-  });
+  try {
+    await push(ref(db,'notifQueue'), {
+      from: currentUser,
+      to: currentUser==='raphael' ? 'yasmim' : 'raphael',
+      title, body, ts: Date.now()
+    });
+  } catch(e) { console.warn('Notif queue error:', e); }
 }
 
-// ── Login ─────────────────────────────────────────────────────────
+// Login
 window.doLogin = function(user) {
   currentUser = user;
   localStorage.setItem('amelia_user', user);
@@ -391,216 +323,143 @@ function showApp() {
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('appHeader').style.display = 'flex';
   document.getElementById('mainContent').style.display = 'block';
-
   const chip = document.getElementById('userChip');
   chip.className = 'user-chip ' + currentUser;
-  document.getElementById('userChipName').textContent = currentUser === 'raphael' ? 'Raphael' : 'Yasmim';
-
-  // Show notif banner if not granted
-  if (Notification.permission === 'default') {
-    document.getElementById('notifBanner').classList.remove('hidden');
-  }
-
-  // Auto-request token if already granted
+  document.getElementById('userChipName').textContent = currentUser==='raphael' ? 'Raphael' : 'Yasmim';
+  if (Notification.permission === 'default') document.getElementById('notifBanner').classList.remove('hidden');
   if (Notification.permission === 'granted') requestNotifPermission();
-
   render();
 }
-
-// Auto-login if returning user
 if (currentUser) showApp();
 
-// ── Calendar helpers ──────────────────────────────────────────────
+// Calendar helpers
 const REFERENCE_MONDAY = new Date(2026, 5, 9);
 const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const WEEKDAYS_LONG = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+const WDAYS  = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
 
-function dateKey(date) {
-  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
-}
-function getWeekMonday(date) {
-  const d = new Date(date);
-  const day = d.getDay();
-  d.setDate(d.getDate() + (day===0 ? -6 : 1-day));
-  d.setHours(0,0,0,0);
-  return d;
-}
+function dateKey(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function getWeekMonday(date) { const d=new Date(date),day=d.getDay(); d.setDate(d.getDate()+(day===0?-6:1-day)); d.setHours(0,0,0,0); return d; }
 function getDefaultOwner(date) {
-  const wm = getWeekMonday(date);
-  const diffWeeks = Math.round((wm - REFERENCE_MONDAY) / (7*24*3600*1000));
-  const isWeekA = diffWeeks % 2 === 0;
-  const dow = date.getDay();
-  if (isWeekA) { if(dow===1||dow===2) return 'raphael'; if(dow===3||dow===4) return 'yasmim'; return 'raphael'; }
-  else         { if(dow===1||dow===2) return 'yasmim';  if(dow===3||dow===4) return 'raphael'; return 'yasmim'; }
+  const wm=getWeekMonday(date);
+  const isA = Math.round((wm-REFERENCE_MONDAY)/(7*24*3600*1000)) % 2 === 0;
+  const dow=date.getDay();
+  if(isA){ if(dow===1||dow===2) return 'raphael'; if(dow===3||dow===4) return 'yasmim'; return 'raphael'; }
+  else   { if(dow===1||dow===2) return 'yasmim';  if(dow===3||dow===4) return 'raphael'; return 'yasmim'; }
 }
 function getOwner(date) { return overrides[dateKey(date)] || getDefaultOwner(date); }
 function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// ── Render ────────────────────────────────────────────────────────
+// Render
 window.render = function() {
   document.getElementById('monthTitle').textContent = `${MONTHS[viewMonth]} ${viewYear}`;
   const grid = document.getElementById('daysGrid');
   grid.innerHTML = '';
   const firstDay = new Date(viewYear, viewMonth, 1).getDay();
   const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
-  let rCount=0, yCount=0;
+  let rC=0, yC=0;
 
-  for (let i=0; i<firstDay; i++) {
-    const c = document.createElement('div');
-    c.className='day-cell empty';
-    c.innerHTML='<div class="day-num">&nbsp;</div>';
-    grid.appendChild(c);
-  }
-  for (let d=1; d<=daysInMonth; d++) {
-    const date = new Date(viewYear, viewMonth, d); date.setHours(0,0,0,0);
-    const k = dateKey(date);
-    const owner = getOwner(date);
-    const isOver = !!overrides[k];
-    const evs = events[k] || [];
-    if(owner==='raphael') rCount++; else yCount++;
+  for(let i=0;i<firstDay;i++){const c=document.createElement('div');c.className='day-cell empty';c.innerHTML='<div class="day-num">&nbsp;</div>';grid.appendChild(c);}
 
-    const cell = document.createElement('div');
-    cell.className = `day-cell ${owner}${isOver?' overridden':''}`;
-
-    const num = document.createElement('div'); num.className='day-num'; num.textContent=d; cell.appendChild(num);
-    const dot = document.createElement('div'); dot.className='owner-dot'; cell.appendChild(dot);
-
-    if (evs.length) {
-      const dots = document.createElement('div'); dots.className='event-dots';
-      for (let i=0;i<Math.min(evs.length,3);i++){const ed=document.createElement('div');ed.className='event-dot';dots.appendChild(ed);}
-      cell.appendChild(dots);
-    }
-    if (date.getTime()===today.getTime()) {
-      const ring=document.createElement('div'); ring.className='today-ring'; cell.appendChild(ring);
-    }
-    cell.onclick = () => openModal(date);
+  for(let d=1;d<=daysInMonth;d++){
+    const date=new Date(viewYear,viewMonth,d); date.setHours(0,0,0,0);
+    const k=dateKey(date), owner=getOwner(date), isOver=!!overrides[k], evs=events[k]||[];
+    if(owner==='raphael') rC++; else yC++;
+    const cell=document.createElement('div');
+    cell.className=`day-cell ${owner}${isOver?' overridden':''}`;
+    const num=document.createElement('div'); num.className='day-num'; num.textContent=d; cell.appendChild(num);
+    const dot=document.createElement('div'); dot.className='owner-dot'; cell.appendChild(dot);
+    if(evs.length){const dots=document.createElement('div');dots.className='event-dots';for(let i=0;i<Math.min(evs.length,3);i++){const ed=document.createElement('div');ed.className='event-dot';dots.appendChild(ed);}cell.appendChild(dots);}
+    if(date.getTime()===today.getTime()){const ring=document.createElement('div');ring.className='today-ring';cell.appendChild(ring);}
+    cell.onclick=()=>openModal(date);
     grid.appendChild(cell);
   }
 
   document.getElementById('stats').innerHTML=`
-    <div class="stat-card raphael"><div class="stat-name">Raphael</div><div class="stat-days">${rCount}</div><div class="stat-label">dias este mês</div></div>
-    <div class="stat-card yasmim"><div class="stat-name">Yasmim</div><div class="stat-days">${yCount}</div><div class="stat-label">dias este mês</div></div>`;
+    <div class="stat-card raphael"><div class="stat-name">Raphael</div><div class="stat-days">${rC}</div><div class="stat-label">dias este mês</div></div>
+    <div class="stat-card yasmim"><div class="stat-name">Yasmim</div><div class="stat-days">${yC}</div><div class="stat-label">dias este mês</div></div>`;
 
-  const todayOwner = getOwner(today);
-  const oName = todayOwner==='raphael'?'Raphael':'Yasmim';
-  const emoji = todayOwner==='raphael'?'💚':'💜';
-  document.getElementById('todayDot').style.background=`var(--${todayOwner})`;
-  document.getElementById('todayText').innerHTML=
-    `Hoje, <strong>${WEEKDAYS_LONG[today.getDay()]}, ${today.getDate()} de ${MONTHS[today.getMonth()]}</strong>, a Amélia está com <strong>${oName}</strong> ${emoji}`;
-
+  const to=getOwner(today), tn=to==='raphael'?'Raphael':'Yasmim', te=to==='raphael'?'💚':'💜';
+  document.getElementById('todayDot').style.background=`var(--${to})`;
+  document.getElementById('todayText').innerHTML=`Hoje, <strong>${WDAYS[today.getDay()]}, ${today.getDate()} de ${MONTHS[today.getMonth()]}</strong>, a Amélia está com <strong>${tn}</strong> ${te}`;
   renderUpcoming();
-}
+};
 
-function renderUpcoming() {
-  const panel=document.getElementById('upcomingPanel'), list=document.getElementById('upcomingList');
-  const todayKey=dateKey(today), rows=[];
-  for (const k of Object.keys(events).sort()) {
-    if(k<todayKey) continue;
+function renderUpcoming(){
+  const panel=document.getElementById('upcomingPanel'),list=document.getElementById('upcomingList');
+  const tk=dateKey(today),rows=[];
+  for(const k of Object.keys(events).sort()){
+    if(k<tk) continue;
     const p=k.split('-');
     if(+p[0]!==viewYear||+p[1]-1!==viewMonth) continue;
-    for (const ev of (events[k]||[])) rows.push({day:+p[2],month:+p[1]-1,text:ev});
+    for(const ev of (events[k]||[])) rows.push({day:+p[2],month:+p[1]-1,text:ev});
   }
   if(!rows.length){panel.classList.remove('has-events');list.innerHTML='';return;}
   panel.classList.add('has-events');
-  list.innerHTML=rows.map(r=>`
-    <div class="upcoming-row">
-      <div class="upcoming-orange-dot"></div>
-      <span class="upcoming-date">${r.day}/${String(r.month+1).padStart(2,'0')}</span>
-      <span class="upcoming-text">${escHtml(r.text)}</span>
-    </div>`).join('');
+  list.innerHTML=rows.map(r=>`<div class="upcoming-row"><div class="upcoming-orange-dot"></div><span class="upcoming-date">${r.day}/${String(r.month+1).padStart(2,'0')}</span><span class="upcoming-text">${escHtml(r.text)}</span></div>`).join('');
 }
 
-// ── Modal ─────────────────────────────────────────────────────────
-function openModal(date) {
-  modalDateKey = dateKey(date);
-  const owner = getOwner(date);
-  const dow = WEEKDAYS_LONG[date.getDay()];
-  document.getElementById('modalDate').textContent =
-    `${dow.charAt(0).toUpperCase()+dow.slice(1)}, ${date.getDate()} de ${MONTHS[date.getMonth()]} de ${date.getFullYear()}`;
-  updateOwnerButtons(owner);
+// Modal
+function openModal(date){
+  modalDateKey=dateKey(date);
+  const dow=WDAYS[date.getDay()];
+  document.getElementById('modalDate').textContent=`${dow.charAt(0).toUpperCase()+dow.slice(1)}, ${date.getDate()} de ${MONTHS[date.getMonth()]} de ${date.getFullYear()}`;
+  updateOwnerButtons(getOwner(date));
   renderEventsList();
   document.getElementById('eventInput').value='';
   document.getElementById('modalOverlay').classList.add('open');
   setTimeout(()=>document.getElementById('eventInput').focus(),200);
 }
-window.closeModal = function() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  modalDateKey=null; render();
-}
+window.closeModal=function(){document.getElementById('modalOverlay').classList.remove('open');modalDateKey=null;render();};
 document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-function updateOwnerButtons(owner) {
+function updateOwnerButtons(owner){
   document.getElementById('btnRaphael').className='owner-btn'+(owner==='raphael'?' active-raphael':'');
   document.getElementById('btnYasmim').className='owner-btn'+(owner==='yasmim'?' active-yasmim':'');
   document.getElementById('modalTitle').textContent=`Com ${owner==='raphael'?'Raphael':'Yasmim'} ${owner==='raphael'?'💚':'💜'}`;
 }
 
-window.setOwner = async function(owner) {
+window.setOwner=async function(owner){
   if(!modalDateKey) return;
-  const prev = overrides[modalDateKey] || getDefaultOwner(new Date(modalDateKey));
-  if(prev===owner) return;
-  await set(ref(db,`overrides/${modalDateKey}`), owner);
-  // Notify other person
-  const parts=modalDateKey.split('-');
-  const dayStr=`${+parts[2]}/${parts[1]}/${parts[0]}`;
-  const actorName=currentUser==='raphael'?'Raphael':'Yasmim';
-  const ownerName=owner==='raphael'?'Raphael':'Yasmim';
-  await sendNotifToOther(`📅 ${actorName} alterou o calendário`,`Dia ${dayStr} foi atribuído para ${ownerName}`);
+  await set(ref(db,`overrides/${modalDateKey}`),owner);
+  const p=modalDateKey.split('-'), ds=`${+p[2]}/${p[1]}/${p[0]}`, an=currentUser==='raphael'?'Raphael':'Yasmim', on=owner==='raphael'?'Raphael':'Yasmim';
+  await sendNotifToOther(`📅 ${an} alterou o calendário`,`Dia ${ds} foi atribuído para ${on}`);
   updateOwnerButtons(owner);
-}
+};
 
-window.resetOwner = async function() {
+window.resetOwner=async function(){
   if(!modalDateKey||!overrides[modalDateKey]) return;
   await remove(ref(db,`overrides/${modalDateKey}`));
-  const parts=modalDateKey.split('-');
-  const dayStr=`${+parts[2]}/${parts[1]}/${parts[0]}`;
-  const actorName=currentUser==='raphael'?'Raphael':'Yasmim';
-  await sendNotifToOther(`📅 ${actorName} alterou o calendário`,`Dia ${dayStr} voltou ao padrão automático`);
-  const d=new Date(+parts[0],+parts[1]-1,+parts[2]);
-  updateOwnerButtons(getDefaultOwner(d));
-}
+  const p=modalDateKey.split('-'), ds=`${+p[2]}/${p[1]}/${p[0]}`, an=currentUser==='raphael'?'Raphael':'Yasmim';
+  await sendNotifToOther(`📅 ${an} alterou o calendário`,`Dia ${ds} voltou ao padrão automático`);
+  updateOwnerButtons(getDefaultOwner(new Date(+p[0],+p[1]-1,+p[2])));
+};
 
-function renderEventsList() {
-  const list=document.getElementById('eventsList');
-  const evs=events[modalDateKey]||[];
+function renderEventsList(){
+  const list=document.getElementById('eventsList'), evs=events[modalDateKey]||[];
   if(!evs.length){list.innerHTML='<div class="empty-events">Nenhum compromisso ainda</div>';return;}
-  list.innerHTML=evs.map((ev,i)=>`
-    <div class="event-item">
-      <span class="ev-icon">📌</span>
-      <span class="ev-text">${escHtml(ev)}</span>
-      <button class="ev-delete" onclick="deleteEvent(${i})">✕</button>
-    </div>`).join('');
+  list.innerHTML=evs.map((ev,i)=>`<div class="event-item"><span class="ev-icon">📌</span><span class="ev-text">${escHtml(ev)}</span><button class="ev-delete" onclick="deleteEvent(${i})">✕</button></div>`).join('');
 }
 
-window.addEvent = async function() {
-  const input=document.getElementById('eventInput');
-  const text=input.value.trim();
+window.addEvent=async function(){
+  const input=document.getElementById('eventInput'), text=input.value.trim();
   if(!text||!modalDateKey) return;
   const list=[...(events[modalDateKey]||[]),text];
   await set(ref(db,`events/${modalDateKey}`),list);
-  // Notify other person
-  const parts=modalDateKey.split('-');
-  const dayStr=`${+parts[2]}/${parts[1]}`;
-  const actorName=currentUser==='raphael'?'Raphael':'Yasmim';
-  await sendNotifToOther(`📌 ${actorName} adicionou um compromisso`,`${dayStr}: ${text}`);
-  input.value='';
-  renderEventsList();
-  renderUpcoming();
-}
+  const p=modalDateKey.split('-'), ds=`${+p[2]}/${p[1]}`, an=currentUser==='raphael'?'Raphael':'Yasmim';
+  await sendNotifToOther(`📌 ${an} adicionou um compromisso`,`${ds}: ${text}`);
+  input.value=''; renderEventsList(); renderUpcoming();
+};
 
-window.deleteEvent = async function(idx) {
+window.deleteEvent=async function(idx){
   if(!modalDateKey||!events[modalDateKey]) return;
-  const list=events[modalDateKey].filter((_,i)=>i!==idx);
   const removed=events[modalDateKey][idx];
+  const list=events[modalDateKey].filter((_,i)=>i!==idx);
   if(!list.length) await remove(ref(db,`events/${modalDateKey}`));
   else await set(ref(db,`events/${modalDateKey}`),list);
-  const parts=modalDateKey.split('-');
-  const dayStr=`${+parts[2]}/${parts[1]}`;
-  const actorName=currentUser==='raphael'?'Raphael':'Yasmim';
-  await sendNotifToOther(`🗑️ ${actorName} removeu um compromisso`,`${dayStr}: ${removed}`);
-  renderEventsList();
-  renderUpcoming();
-}
+  const p=modalDateKey.split('-'), ds=`${+p[2]}/${p[1]}`, an=currentUser==='raphael'?'Raphael':'Yasmim';
+  await sendNotifToOther(`🗑️ ${an} removeu um compromisso`,`${ds}: ${removed}`);
+  renderEventsList(); renderUpcoming();
+};
 
 document.getElementById('prevBtn').onclick=()=>{viewMonth--;if(viewMonth<0){viewMonth=11;viewYear--;}render();};
 document.getElementById('nextBtn').onclick=()=>{viewMonth++;if(viewMonth>11){viewMonth=0;viewYear++;}render();};
