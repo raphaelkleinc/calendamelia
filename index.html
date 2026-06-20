@@ -275,10 +275,12 @@ function setSyncStatus(s, l) {
   document.getElementById('syncLabel').textContent = l;
 }
 
-// Firebase listeners
-onValue(ref(db,'overrides'), s => { overrides = s.val()||{}; if(currentUser) render(); });
-onValue(ref(db,'events'),    s => { events = s.val()||{}; if(currentUser){render(); if(modalDateKey) renderEventsList();} });
-setSyncStatus('online','conectado · tempo real');
+// Firebase listeners — registrados após render() estar declarado
+function startListeners() {
+  onValue(ref(db,'overrides'), s => { overrides = s.val()||{}; if(currentUser) render(); });
+  onValue(ref(db,'events'),    s => { events = s.val()||{}; if(currentUser){render(); if(modalDateKey) renderEventsList();} });
+  setSyncStatus('online','conectado · tempo real');
+}
 
 // Notifications
 async function requestNotifPermission() {
@@ -330,9 +332,9 @@ function showApp() {
   if (Notification.permission === 'granted') requestNotifPermission();
   render();
 }
-if (currentUser) showApp();
 
 // Calendar helpers
+function showApp() {
 const REFERENCE_MONDAY = new Date(2026, 5, 9);
 const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const WDAYS  = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
@@ -463,6 +465,10 @@ window.deleteEvent=async function(idx){
 
 document.getElementById('prevBtn').onclick=()=>{viewMonth--;if(viewMonth<0){viewMonth=11;viewYear--;}render();};
 document.getElementById('nextBtn').onclick=()=>{viewMonth++;if(viewMonth>11){viewMonth=0;viewYear++;}render();};
+
+// Start Firebase listeners now that render() is defined
+startListeners();
+if (currentUser) showApp();
 </script>
 </body>
 </html>
