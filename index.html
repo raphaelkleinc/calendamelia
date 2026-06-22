@@ -106,7 +106,9 @@
   .dc.r .dn{color:var(--r)}.dc.y .dn{color:var(--y)}.dc.empty .dn{color:var(--mu)}
   .od{width:6px;height:6px;border-radius:50%}
   .dc.r .od{background:var(--r)}.dc.y .od{background:var(--y)}
-  .today-ring{position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:var(--amber)}
+  .today-ring{position:absolute;inset:2px;border-radius:50%;border:2px solid var(--amber);pointer-events:none}
+  .dc.r .dn.today-num{color:var(--amber);font-weight:900}
+  .dc.y .dn.today-num{color:var(--amber);font-weight:900}
   .evdots{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;margin-top:1px}
   .evd{width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0}
   .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
@@ -617,7 +619,13 @@ function render() {
     c.className='dc '+ow+(isOv?' ov':'');
     c.innerHTML='<div class="dn">'+d+'</div><div class="od"></div>';
     if(devs.length){let dd='<div class="evdots">';for(let i=0;i<Math.min(devs.length,3);i++)dd+='<div class="evd"></div>';dd+='</div>';c.innerHTML+=dd;}
-    if(dt.getTime()===today.getTime())c.innerHTML+='<div class="today-ring"></div>';
+    if(dt.getTime()===today.getTime()){
+      c.classList.add('today-cell');
+      const ring=document.createElement('div');
+      ring.className='today-ring';
+      c.appendChild(ring);
+      num.classList.add('today-num');
+    }
     c.onclick=(function(dt2){return function(){openMo(dt2);};})(dt);
     grid.appendChild(c);
   }
