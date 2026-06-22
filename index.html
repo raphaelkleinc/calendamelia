@@ -43,8 +43,18 @@
   .login-error{font-size:.8rem;color:var(--red);text-align:center;min-height:18px}
 
   /* ── HEADER ── */
-  #appHeader{background:linear-gradient(135deg,#fce7f3,#f3e8ff);padding:12px 16px;border-bottom:1.5px solid var(--bo);display:flex;align-items:center;justify-content:space-between;gap:8px}
-  .header-row1{display:flex;align-items:center;justify-content:space-between;width:100%;gap:8px}
+  #appHeader{background:linear-gradient(135deg,#fce7f3,#f3e8ff);padding:10px 14px 10px;border-bottom:1.5px solid var(--bo);display:flex;flex-direction:column;gap:8px}
+  .header-row1{display:flex;align-items:center;justify-content:space-between;width:100%}
+  .h-left{display:flex;align-items:center;gap:8px}
+  .h-icon{width:32px;height:32px;border-radius:50%;object-fit:cover}
+  .h-title{font-size:.92rem;font-weight:800}
+  /* NAV BUTTONS */
+  .nav-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:100%}
+  .nav-btn{height:34px;border-radius:20px;border:1.5px solid var(--bo);background:#fff;font-size:.75rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;padding:0 6px;color:var(--mu);white-space:nowrap;font-family:'Nunito',sans-serif}
+  .nav-btn:hover{border-color:var(--pink2);background:#fce7f3;color:var(--pink2)}
+  .nav-btn.active{background:linear-gradient(135deg,#fce7f3,#f3e8ff);border-color:var(--pink2);color:var(--pink2);box-shadow:0 2px 8px rgba(236,72,153,.2)}
+  .nav-btn .nb-icon{font-size:.85rem;line-height:1}
+  .nav-btn .nb-label{font-size:.68rem}
   .h-left{display:flex;align-items:center;gap:10px}
   .h-icon{width:34px;height:34px;border-radius:50%;object-fit:cover}
   .h-title{font-size:.95rem;font-weight:800}
@@ -245,17 +255,17 @@
       <img src="icon-192.png" class="h-icon" alt="">
       <div class="h-title">Calendário da Amélia</div>
     </div>
-    <div class="nav-btns">
-      <button class="nav-btn active" id="nb-cal" onclick="showView('cal')" title="Calendário"><span class="nb-icon">📅</span></button>
-      <button class="nav-btn" id="nb-health" onclick="showView('health')" title="Saúde"><span class="nb-icon">🏥</span></button>
-      <button class="nav-btn" id="nb-contacts" onclick="showView('contacts')" title="Contatos"><span class="nb-icon">📋</span></button>
-      <button class="nav-btn" id="nb-reimb" onclick="showView('reimb')" title="Reembolsos"><span class="nb-icon">📄</span></button>
-    </div>
     <div class="chip" id="chip" onclick="doLogout()">
       <div class="chip-dot"></div>
       <span id="chipName"></span>
       <span style="font-size:.65rem;opacity:.6">sair</span>
     </div>
+  </div>
+  <div class="nav-btns">
+    <button class="nav-btn active" id="nb-cal" onclick="showView('cal')"><span class="nb-icon">📅</span><span class="nb-label">Agenda</span></button>
+    <button class="nav-btn" id="nb-health" onclick="showView('health')"><span class="nb-icon">🏥</span><span class="nb-label">Saúde</span></button>
+    <button class="nav-btn" id="nb-contacts" onclick="showView('contacts')"><span class="nb-icon">📋</span><span class="nb-label">Contatos</span></button>
+    <button class="nav-btn" id="nb-reimb" onclick="showView('reimb')"><span class="nb-icon">📄</span><span class="nb-label">Reimb.</span></button>
   </div>
 </div>
 
@@ -525,6 +535,7 @@ auth.onAuthStateChanged(function(user) {
 function showApp() {
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('appHeader').style.display = 'flex';
+  document.getElementById('appHeader').style.flexDirection = 'column';
   const chip = document.getElementById('chip');
   chip.className = 'chip ' + currentUser;
   document.getElementById('chipName').textContent = currentUser==='r'?'Raphael':'Yasmim';
