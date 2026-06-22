@@ -245,7 +245,7 @@
     </div>
     <input class="login-input" id="loginEmail" type="email" placeholder="Email" style="display:none">
     <input class="login-input" id="loginPass" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn-main" id="loginBtn" onclick="doLogin()" style="display:none">Entrar</button>
+    <button class="login-btn-main" id="loginBtn" onclick="doLogin()">Entrar</button>
     <div class="login-error" id="loginError"></div>
   </div>
 </div>
@@ -493,9 +493,6 @@ let selectedUser = null;
 function selectUser(u) {
   selectedUser = u;
   document.getElementById('loginEmail').value = USER_EMAILS[u];
-  document.getElementById('loginEmail').style.display = 'block';
-  document.getElementById('loginPass').style.display = 'block';
-  document.getElementById('loginBtn').style.display = 'block';
   document.querySelectorAll('.login-user-btn').forEach(b => b.style.opacity = '.5');
   document.querySelector('.login-user-btn.' + u).style.opacity = '1';
   setTimeout(() => document.getElementById('loginPass').focus(), 100);
@@ -526,9 +523,7 @@ auth.onAuthStateChanged(function(user) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('loginScreen').classList.remove('hidden');
     document.getElementById('loginPass').value = '';
-    document.getElementById('loginEmail').style.display = 'none';
-    document.getElementById('loginPass').style.display = 'none';
-    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('loginError').textContent = '';
     selectedUser = null;
     document.querySelectorAll('.login-user-btn').forEach(b => b.style.opacity = '1');
   }
