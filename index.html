@@ -615,17 +615,13 @@ function render() {
     const dt=new Date(vy,vm,d);dt.setHours(0,0,0,0);
     const k=dk(dt),ow=owner(dt),isOv=!!ov[k],devs=evs[k]||[];
     if(ow==='r')rc++;else yc++;
+    const isToday = dt.getTime()===today.getTime();
     const c=document.createElement('div');
-    c.className='dc '+ow+(isOv?' ov':'');
-    c.innerHTML='<div class="dn">'+d+'</div><div class="od"></div>';
-    if(devs.length){let dd='<div class="evdots">';for(let i=0;i<Math.min(devs.length,3);i++)dd+='<div class="evd"></div>';dd+='</div>';c.innerHTML+=dd;}
-    if(dt.getTime()===today.getTime()){
-      c.classList.add('today-cell');
-      const ring=document.createElement('div');
-      ring.className='today-ring';
-      c.appendChild(ring);
-      num.classList.add('today-num');
-    }
+    c.className='dc '+ow+(isOv?' ov':'')+(isToday?' today-cell':'');
+    let inner='<div class="dn'+(isToday?' today-num':'')+'">'+d+'</div><div class="od"></div>';
+    if(devs.length){inner+='<div class="evdots">';for(let i=0;i<Math.min(devs.length,3);i++)inner+='<div class="evd"></div>';inner+='</div>';}
+    if(isToday)inner+='<div class="today-ring"></div>';
+    c.innerHTML=inner;
     c.onclick=(function(dt2){return function(){openMo(dt2);};})(dt);
     grid.appendChild(c);
   }
