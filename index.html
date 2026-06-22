@@ -757,7 +757,17 @@ function toggleHealthDone(key){
   }
 }
 
-function renderHealth(){
+function deleteHealth(key){
+  if(!confirm('Remover esta tarefa?'))return;
+  const item=healthItems[key];
+  // Remove from calendar too if has date
+  if(item.date && evs[item.date]){
+    const filtered=(evs[item.date]||[]).filter(e=>!e.startsWith(item.name));
+    if(filtered.length===0)db.ref('events/'+item.date).remove();
+    else db.ref('events/'+item.date).set(filtered);
+  }
+  db.ref('health/'+key).remove();
+}
   const list=document.getElementById('healthList');
   if(!list)return;
   const keys=Object.keys(healthItems).sort((a,b)=>{
@@ -777,6 +787,7 @@ function renderHealth(){
       '<button class="hi-btn mark" onclick="openHealthDate(\''+k+'\')">📅 Marcar</button>'+
       '<button class="hi-btn check'+(it.done?' done':'')+'" onclick="toggleHealthDone(\''+k+'\')">'+
       (it.done?'✓ Feito':'✓')+'</button>'+
+      '<button class="contact-del" onclick="deleteHealth(\''+k+'\')">🗑️</button>'+
       '</div></div>';
   }).join('');
 }
