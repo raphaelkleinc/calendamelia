@@ -3,661 +3,799 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chuí → Montevidéu · Caderno de Expedição</title>
-<meta name="description" content="Equipamento, treino e rota para o cicloturismo Chuí–Montevidéu. Funciona offline.">
-<meta name="theme-color" content="#12332e">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./icon-192.png">
+<title>Calendário da Amélia</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f9a8d4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Amélia">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-favicon.png">
 <style>
-:root{--ink:#153e37;--ink2:#0f3a34;--sand:#e7e0cf;--paper:#f8f4ea;--paper2:#fffdf7;--accent:#d97514;--accent2:#b85f0d;--ok:#3a7a5c;--text:#22271e;--muted:#726a58;--warn:#b26a00;--danger:#b23a2e;--water:#2c6f8c;--line:#d9d0ba;}
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;background:var(--sand);}
-body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--text);}
-.wrap{max-width:860px;margin:0 auto;min-height:100vh;background:var(--sand);}
-.mono{font-family:ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace;}
-.loading{padding:60px 24px;text-align:center;color:var(--muted);font-style:italic;}
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --r:#2d7a4f;--rl:#e8f5ee;--rm:#a8d5b8;
+    --y:#7c3fa0;--yl:#f3eafa;--ym:#c9a0e0;
+    --pink:#f9a8d4;--pink2:#ec4899;
+    --bg:#f8f7fc;--card:#fff;--tx:#1a1a2e;--mu:#888;--bo:#e8e4f0;
+    --red:#ef4444;--green:#22c55e;--amber:#f59e0b;
+  }
+  body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;padding:0 0 48px}
 
-/* brand + tabs */
-.brand{position:relative;background:linear-gradient(160deg,#1b463f,#12332e);color:#f3efe2;overflow:hidden;padding:20px 24px 16px;}
-.contours{position:absolute;inset:0;width:100%;height:100%;}
-.brand-in{position:relative;}
-.eyebrow{font-family:ui-monospace,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#c9b78a;margin-bottom:6px;}
-.brand h1{margin:0;font-size:27px;font-weight:800;letter-spacing:-.02em;line-height:1;}
-.brand h1 .arrow{color:var(--accent);font-weight:400;padding:0 4px;}
-.brand .sub{margin:7px 0 0;color:#b9c4bd;font-size:12.5px;}
-.offline-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-family:ui-monospace,monospace;letter-spacing:.05em;color:#8fa89f;text-transform:uppercase;margin-top:10px;}
-.dot{width:6px;height:6px;border-radius:50%;background:#4f7a6b;}
-.tabs{position:sticky;top:0;z-index:20;display:flex;background:var(--ink2);border-bottom:1px solid #0a2a25;}
-.tab{flex:1;border:none;background:none;color:#9fb7ae;padding:13px 8px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:600;letter-spacing:.01em;border-bottom:2.5px solid transparent;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px;}
-.tab:hover{color:#e6efe9;}
-.tab.on{color:#fff;border-bottom-color:var(--accent);background:rgba(217,117,20,.08);}
+  /* LOGIN */
+  #loginScreen{position:fixed;inset:0;background:linear-gradient(160deg,#fce7f3,#f3e8ff);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:200;padding:32px 24px}
+  #loginScreen.hidden{display:none}
+  .login-icon{width:110px;height:110px;border-radius:50%;object-fit:cover;margin-bottom:16px;box-shadow:0 8px 32px rgba(236,72,153,.25)}
+  .login-title{font-size:1.5rem;font-weight:800;margin-bottom:4px}
+  .login-sub{font-size:.85rem;color:var(--mu);margin-bottom:28px}
+  .login-form{display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px}
+  .login-select{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .login-user-btn{padding:12px;border-radius:14px;border:2px solid var(--bo);background:var(--bg);font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+  .login-user-btn.r{background:var(--rl);border-color:var(--r);color:var(--r)}
+  .login-user-btn.y{background:var(--yl);border-color:var(--y);color:var(--y)}
+  .udot{width:10px;height:10px;border-radius:50%}
+  .login-user-btn.r .udot{background:var(--r)}
+  .login-user-btn.y .udot{background:var(--y)}
+  .login-input{padding:12px 14px;border-radius:12px;border:1.5px solid var(--bo);font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:var(--tx);background:#fff;outline:none;width:100%}
+  .login-btn-main{padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#ec4899,#7c3fa0);color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer}
+  .login-error{font-size:.8rem;color:var(--red);text-align:center;min-height:18px}
 
-.view-hero{padding:18px 20px 8px;}
-.view-hero h2{margin:0;font-size:18px;font-weight:750;letter-spacing:-.01em;}
-.view-hero p{margin:5px 0 0;font-size:13px;color:var(--muted);line-height:1.5;}
+  /* HEADER */
+  #appHeader{background:linear-gradient(135deg,#fce7f3,#f3e8ff);padding:10px 14px;border-bottom:1.5px solid var(--bo);display:flex;flex-direction:column;gap:8px}
+  .header-row1{display:flex;align-items:center;justify-content:space-between;width:100%}
+  .h-left{display:flex;align-items:center;gap:8px}
+  .h-icon{width:32px;height:32px;border-radius:50%;object-fit:cover}
+  .h-title{font-size:.92rem;font-weight:800}
+  .chip{display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;font-size:.78rem;font-weight:700;cursor:pointer;border:1.5px solid transparent}
+  .chip.r{background:var(--rl);border-color:var(--r);color:var(--r)}
+  .chip.y{background:var(--yl);border-color:var(--y);color:var(--y)}
+  .chip-dot{width:7px;height:7px;border-radius:50%}
+  .chip.r .chip-dot{background:var(--r)}
+  .chip.y .chip-dot{background:var(--y)}
+  .nav-btns{display:flex;gap:8px;align-items:center;justify-content:center}
+  .nav-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--bo);background:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;padding:0;flex-shrink:0}
+  .nav-btn:hover{border-color:var(--pink2);background:#fce7f3}
+  .nav-btn.active{background:linear-gradient(135deg,#fce7f3,#f3e8ff);border-color:var(--pink2);box-shadow:0 2px 8px rgba(236,72,153,.25)}
 
-/* progress bar generic */
-.prog{height:6px;background:#d8cfb8;border-radius:4px;overflow:hidden;margin-top:10px;}
-.prog > i{display:block;height:100%;background:var(--accent);border-radius:4px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+  /* NOTIF / SYNC */
+  #notifBanner{max-width:500px;margin:8px auto 0;background:#fff8e1;border:2px solid var(--amber);border-radius:12px;padding:10px 14px;font-size:.8rem;display:flex;align-items:center;gap:10px}
+  #notifBanner.hidden{display:none}
+  #notifBanner button{margin-left:auto;padding:5px 12px;border-radius:8px;border:none;background:var(--amber);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:.78rem;cursor:pointer}
+  .sync{max-width:500px;margin:0 auto 8px;display:flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;color:var(--mu);justify-content:flex-end;padding:0 16px}
+  .sd{width:6px;height:6px;border-radius:50%;background:#ccc}
+  .sd.on{background:var(--green)}.sd.off{background:var(--amber)}.sd.err{background:var(--red)}
 
-/* ===== GEAR ===== */
-.route{margin:16px 20px 4px;}
-.route-labels{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.05em;color:var(--muted);margin-bottom:7px;text-transform:uppercase;}
-.route-track{position:relative;height:4px;background:#d3caB3;background:#d6cdb6;border-radius:3px;margin:10px 6px;}
-.route-fill{position:absolute;left:0;top:0;height:100%;background:var(--accent);border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1);}
-.wp{position:absolute;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#c2b998;border:1px solid #a99f7d;transition:background .3s;}
-.wp.on{background:var(--accent);border-color:var(--accent2);}
-.rider{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;border:3px solid var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.25);transition:left .5s cubic-bezier(.4,0,.2,1);}
-.route-status{font-size:12.5px;color:var(--text);margin-top:12px;}
-.route-status b{color:var(--ink);}
+  /* VIEWS */
+  .view{display:none;padding:12px 16px 0;max-width:500px;margin:0 auto}
+  .view.active{display:block}
 
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:14px;}
-.stat{background:var(--paper);padding:14px 16px;display:flex;flex-direction:column;gap:4px;}
-.stat-k{font-size:11px;color:var(--muted);}
-.stat-v{font-family:ui-monospace,monospace;font-size:21px;font-weight:700;letter-spacing:-.02em;}
-.stat-v.accent{color:var(--accent2);}
-.stat-v.ok{color:var(--ok);}
-.stat-v .frac{font-size:14px;color:var(--muted);font-weight:500;}
+  /* CALENDAR */
+  .legend{display:flex;justify-content:center;gap:20px;margin-bottom:16px;flex-wrap:wrap}
+  .leg-item{display:flex;align-items:center;gap:7px;font-weight:700;font-size:.88rem}
+  .leg-dot{width:12px;height:12px;border-radius:50%}
+  .cal-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:14px}
+  .cal-nav button{background:var(--card);border:2px solid var(--bo);border-radius:50%;width:36px;height:36px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .cal-nav h2{font-size:1rem;font-weight:800;min-width:170px;text-align:center}
+  .cal{background:var(--card);border-radius:18px;border:1.5px solid var(--bo);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:20px}
+  .wdays{display:grid;grid-template-columns:repeat(7,1fr);background:var(--bg);border-bottom:1.5px solid var(--bo)}
+  .wday{text-align:center;padding:8px 2px;font-size:.68rem;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.4px}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr)}
+  .dc{border:.5px solid var(--bo);min-height:58px;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative;cursor:pointer;transition:filter .12s}
+  .dc:not(.empty):hover{filter:brightness(.94)}
+  .dc.empty{background:var(--bg);opacity:.4;cursor:default}
+  .dc.r{background:var(--rl)}.dc.y{background:var(--yl)}
+  .dc.ov{outline:2px dashed var(--amber);outline-offset:-2px}
+  .dn{font-size:.85rem;font-weight:800;line-height:1}
+  .dc.r .dn{color:var(--r)}.dc.y .dn{color:var(--y)}.dc.empty .dn{color:var(--mu)}
+  .od{width:6px;height:6px;border-radius:50%}
+  .dc.r .od{background:var(--r)}.dc.y .od{background:var(--y)}
+  .today-ring{position:absolute;inset:2px;border-radius:50%;border:2.5px solid var(--amber);pointer-events:none}
+  .dc.r .dn.today-num,.dc.y .dn.today-num{color:var(--amber);font-weight:900}
+  .evdots{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;margin-top:1px}
+  .evd{width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .sc{border-radius:14px;padding:14px;text-align:center;border:1.5px solid transparent}
+  .sc.r{background:var(--rl);border-color:var(--rm)}.sc.y{background:var(--yl);border-color:var(--ym)}
+  .sc .sn{font-size:.78rem;font-weight:700;margin-bottom:3px}
+  .sc.r .sn{color:var(--r)}.sc.y .sn{color:var(--y)}
+  .sc .sd2{font-size:1.8rem;font-weight:800;line-height:1}
+  .sc.r .sd2{color:var(--r)}.sc.y .sd2{color:var(--y)}
+  .sc .sl{font-size:.68rem;color:var(--mu);margin-top:2px}
+  .ti{background:var(--card);border-radius:12px 12px 0 0;border:1.5px solid var(--bo);border-bottom:none;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:.85rem}
+  .tdb{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .ti strong{font-weight:800}
+  .up{background:var(--card);border-radius:0 0 12px 12px;border:1.5px solid var(--bo);border-top:1px dashed var(--bo);padding:0 16px;overflow:hidden;max-height:0;transition:max-height .3s,padding .3s;margin-bottom:14px}
+  .up.has{max-height:250px;padding:10px 16px 12px}
+  .ul-label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);margin-bottom:7px}
+  .ulist{display:flex;flex-direction:column;gap:5px}
+  .urow{display:flex;align-items:flex-start;gap:7px;font-size:.8rem}
+  .uod{width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:4px}
+  .udate{font-weight:800;color:var(--tx);white-space:nowrap}
+  .utxt{color:var(--mu);font-weight:600}
+  .pnote{text-align:center;font-size:.72rem;color:var(--mu);line-height:1.6;margin-bottom:16px}
 
-.months{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:14px 16px 4px;}
-.mo{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center;}
-.mo.done{background:#eaf1e9;border-color:#cfe0cd;}
-.mo-m{display:block;font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);letter-spacing:.06em;}
-.mo-v{display:block;font-size:13px;font-weight:700;margin-top:3px;}
-.mo.done .mo-v{color:var(--ok);}
+  /* MODAIS */
+  .overlay{position:fixed;inset:0;background:rgba(20,10,40,.45);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;opacity:0;pointer-events:none;transition:opacity .18s}
+  .overlay.open{opacity:1;pointer-events:all}
+  .modal{background:var(--card);border-radius:22px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.18);overflow:hidden;transform:translateY(16px);transition:transform .18s;max-height:90vh;display:flex;flex-direction:column}
+  .overlay.open .modal{transform:translateY(0)}
+  .modal-h{padding:18px 20px 12px;border-bottom:1.5px solid var(--bo);flex-shrink:0}
+  .modal-h .mdate{font-size:.75rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px}
+  .modal-h .mtitle{font-size:1.1rem;font-weight:800;margin-top:2px}
+  .modal-b{padding:14px 20px;overflow-y:auto;flex:1}
+  .modal-f{padding:10px 20px 16px;border-top:1.5px solid var(--bo);display:flex;gap:8px;flex-shrink:0}
+  .stitle{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);margin-bottom:9px}
+  .otog{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+  .ob{padding:9px;border-radius:11px;border:2px solid var(--bo);background:var(--bg);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px}
+  .ob.ar{background:var(--rl);border-color:var(--r);color:var(--r)}
+  .ob.ay{background:var(--yl);border-color:var(--y);color:var(--y)}
+  .bdot{width:9px;height:9px;border-radius:50%}
+  .rb{width:100%;margin-top:5px;padding:7px;border-radius:9px;border:1.5px dashed var(--bo);background:transparent;font-family:'Nunito',sans-serif;font-size:.78rem;color:var(--mu);cursor:pointer}
+  .evlist{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+  .evi{display:flex;align-items:center;gap:7px;background:var(--bg);border-radius:9px;padding:7px 9px;border:1.5px solid var(--bo)}
+  .evi .eic{font-size:.9rem;flex-shrink:0}
+  .evi .etx{flex:1;font-size:.82rem;font-weight:600}
+  .evi .edl{background:none;border:none;cursor:pointer;font-size:.9rem;color:#ccc;padding:0;line-height:1}
+  .empt{text-align:center;font-size:.8rem;color:var(--mu);padding:8px 0}
+  .aer{display:flex;gap:7px}
+  .aei{flex:1;padding:8px 11px;border-radius:9px;border:1.5px solid var(--bo);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:600;color:var(--tx);background:var(--bg);outline:none}
+  .aeb{padding:8px 13px;border-radius:9px;border:none;background:var(--r);color:#fff;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;flex-shrink:0}
+  .btn-main{flex:1;padding:10px;border-radius:12px;border:none;background:var(--r);color:#fff;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:800;cursor:pointer}
+  .btn-sec{flex:1;padding:10px;border-radius:12px;border:1.5px solid var(--bo);background:var(--bg);font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;color:var(--tx)}
 
-.controls{display:flex;gap:10px;padding:12px 16px;flex-wrap:wrap;align-items:center;}
-.search{flex:1;min-width:180px;display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:0 10px;color:var(--muted);}
-.search input{flex:1;border:none;background:none;padding:10px 0;font-size:14px;color:var(--text);outline:none;font-family:inherit;}
-.search .clear{border:none;background:none;color:var(--muted);cursor:pointer;display:flex;padding:2px;}
-.seg{display:flex;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px;}
-.seg button{border:none;background:none;padding:7px 12px;font-size:12.5px;color:var(--muted);cursor:pointer;border-radius:6px;font-family:inherit;white-space:nowrap;}
-.seg button.on{background:var(--ink);color:#f3efe2;font-weight:600;}
+  /* SAUDE */
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .section-header h2{font-size:1.1rem;font-weight:800}
+  .add-btn{padding:7px 14px;border-radius:10px;border:none;background:linear-gradient(135deg,#ec4899,#7c3fa0);color:#fff;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;cursor:pointer}
+  .health-list,.contacts-list,.reimb-list{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+  .health-item{background:var(--card);border-radius:14px;border:1.5px solid var(--bo);padding:12px 14px;display:flex;align-items:center;gap:10px}
+  .health-item.done{opacity:.6}
+  .health-item.done .hi-name{text-decoration:line-through;color:var(--mu)}
+  .hi-info{flex:1}
+  .hi-name{font-size:.9rem;font-weight:700;margin-bottom:2px}
+  .hi-date{font-size:.75rem;color:var(--mu);font-weight:600}
+  .hi-date.has-date{color:var(--r);font-weight:700}
+  .hi-actions{display:flex;gap:6px;flex-shrink:0;align-items:center}
+  .hi-btn{padding:6px 10px;border-radius:8px;border:1.5px solid var(--bo);background:var(--bg);font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap}
+  .hi-btn.check{border-color:var(--green);color:var(--green)}
+  .hi-btn.check.done{background:var(--green);color:#fff}
+  .hi-btn.mark{border-color:var(--r);color:var(--r)}
 
-.cats{display:flex;gap:7px;padding:4px 16px 14px;overflow-x:auto;}
-.cats button{flex:0 0 auto;border:1px solid var(--line);background:var(--paper);padding:7px 12px;border-radius:20px;font-size:12.5px;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:7px;font-family:inherit;transition:all .15s;}
-.cats button:hover{border-color:#b9ab8a;}
-.cats button.on{background:var(--ink);color:#f3efe2;border-color:var(--ink);}
-.cn{font-family:ui-monospace,monospace;font-size:11px;opacity:.6;}
-.cats button.on .cn{color:var(--accent);opacity:1;}
+  /* CONTATOS */
+  .contact-item{background:var(--card);border-radius:14px;border:1.5px solid var(--bo);padding:12px 14px;display:flex;align-items:center;gap:12px}
+  .contact-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#fce7f3,#f3e8ff);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+  .contact-info{flex:1}
+  .contact-name{font-size:.9rem;font-weight:800;margin-bottom:2px}
+  .contact-spec{font-size:.75rem;color:var(--pink2);font-weight:700;margin-bottom:2px}
+  .contact-phone{font-size:.8rem;color:var(--mu);font-weight:600}
+  .contact-del{background:none;border:none;cursor:pointer;font-size:1rem;color:#ddd;padding:4px}
 
-.list{padding:0 16px;}
-.grp{margin-bottom:20px;}
-.grp-hd{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:6px 2px;border-bottom:1.5px solid var(--ink);margin-bottom:10px;}
-.grp-n{font-family:ui-monospace,monospace;color:var(--accent2);}
-.grp-ct{margin-left:auto;font-family:ui-monospace,monospace;letter-spacing:0;color:var(--ink);}
+  /* REEMBOLSOS */
+  .reimb-item{background:var(--card);border-radius:14px;border:1.5px solid var(--bo);padding:12px 14px;display:flex;align-items:center;gap:10px}
+  .reimb-item.reimbursed{border-color:var(--green);background:#f0fdf4}
+  .reimb-icon{font-size:1.4rem;flex-shrink:0}
+  .reimb-info{flex:1;min-width:0}
+  .reimb-desc{font-size:.88rem;font-weight:700;margin-bottom:2px}
+  .reimb-item.reimbursed .reimb-desc{text-decoration:line-through;color:var(--mu)}
+  .reimb-meta{font-size:.75rem;color:var(--mu);font-weight:600}
+  .reimb-value{font-size:.85rem;font-weight:800;color:var(--r);margin-top:2px}
+  .reimb-item.reimbursed .reimb-value{color:var(--green)}
+  .reimb-actions{display:flex;flex-direction:column;gap:5px;flex-shrink:0;align-items:flex-end}
+  .reimb-check{padding:5px 9px;border-radius:8px;border:1.5px solid var(--green);background:transparent;font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;color:var(--green);white-space:nowrap}
+  .reimb-item.reimbursed .reimb-check{background:var(--green);color:#fff}
+  .reimb-del{background:none;border:none;cursor:pointer;font-size:.85rem;color:#ddd;padding:2px}
+  .reimb-view{padding:4px 8px;border-radius:7px;border:1.5px solid var(--bo);background:var(--bg);font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;color:var(--mu);text-decoration:none;display:inline-block;text-align:center}
 
-.card{display:flex;gap:12px;background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:9px;transition:opacity .2s,background .2s;}
-.card.owned{background:#f1f4ee;opacity:.72;}
-.card.owned .nm{text-decoration:line-through;text-decoration-color:var(--muted);}
-.tick{flex:0 0 auto;width:26px;height:26px;border-radius:8px;border:2px solid #c3b995;background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;margin-top:2px;transition:all .15s;padding:0;}
-.tick:hover{border-color:var(--ok);}
-.tick.on{background:var(--ok);border-color:var(--ok);}
-.tick svg{opacity:0;}
-.tick.on svg{opacity:1;}
-.card-main{flex:1;min-width:0;}
-.card-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.nm{font-weight:650;font-size:15px;letter-spacing:-.01em;}
-.tag{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:20px;display:inline-flex;align-items:center;gap:3px;}
-.tag.warn{background:#fbecd0;color:var(--warn);}
-.tag.muted{background:#eee9dc;color:var(--muted);}
-.mdl{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4;}
-.spec{color:#9a917d;}
-.why{margin-top:7px;border:none;background:none;color:var(--accent2);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;padding:0;font-family:inherit;font-weight:600;}
-.chev{transition:transform .2s;}
-.why.open .chev{transform:rotate(180deg);}
-.note{margin-top:8px;font-size:12.5px;line-height:1.55;color:#4a4636;background:#f3eede;border-left:2px solid var(--accent);padding:9px 11px;border-radius:0 7px 7px 0;display:none;}
-.note.open{display:block;}
-.card-right{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:7px;min-width:118px;}
-.fields{display:flex;gap:6px;}
-.fld{display:flex;flex-direction:column;gap:2px;}
-.fld span{font-size:9px;color:var(--muted);text-align:center;letter-spacing:.05em;text-transform:uppercase;}
-.fld input{width:44px;padding:5px 4px;border:1px solid var(--line);border-radius:7px;text-align:center;font-size:13px;font-family:ui-monospace,monospace;background:var(--paper);color:var(--text);outline:none;}
-.fld.price input{width:58px;}
-.fld input:focus{border-color:var(--accent);}
-.sub-row{display:flex;align-items:center;gap:8px;}
-.mo-badge{font-family:ui-monospace,monospace;font-size:11px;background:#eee9dc;color:var(--muted);padding:2px 7px;border-radius:6px;letter-spacing:.03em;}
-.line-total{font-weight:700;font-size:14px;font-family:ui-monospace,monospace;}
-.del{border:none;background:none;color:#b9ab8a;cursor:pointer;padding:2px;display:flex;transition:color .15s;}
-.del:hover{color:var(--danger);}
-.del-confirm{display:flex;gap:5px;}
-.del-yes{border:none;background:var(--danger);color:#fff;font-size:11px;padding:5px 9px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:600;}
-.del-no{border:1px solid var(--line);background:none;color:var(--muted);font-size:11px;padding:5px 9px;border-radius:6px;cursor:pointer;font-family:inherit;}
-
-.empty{padding:34px 16px;text-align:center;color:var(--muted);font-size:14px;}
-.link{border:none;background:none;color:var(--accent2);cursor:pointer;font:inherit;text-decoration:underline;padding:0;}
-
-.footer-actions{padding:8px 16px 0;display:flex;flex-direction:column;gap:12px;}
-.btn{border:1px solid var(--line);background:var(--paper);padding:10px 16px;border-radius:9px;font-size:13.5px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px;color:var(--text);transition:all .15s;}
-.btn:hover{border-color:#b9ab8a;}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
-.btn.primary:hover{background:var(--accent2);}
-.btn.ghost{background:none;color:var(--muted);}
-.btn.danger{background:var(--danger);border-color:var(--danger);color:#fff;font-weight:600;}
-.add-open{width:100%;justify-content:center;border-style:dashed;}
-.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-.tools .btn{font-size:12px;padding:7px 12px;}
-.add-panel{background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;}
-.add-row{display:flex;gap:8px;flex-wrap:wrap;}
-.add-panel input,.add-panel select,.add-panel textarea{padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;font-family:inherit;background:var(--paper);color:var(--text);outline:none;}
-.add-panel input:focus,.add-panel select:focus,.add-panel textarea:focus{border-color:var(--accent);}
-.add-name{flex:1;min-width:150px;}
-.add-model{flex:1;min-width:150px;}
-.add-num{width:78px;}
-.add-btns{display:flex;gap:8px;}
-.reset-confirm{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--muted);}
-.disclaimer{text-align:center;font-size:11.5px;color:var(--muted);padding:16px 24px 40px;line-height:1.5;}
-
-/* ===== ORG ===== */
-.oview{padding:6px 16px 0;}
-.ogroup{margin-bottom:18px;}
-.ogroup-hd{display:flex;align-items:center;gap:10px;padding:6px 2px 8px;border-bottom:1.5px solid var(--ink);margin-bottom:6px;}
-.ogroup-hd .gi{font-family:ui-monospace,monospace;color:var(--accent2);font-size:12px;}
-.ogroup-hd .gt{font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--ink);}
-.ogroup-hd .gc{margin-left:auto;font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);}
-.ogroup .prog{margin:0 2px 12px;}
-.otarget{display:flex;gap:11px;background:var(--paper2);border:1px solid var(--line);border-radius:11px;padding:12px 13px;margin-bottom:8px;transition:opacity .2s,background .2s;}
-.otarget.done{background:#f1f4ee;opacity:.7;}
-.otarget.done .ot-title{text-decoration:line-through;text-decoration-color:var(--muted);}
-.ot-main{flex:1;min-width:0;}
-.ot-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.ot-title{font-weight:650;font-size:14.5px;}
-.ot-detail{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.5;}
-.ot-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:0 0 auto;}
-
-/* ===== MAP ===== */
-.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:14px 0 0;}
-.rmap{padding:16px 16px 4px;}
-.legend{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 12px;}
-.pill{font-size:10.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:3px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;}
-.pill.camping{background:#e3efe0;color:#3a6b45;}
-.pill.agua{background:#dcebf2;color:var(--water);}
-.pill.serv{background:#efe9dc;color:#7a6a3f;}
-.pill.front{background:#e5e2f0;color:#5a4f8a;}
-.pill.perigo{background:#f6ddd8;color:var(--danger);}
-.pill.destino{background:#fbe9cf;color:var(--accent2);}
-.pill.atrativo{background:#e9e4f0;color:#6a4f8a;}
-.stop{position:relative;padding:0 0 4px 34px;}
-.stop:before{content:"";position:absolute;left:11px;top:22px;bottom:-6px;width:3px;background:var(--line);}
-.stop:last-child:before{display:none;}
-.stop.leg-danger:before{background:repeating-linear-gradient(180deg,var(--danger) 0 7px,transparent 7px 13px);}
-.node{position:absolute;left:4px;top:6px;width:18px;height:18px;border-radius:50%;background:var(--paper2);border:3px solid var(--ink);z-index:1;}
-.stop.first .node{border-color:var(--accent2);background:var(--accent);}
-.stop.last .node{border-color:var(--accent2);background:#fff;}
-.stop-card{background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:border-color .15s;}
-.stop-card:hover{border-color:#b9ab8a;}
-.stop-card.open{border-color:var(--accent);}
-.stop-hd{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
-.stop-name{font-weight:700;font-size:15px;}
-.stop-km{font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);margin-left:auto;}
-.stop-leg{font-family:ui-monospace,monospace;font-size:11px;color:#9a917d;}
-.stop-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
-.stop-note{font-size:12.5px;line-height:1.55;color:#4a4636;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);display:none;}
-.stop-card.open .stop-note{display:block;}
-.stop-note.danger{color:var(--danger);font-weight:500;}
-.poi-sec{padding:8px 16px 0;}
-.poi-sec h3{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);border-bottom:1.5px solid var(--ink);padding-bottom:8px;margin:8px 2px 12px;}
-.poi{display:flex;gap:10px;align-items:flex-start;background:var(--paper2);border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-bottom:8px;}
-.poi-main{flex:1;min-width:0;}
-.poi-name{font-weight:650;font-size:14px;}
-.poi-note{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.45;}
-
-@media (max-width:620px){
-  .stats,.mstats{grid-template-columns:repeat(2,1fr);}
-  .mstats{grid-template-columns:repeat(3,1fr);}
-  .months{grid-template-columns:repeat(3,1fr);}
-  .card{flex-wrap:wrap;}
-  .card-right{width:100%;min-width:0;flex-direction:row;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);padding-top:10px;margin-top:2px;}
-  .tab{font-size:12px;padding:12px 4px;}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  /* FORMS */
+  .form-group{margin-bottom:12px}
+  .form-label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--mu);margin-bottom:5px;display:block}
+  .form-input{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--bo);font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;color:var(--tx);background:var(--bg);outline:none}
+  .form-input:focus{border-color:var(--pink2)}
+  .file-input-wrap{border:2px dashed var(--bo);border-radius:12px;padding:20px;text-align:center;cursor:pointer;position:relative}
+  .file-input-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  .fi-icon{font-size:1.8rem;margin-bottom:6px}
+  .fi-text{font-size:.8rem;font-weight:700;color:var(--mu)}
+  .fi-name{font-size:.78rem;color:var(--r);font-weight:700;margin-top:4px}
+  .datetime-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .empty-state{text-align:center;padding:32px 16px;color:var(--mu)}
+  .empty-state .es-icon{font-size:2.5rem;margin-bottom:10px}
+  .empty-state .es-text{font-size:.88rem;font-weight:600}
 </style>
 </head>
 <body>
-<div class="wrap" id="app"><div class="loading">Abrindo o caderno de expedição…</div></div>
-<input type="file" id="importFile" accept="application/json,.json" style="display:none">
 
+<!-- LOGIN -->
+<div id="loginScreen">
+  <img src="icon-192.png" class="login-icon" alt="Amélia">
+  <div class="login-title">Calendário da Amélia</div>
+  <div class="login-sub">Bem-vindo! Faça login para continuar.</div>
+  <div class="login-form">
+    <div class="login-select">
+      <button class="login-user-btn r" onclick="selectUser('r')"><div class="udot"></div>Raphael</button>
+      <button class="login-user-btn y" onclick="selectUser('y')"><div class="udot"></div>Yasmim</button>
+    </div>
+    <input class="login-input" id="loginEmail" type="email" style="display:none">
+    <input class="login-input" id="loginPass" type="password" placeholder="Senha" style="display:none" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn-main" id="loginBtn" onclick="doLogin()" style="display:none">Entrar</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div id="appHeader" style="display:none">
+  <div class="header-row1">
+    <div class="h-left">
+      <img src="icon-192.png" class="h-icon" alt="">
+      <div class="h-title">Calendário da Amélia</div>
+    </div>
+    <div class="chip" id="chip" onclick="doLogout()">
+      <div class="chip-dot"></div>
+      <span id="chipName"></span>
+      <span style="font-size:.65rem;opacity:.6">sair</span>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="nav-btn active" id="nb-cal" onclick="showView('cal')">📅</button>
+    <button class="nav-btn" id="nb-health" onclick="showView('health')">🏥</button>
+    <button class="nav-btn" id="nb-contacts" onclick="showView('contacts')">📋</button>
+    <button class="nav-btn" id="nb-reimb" onclick="showView('reimb')">📄</button>
+  </div>
+</div>
+
+<div id="notifBanner" class="hidden" style="padding:0 16px;margin-top:8px">
+  🔔 Ative as notificações para saber quando algo mudar!
+  <button onclick="askNotif()">Ativar</button>
+</div>
+<div class="sync" style="margin-top:6px"><div class="sd" id="sd"></div><span id="sl">conectando…</span></div>
+
+<!-- CALENDÁRIO -->
+<div class="view active" id="view-cal">
+  <div class="legend" style="margin-top:10px">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--r)"></div>Raphael</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--y)"></div>Yasmim</div>
+  </div>
+  <div class="ti"><div class="tdb" id="tdb"></div><div id="ttx"></div></div>
+  <div class="up" id="up"><div class="ul-label">📌 Compromissos do mês</div><div class="ulist" id="ulist"></div></div>
+  <div class="cal-nav"><button id="prev">◀</button><h2 id="mtitle"></h2><button id="next">▶</button></div>
+  <div class="cal">
+    <div class="wdays">
+      <div class="wday">Dom</div><div class="wday">Seg</div><div class="wday">Ter</div>
+      <div class="wday">Qua</div><div class="wday">Qui</div><div class="wday">Sex</div><div class="wday">Sáb</div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <p class="pnote">Semana A: Seg+Ter Raphael · Qua+Qui Yasmim · Sex+Sáb+Dom Raphael<br>Semana B: Seg+Ter Yasmim · Qua+Qui Raphael · Sex+Sáb+Dom Yasmim<br><span style="color:#b45309">● Borda laranja = troca manual</span></p>
+</div>
+
+<!-- SAÚDE -->
+<div class="view" id="view-health">
+  <div class="section-header"><h2>🏥 Saúde</h2><button class="add-btn" onclick="openHealthAdd()">+ Adicionar</button></div>
+  <div class="health-list" id="healthList"></div>
+</div>
+
+<!-- CONTATOS -->
+<div class="view" id="view-contacts">
+  <div class="section-header"><h2>📋 Contatos</h2><button class="add-btn" onclick="openContactAdd()">+ Adicionar</button></div>
+  <div class="contacts-list" id="contactsList"></div>
+</div>
+
+<!-- REEMBOLSOS -->
+<div class="view" id="view-reimb">
+  <div class="section-header"><h2>📄 Reembolsos</h2><button class="add-btn" onclick="openReimbAdd()">+ Adicionar</button></div>
+  <div class="reimb-list" id="reimbList"></div>
+</div>
+
+<!-- MODAL DIA -->
+<div class="overlay" id="mo">
+  <div class="modal">
+    <div class="modal-h"><div class="mdate" id="mdate"></div><div class="mtitle" id="mtitle2"></div></div>
+    <div class="modal-b">
+      <div class="stitle">Responsável do dia</div>
+      <div class="otog">
+        <button class="ob" id="br" onclick="setOwner('r')"><div class="bdot" style="background:var(--r)"></div>Raphael</button>
+        <button class="ob" id="by" onclick="setOwner('y')"><div class="bdot" style="background:var(--y)"></div>Yasmim</button>
+      </div>
+      <button class="rb" onclick="resetOwner()">↺ Voltar ao padrão automático</button>
+      <div style="margin-top:16px">
+        <div class="stitle" style="margin-bottom:9px">📌 Compromissos</div>
+        <div class="evlist" id="evlist"></div>
+        <div class="aer">
+          <input class="aei" id="evinput" placeholder="Ex: Consulta médica 14h" maxlength="60" onkeydown="if(event.key==='Enter')addEv()">
+          <button class="aeb" onclick="addEv()">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-f"><button class="btn-sec" onclick="closeMo()">Fechar</button></div>
+  </div>
+</div>
+
+<!-- MODAL SAÚDE ADD -->
+<div class="overlay" id="moHealth">
+  <div class="modal">
+    <div class="modal-h"><div class="mtitle">Nova tarefa de saúde</div></div>
+    <div class="modal-b">
+      <div class="form-group"><label class="form-label">Descrição</label><input class="form-input" id="hName" placeholder="Ex: Vacina da gripe"></div>
+    </div>
+    <div class="modal-f">
+      <button class="btn-sec" onclick="closeOverlay('moHealth')">Cancelar</button>
+      <button class="btn-main" onclick="saveHealth()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SAÚDE DATA -->
+<div class="overlay" id="moHealthDate">
+  <div class="modal">
+    <div class="modal-h"><div class="mtitle" id="healthDateTitle">Marcar data</div></div>
+    <div class="modal-b">
+      <div class="form-group"><label class="form-label">Data e hora</label>
+        <div class="datetime-inputs">
+          <input class="form-input" id="hDate" type="date">
+          <input class="form-input" id="hTime" type="time" value="09:00">
+        </div>
+      </div>
+    </div>
+    <div class="modal-f">
+      <button class="btn-sec" onclick="closeOverlay('moHealthDate')">Cancelar</button>
+      <button class="btn-main" onclick="saveHealthDate()">Marcar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONTATO -->
+<div class="overlay" id="moContact">
+  <div class="modal">
+    <div class="modal-h"><div class="mtitle">Novo contato</div></div>
+    <div class="modal-b">
+      <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="cName" placeholder="Ex: Dra. Antônia Silva"></div>
+      <div class="form-group"><label class="form-label">Especialidade</label><input class="form-input" id="cSpec" placeholder="Ex: Pediatra"></div>
+      <div class="form-group"><label class="form-label">Telefone</label><input class="form-input" id="cPhone" placeholder="Ex: (51) 3343-0984" type="tel"></div>
+    </div>
+    <div class="modal-f">
+      <button class="btn-sec" onclick="closeOverlay('moContact')">Cancelar</button>
+      <button class="btn-main" onclick="saveContact()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL REEMBOLSO -->
+<div class="overlay" id="moReimb">
+  <div class="modal">
+    <div class="modal-h"><div class="mtitle">Novo reembolso</div></div>
+    <div class="modal-b">
+      <div class="form-group"><label class="form-label">Descrição</label><input class="form-input" id="rDesc" placeholder="Ex: Consulta Pediatra"></div>
+      <div class="form-group"><label class="form-label">Data</label><input class="form-input" id="rDate" type="date"></div>
+      <div class="form-group"><label class="form-label">Valor (R$)</label><input class="form-input" id="rValue" type="number" placeholder="Ex: 300" step="0.01"></div>
+      <div class="form-group"><label class="form-label">Arquivo (PDF ou imagem)</label>
+        <div class="file-input-wrap">
+          <input type="file" id="rFile" accept=".pdf,image/*" onchange="onFileSelect(this)">
+          <div class="fi-icon">📎</div>
+          <div class="fi-text">Toque para selecionar</div>
+          <div class="fi-name" id="fiName"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-f">
+      <button class="btn-sec" onclick="closeOverlay('moReimb')">Cancelar</button>
+      <button class="btn-main" onclick="saveReimb()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js"></script>
 <script>
-"use strict";
-const GEAR_KEY="expedicao_gear_v2", ORG_KEY="expedicao_org_v1", POI_KEY="expedicao_poi_v1";
-const CATS=[
- {id:"carga",n:"01",label:"Carga & Bikepacking"},{id:"dormida",n:"02",label:"Sistema de Dormida"},
- {id:"cozinha",n:"03",label:"Cozinha & Hidratação"},{id:"ferramentas",n:"04",label:"Ferramentas & Manutenção"},
- {id:"vestuario",n:"05",label:"Vestuário"},{id:"seguranca",n:"06",label:"Segurança & Eletrônicos"},
- {id:"higiene",n:"07",label:"Higiene & Saúde"},{id:"documentos",n:"08",label:"Documentos & Consumíveis"},
-];
-const MONTHS=["Jul","Ago","Set","Out","Nov","Dez"];
-const WAYPOINTS=["Chuí","Santa Teresa","Punta del Diablo","Cabo Polonio","La Paloma","Laguna Garzón","José Ignacio","Punta del Este","Piriápolis","Montevidéu"];
-let _uid=0; const uid=()=>"i"+Date.now().toString(36)+(_uid++);
-const brl=n=>"R$ "+Math.round(n).toLocaleString("pt-BR");
-const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+firebase.initializeApp({
+  apiKey:"AIzaSyBaHMewuyReIt9U72PEIwA7iipg1ZTBIFE",
+  authDomain:"calendario-amelia-2202c.firebaseapp.com",
+  databaseURL:"https://calendario-amelia-2202c-default-rtdb.firebaseio.com",
+  projectId:"calendario-amelia-2202c",
+  storageBucket:"calendario-amelia-2202c.firebasestorage.app",
+  messagingSenderId:"329381802500",
+  appId:"1:329381802500:web:9e6d1b7c9110478974fb51"
+});
+var auth=firebase.auth(), db=firebase.database(), storage=firebase.storage();
+var VAPID="BPUanq3Gib0FCP-Y3RrhxWX4-ovsmndL2lFDVg7asHi2tqo0bYvDAnQi1vN4ksXCGsSXe6oqIZYMExYupEMkGq4";
+var USER_EMAILS={r:"raphael@amelia.com",y:"yasmim@amelia.com"};
 
-const GEAR_RAW=[
-["carga","Rack traseiro","Ibera PakRak IB-RA5 (disc)","Suporta 25kg, alumínio",1,"Jul",320,false,"Base de toda a capacidade de carga. A versão disc libera o cáliper do freio. 25kg cobre folgado sua carga real (~15–18kg).",true],
-["carga","Alforjes traseiros (par)","Rhinowalk 27L quick-release","~13–14L cada, roll-top",1,"Jul",450,false,"Roll-top veda de verdade contra chuva e poeira do ripio. Confirmar na foto: roll-top (não zíper) e retenção anti-bounce.",false],
-["carga","Bolsa de guidão","Rhinowalk 3–5L","Acesso rápido",1,"Set",180,false,"Lanche, celular e documento à mão sem parar e abrir alforje.",false],
-["carga","Bolsa de quadro","Rhinowalk frame bag","2–4L, itens pesados",1,"Set",180,false,"Peso baixo e central melhora a estabilidade e reduz a sensação de leme pesado.",false],
-["carga","Bolsa de top tube","Genérica","~0,8L",1,"Set",100,false,"Energia acessível sem tirar as mãos do guidão.",false],
-["carga","Bolsa de selim","Média","~1L, kit reparo",1,"Set",90,false,"Isola o kit de reparo — redundância se um alforje molhar ou sumir.",false],
-["dormida","Barraca","Naturehike Cloud Up 2","2P, coluna 3000mm+, ~1,5kg",1,"Set",900,false,"2P para 1 ciclista = espaço p/ bagagem. Fator crítico na costa é o vento: bons estais. Monte 2–3x em casa antes.",false],
-["dormida","Saco de dormir","Nautika Viper (sintético)","Conforto 8–10°C",1,"Out",350,false,"Sintético e não pluma: o ar salino/úmido da costa destrói a pluma molhada. Sintético isola úmido e seca rápido.",false],
-["dormida","Isolante térmico","Naturehike inflável (R~2)","R-value ~2, 400–600g",1,"Out",300,false,"O frio que rouba calor vem do chão. R2 sobra p/ verão. Kit de reparo incluso p/ o risco de furo.",false],
-["dormida","Travesseiro inflável","Naturehike / Trekology","~60g",1,"Out",100,false,"Sono ruim por 6 dias vira fadiga acumulada. Alternativa R$0 é saco com roupas.",false],
-["cozinha","Fogareiro","Fire Maple FMS-300T","Gás isobutano ~60g",1,"Nov",180,false,"Gás é rápido, mas cartucho pode faltar no Rocha. Compre com antecedência. Álcool é o backup.",false],
-["cozinha","Cartucho de gás","Isobutano 230g","230g",2,"Dez",55,false,"Leve 2 pela dificuldade de reposição. Não vai em transporte pressurizado — compra local.",false],
-["cozinha","Panela / cook set","Fire Maple 1L","0,75–1L com tampa",1,"Nov",180,false,"1L cobre refeição + água quente. Tampa que vira prato economiza peso.",false],
-["cozinha","Filtro de água","Sawyer Squeeze","0,1 micron",1,"Nov",320,false,"CRÍTICO: os ~60km de ripio da Laguna Garzón não têm serviço. Filtro dá independência de fonte e reduz peso de água.",false],
-["cozinha","Reservatório flexível","Bolsa 2–3L","2–3L",1,"Nov",150,false,"No trecho seco precisa de 4–5L totais. Reservatório + caramanholas cobrem.",false],
-["cozinha","Caramanholas","Garrafa 750ml","750ml",2,"Nov",25,false,"Acesso rápido pedalando; complementa o reservatório.",false],
-["cozinha","Utensílios / ignição","Spork + canivete + isqueiro","Kit",1,"Nov",80,false,"Isqueiro + fósforo à prova d'água = redundância de fogo. Dois é um, um é nenhum.",false],
-["ferramentas","Multiferramenta","Topeak Hexus / CB M19","Allen, Torx, extrator de corrente",1,"Nov",180,false,"Sem extrator de corrente você fica a pé numa quebra. Não-negociável. Teste as chaves antes.",false],
-["ferramentas","Bomba","Lezyne / Topeak alta pressão","Com manômetro",1,"Nov",200,false,"Tubeless precisa de volume p/ reassentar. Bomba manual > CO2 em viagem longa.",false],
-["ferramentas","Kit reparo tubeless","Aplicador + plugs","Plugs de borracha",1,"Nov",120,false,"Furo médio precisa de plug. Sem ele, só abrindo o pneu. Treine o plug em casa.",false],
-["ferramentas","Selante reserva","Stan's / Vittoria","Frasco 250ml",1,"Dez",90,false,"Repor no trecho e na recarga de dezembro. Selante seca no calor.",false],
-["ferramentas","Câmaras reserva","Câmara 700x35–43c","p/ seus 700x37c",2,"Nov",45,false,"Backup catastrófico: rasgo grande que o plug não resolve → põe câmara. Mesmo tubeless, sempre 2.",false],
-["ferramentas","Kit remendos + espátulas","Cola + espátulas","—",1,"Nov",40,false,"Conserta a câmara reserva se ela furar. Redundância barata.",false],
-["ferramentas","Corrente + óleo","Quick-link + óleo","Padrão Tiagra",1,"Nov",70,false,"Quick-link salva uma corrente quebrada em minutos. Óleo p/ relubrificar após o ripio.",false],
-["ferramentas","Kit improviso","Parafusos, zip ties, fita, arame","Sortido",1,"Nov",40,false,"Zip tie e arame resolvem 80% dos imprevistos leves.",false],
-["vestuario","Bretelle c/ forro","Bib de qualidade média","Forro anatômico",2,"Dez",250,false,"O forro decide se os dias 4–5–6 são toleráveis. 2 unidades p/ alternar. Teste num treino longo.",false],
-["vestuario","Camisa de ciclismo","Respirável c/ bolsos","Dry-fit",2,"Dez",150,false,"Bolsos traseiros p/ acesso; cores claras/refletivas p/ visibilidade.",false],
-["vestuario","Corta-vento / capa de chuva","Impermeável compacta","Compacta",1,"Dez",200,false,"Costa = vento constante e pancadas de verão. Que caiba na bolsa de guidão.",false],
-["vestuario","Luvas","Luva de ciclismo","—",1,"Dez",80,false,"Absorve a vibração do ripio e protege a palma em queda.",false],
-["vestuario","Manguito UV","Manguito solar","UPF alto",1,"Dez",70,false,"Proteção solar sem passar creme o dia todo. Perneira é dispensável no verão.",false],
-["vestuario","Roupa de camping","Leve seca-rápido","Leve",1,"Dez",150,false,"Molhado para pedalar, seco para dormir. Nunca dormir com roupa suada.",false],
-["vestuario","Sandália / chinelo","Resistente","—",1,"Dez",80,false,"Descanso dos pés, banho de camping, atravessar água.",false],
-["vestuario","Buff UV","Gola tubular","UPF",2,"Dez",30,false,"Pescoço, cabeça, filtro de poeira no ripio.",false],
-["vestuario","Óculos de sol","UV esportivo","Proteção UV",1,"Dez",150,false,"Poeira + sol. Proteção ocular é segurança, não estética.",false],
-["seguranca","Capacete","Ventilado certificado","CE / CPSC",1,"Ago",250,false,"Inegociável. Se já tem um bom (<5 anos, sem impacto), confirme e economize.",true],
-["seguranca","Espelho retrovisor","De guidão","—",1,"Ago",60,false,"Solo em rodovia: ver o que vem atrás sem tirar a linha é segurança real.",false],
-["seguranca","Powerbank","20.000 mAh","20Ah",1,"Nov",250,false,"Recarrega XOSS, celular/GPS e luzes por dias. 100% antes de cada trecho sem serviço.",false],
-["seguranca","Suporte celular/GPS","Suporte de guidão robusto","Universal",1,"Set",80,false,"Baixe mapas offline (OsmAnd). O cruzamento da Laguna Garzón pede mapa à vista.",false],
-["seguranca","Cabos + adaptador UY","Kit + adaptador tomada","Padrão UY",1,"Dez",60,false,"Uruguai tem padrões de tomada que variam. Adaptador evita ficar sem recarga.",false],
-["seguranca","Apito de emergência","Pealess alto","—",1,"Nov",20,false,"Sinalização em emergência a custo irrisório.",false],
-["seguranca","GPS dedicado (opcional)","Garmin eTrex / Edge","—",0,"Opc",800,false,"Celular cobre a navegação. Só se quiser redundância. Opcional — não soma se qtd 0.",false],
-["higiene","Kit primeiros socorros","Compacto de trilha","Curativos, antisséptico, remédios",1,"Nov",120,false,"Solo = você é o primeiro socorro. Inclua o que trata assadura, corte e alergia.",false],
-["higiene","Protetor solar","FPS 50+ à prova d'água","FPS 50+",2,"Dez",40,false,"6h+/dia de exposição. Queimadura compromete a viagem. Reaplicar sempre.",false],
-["higiene","Repelente","Icaridina","—",1,"Dez",40,false,"Lagoas e mata costeira = mosquito ao entardecer.",false],
-["higiene","Creme antiassadura","Chamois cream","—",1,"Dez",60,false,"Prevenção de assadura é o que te mantém pedalando no dia 5. Aplicar todo dia.",false],
-["higiene","Kit higiene","Escova, sabonete biodegradável, toalha rápida","—",1,"Dez",100,false,"Sabonete biodegradável = Leave No Trace. Toalha de microfibra seca rápido.",false],
-["higiene","Álcool gel / lenços","Gel + lenços","—",1,"Dez",30,false,"Higiene das mãos antes de comer sem água.",false],
-["documentos","Documento de viagem","Passaporte OU RG válido","Dentro da validade",1,"Ago",0,false,"Fronteira do Chuí exige carimbo nos dois postos (saída BR + entrada UY). Sem ele, problema na volta.",true],
-["documentos","Seguro viagem","Cobertura UY + esporte","Resgate/repatriação",1,"Dez",150,false,"Acidente solo sem seguro = risco financeiro alto. Ler a cláusula de prática esportiva.",false],
-["documentos","Dinheiro","Pesos + cartão","—",1,"Dez",0,false,"Cidades pequenas nem sempre têm câmbio/ATM. Leve pesos.",false],
-["documentos","Cópias de documentos","Física + nuvem","—",1,"Dez",0,false,"Redundância se perder os originais.",false],
-["documentos","Comida de trilha","Barras, gel, eletrólitos","Reposição",1,"Dez",150,false,"Reposição no trecho sem serviços. Eletrólitos previnem cãibra no calor.",false],
-];
-const seedGear=()=>GEAR_RAW.map(r=>({id:uid(),category:r[0],name:r[1],model:r[2],spec:r[3],qty:r[4],month:r[5],price:r[6],owned:r[7],notes:r[8],verify:r[9]||false}));
+var currentUser=null, selectedUser=null;
+var ov={}, evs={}, healthItems={}, contacts={}, reimbs={};
+var mdk=null, healthDateKey=null;
+var today=new Date(); today.setHours(0,0,0,0);
+var vy=today.getFullYear(), vm=today.getMonth();
+var MONTHS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+var WDAYS=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+var REF_MON=new Date(2026,5,9);
 
-const ORG_GROUPS=[
- {id:"prep",n:"A",label:"Preparação de equipamento"},
- {id:"treino",n:"B",label:"Treino físico"},
- {id:"logistica",n:"C",label:"Logística & reservas"},
- {id:"prepartida",n:"D",label:"Pré-partida (72h)"},
-];
-const ORG_RAW=[
- ["prep","Comprar rack + alforjes","Jul","Habilita o test ride carregado de agosto. Sem eles, o cronograma todo trava."],
- ["prep","Test ride carregado (80–100km, 15–18kg)","Ago","PORTÃO DE VALIDAÇÃO: confirma geometria sob peso, marchas e handling antes de gastar no resto."],
- ["prep","Sistema de dormida completo","Out","Barraca, saco e isolante adquiridos — e barraca montada em casa 2–3x."],
- ["prep","Cozinha + ferramentas","Nov","Fechar a decisão gás vs. álcool e treinar o reparo tubeless na prática."],
- ["prep","Recarga de selante tubeless (60ml+/pneu)","Dez","Selante fresco perto da partida — o velho seca e perde poder de vedação."],
- ["treino","Base aeróbica: 3 pedais/semana, longo até 70km","Ago","Zona 2 (ritmo conversável). Construir o motor e adaptar o contato (selim, mãos, pescoço)."],
- ["treino","Introduzir carga + treinos consecutivos","Out","Sáb longo + dom médio simula a fadiga acumulada de dias seguidos — o específico do cicloturismo."],
- ["treino","Força e core 2x por semana","Out","Lombar e core seguram a postura carregada por horas. Previne dor nas costas no dia 4."],
- ["treino","Ensaio geral: 2–3 dias seguidos carregado, dormindo fora","Nov","Shakedown: testa corpo E equipamento juntos, no mundo real, com tempo de corrigir."],
- ["treino","Pico e afinamento (taper)","Dez","Bloco forte no início do mês, depois reduzir volume. Chegar descansado supera chegar exausto."],
- ["logistica","Confirmar campings da costa","Nov","Janeiro lota em Rocha. Ligar/reservar com antecedência os pontos-chave."],
- ["logistica","Mapear serviços por trecho (água/comida)","Nov","Onde reabastecer e onde NÃO há nada. É a base do plano de água."],
- ["logistica","Contratar seguro viagem","Dez","Cobertura de resgate/repatriação. Ler a cláusula de prática esportiva."],
- ["logistica","Pesos em espécie + cartão internacional","Dez","Cidades pequenas nem sempre têm câmbio ou caixa eletrônico."],
- ["logistica","Plano de contato: roteiro + check-in diário","Dez","Segurança solo: alguém precisa saber onde você deveria estar cada dia."],
- ["logistica","Confirmar documento carimbável","Ago","Passaporte ou RG válido; carimbo nos dois postos do Chuí."],
- ["prepartida","Freios, transmissão e corrente conferidos","Dez","Pastilhas, lubrificação e desgaste da corrente medido."],
- ["prepartida","Torque de parafusos (rack, suportes)","Dez","A vibração do ripio solta tudo. Apertar no torque correto."],
- ["prepartida","Rodas: tensão de raios e centragem","Dez","Roda descentrada vira problema sério longe de casa."],
- ["prepartida","Eletrônicos carregados 100%","Dez","Powerbank, luzes XOSS, celular."],
- ["prepartida","Backup de documentos (físico + nuvem)","Dez","Redundância se perder os originais."],
- ["prepartida","Roteiro + previsão do tempo compartilhados","Dez","Última checagem antes de rodar."],
-];
-const seedOrg=()=>ORG_RAW.map(r=>({id:uid(),group:r[0],title:r[1],deadline:r[2],detail:r[3],done:false}));
-
-// aprox. planning distances — confirme na sua ferramenta de rota (Komoot/OsmAnd)
-const STOPS=[
- {name:"Chuí",km:0,leg:"partida",tags:["front","serv"],note:"Fronteira. Carimbe nos DOIS postos (saída Brasil + entrada Uruguai) antes de seguir. Último grande centro para comprar cartucho de gás e trocar pesos.",danger:false},
- {name:"Santa Teresa",km:40,leg:"+40 km",tags:["camping","agua","atrativo"],note:"Parque Nacional com camping estruturado — boa primeira noite. Fortaleza histórica para visitar.",danger:false},
- {name:"Punta del Diablo",km:55,leg:"+15 km",tags:["camping","serv","agua"],note:"Vila de pescadores com muito camping e mercados. Ótimo ponto para reabastecer comida.",danger:false},
- {name:"Cabo Polonio / Valizas",km:95,leg:"+40 km",tags:["camping","atrativo"],note:"Cabo Polonio não tem energia elétrica nem estrada convencional (acesso por 4x4 na areia). Avalie se entra ou segue por Valizas. Água e serviços limitados.",danger:false},
- {name:"La Paloma",km:150,leg:"+55 km",tags:["serv","camping","agua"],note:"Cidade maior — ÚLTIMO reabastecimento robusto antes do trecho crítico. Encha TODA a água e comida aqui.",danger:false},
- {name:"Laguna Garzón (travessia)",km:190,leg:"+40 km",tags:["perigo","agua"],note:"⚠ Início dos ~60 km de ripio SEM serviços. Carregue 4–5 L de água. Travessia da laguna pela ponte circular. Não conte com nada entre aqui e José Ignacio.",danger:true},
- {name:"José Ignacio",km:210,leg:"+20 km",tags:["serv","agua"],note:"Fim do trecho seco. Vila charmosa e cara (alta temporada) — água e comida disponíveis, mas preços altos.",danger:true},
- {name:"Punta del Este",km:245,leg:"+35 km",tags:["serv","atrativo"],note:"Cidade grande, tudo disponível — bom para manutenção e loja de bike. Trânsito intenso no verão: atenção redobrada.",danger:false},
- {name:"Piriápolis",km:295,leg:"+50 km",tags:["camping","serv","agua"],note:"Balneário tranquilo com bom camping. Boa penúltima parada para chegar descansado.",danger:false},
- {name:"Montevidéu",km:390,leg:"+95 km",tags:["destino","serv"],note:"Chegada! Fim da rota. Etapa longa — planeje saída cedo de Piriápolis.",danger:false},
-];
-const TAGLABEL={front:"fronteira",camping:"camping",agua:"água",serv:"serviços",perigo:"sem serviços",destino:"destino",atrativo:"atrativo"};
-
-const ICON={
- check:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
- plus:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
- trash:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
- chev:'<svg class="chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>',
- search:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
- x:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
- warn:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
- reset:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>',
- down:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
- up:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
-};
-
-function lsGet(k){try{const r=localStorage.getItem(k);return r?JSON.parse(r):null;}catch(e){return null;}}
-function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
-function loadArr(key,seedFn){const a=lsGet(key);if(Array.isArray(a)&&a.length)return a.map(x=>({...x,id:x.id||uid()}));const s=seedFn();lsSet(key,s);return s;}
-
-let state={
- view:"gear",
- items:loadArr(GEAR_KEY,seedGear), cat:"all", status:"all", query:"", adding:false, confirmDel:null, confirmReset:false,
- targets:loadArr(ORG_KEY,seedOrg), orgAdding:false, orgDel:null,
- pois:(lsGet(POI_KEY)||[]).map(x=>({...x,id:x.id||uid()})), poiAdding:false, poiDel:null, openStop:null,
-};
-function saveGear(){lsSet(GEAR_KEY,state.items);}
-function saveOrg(){lsSet(ORG_KEY,state.targets);}
-function savePoi(){lsSet(POI_KEY,state.pois);}
-
-/* ---------- shell ---------- */
-function shell(){
- return `<header class="brand">
-  <svg class="contours" viewBox="0 0 800 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-   ${[0,1,2,3].map(k=>`<path d="M -20 ${30+k*30} C 160 ${5+k*30}, 320 ${70+k*26}, 470 ${34+k*30} S 720 ${8+k*30}, 820 ${44+k*30}" fill="none" stroke="#0f3a34" stroke-opacity="0.16" stroke-width="1"/>`).join("")}
-  </svg>
-  <div class="brand-in">
-   <div class="eyebrow">Caderno de expedição · gravel solo</div>
-   <h1>Chuí <span class="arrow">→</span> Montevidéu</h1>
-   <p class="sub">Ruta 10 costeira · ~6 dias · partida em janeiro</p>
-   <div class="offline-badge"><span class="dot"></span> Funciona offline · dados salvos neste aparelho</div>
-  </div>
- </header>
- <nav class="tabs" id="tabs"></nav>
- <main id="view"></main>`;
-}
-function renderTabs(){
- const t=[["gear","Equipamento"],["org","Organização"],["map","Mapa & Rota"]];
- document.getElementById("tabs").innerHTML=t.map(([k,l])=>`<button class="tab${state.view===k?" on":""}" data-action="view" data-view="${k}">${l}</button>`).join("");
-}
-function renderView(){
- renderTabs();
- if(state.view==="gear")renderGear();
- else if(state.view==="org")renderOrg();
- else renderMap();
+// AUTH
+function selectUser(u) {
+  selectedUser=u;
+  document.getElementById('loginEmail').value=USER_EMAILS[u];
+  document.getElementById('loginPass').style.display='block';
+  document.getElementById('loginBtn').style.display='block';
+  document.getElementById('loginError').textContent='';
+  document.querySelectorAll('.login-user-btn').forEach(function(b){b.style.opacity='.5';});
+  document.querySelector('.login-user-btn.'+u).style.opacity='1';
+  setTimeout(function(){document.getElementById('loginPass').focus();},100);
 }
 
-/* ---------- GEAR ---------- */
-function gearTotals(){
- const it=state.items, real=it.filter(i=>i.qty>0), ownedCount=real.filter(i=>i.owned).length;
- return{totalCount:real.length,ownedCount,pct:real.length?ownedCount/real.length:0,
-  toBuy:it.filter(i=>!i.owned).reduce((s,i)=>s+i.price*i.qty,0),
-  ownedVal:it.filter(i=>i.owned).reduce((s,i)=>s+i.price*i.qty,0),
-  grand:it.reduce((s,i)=>s+i.price*i.qty,0)};
-}
-function renderGear(){
- document.getElementById("view").innerHTML=`
-  <div class="route">
-   <div class="route-labels"><span>Chuí</span><span>Montevidéu</span></div>
-   <div class="route-track"><div class="route-fill" id="routeFill"></div><div id="wps"></div><div class="rider" id="rider"></div></div>
-   <div class="route-status" id="routeStatus"></div>
-  </div>
-  <section class="stats" id="stats"></section>
-  <section class="months" id="months"></section>
-  <section class="controls">
-   <div class="search">${ICON.search}<input id="search" type="text" placeholder="Buscar item ou modelo…" value="${esc(state.query)}"><button class="clear" data-action="clear-search" aria-label="Limpar" style="${state.query?"":"display:none"}">${ICON.x}</button></div>
-   <div class="seg" id="seg"></div>
-  </section>
-  <nav class="cats" id="cats"></nav>
-  <div class="list" id="list"></div>
-  <div class="footer-actions" id="footer"></div>
-  <p class="disclaimer">Preços são estimativas — ajuste conforme cotar. Faça um <b>backup</b> (Exportar) de vez em quando: os dados vivem só neste aparelho.</p>`;
- gearSummary();gearNavs();gearList();gearFooter();
-}
-function gearSummary(){
- const t=gearTotals();
- document.getElementById("stats").innerHTML=`
-  <div class="stat"><span class="stat-k">Falta comprar</span><span class="stat-v accent">${brl(t.toBuy)}</span></div>
-  <div class="stat"><span class="stat-k">Já tenho (valor)</span><span class="stat-v ok">${brl(t.ownedVal)}</span></div>
-  <div class="stat"><span class="stat-k">Investimento total</span><span class="stat-v">${brl(t.grand)}</span></div>
-  <div class="stat"><span class="stat-k">Itens adquiridos</span><span class="stat-v">${t.ownedCount}<span class="frac">/${t.totalCount}</span></span></div>`;
- const ms=MONTHS.map(m=>({m,val:state.items.filter(i=>!i.owned&&i.month===m).reduce((s,i)=>s+i.price*i.qty,0)}));
- document.getElementById("months").innerHTML=ms.map(({m,val})=>`<div class="mo${val===0?" done":""}"><span class="mo-m">${m}</span><span class="mo-v">${val===0?"ok":brl(val)}</span></div>`).join("");
- document.getElementById("routeFill").style.width=(t.pct*100)+"%";
- document.getElementById("rider").style.left=(t.pct*100)+"%";
- document.getElementById("wps").innerHTML=WAYPOINTS.map((w,i)=>{const p=i/(WAYPOINTS.length-1);return `<div class="wp${p<=t.pct?" on":""}" style="left:${p*100}%" title="${esc(w)}"></div>`;}).join("");
- const wpIdx=Math.min(WAYPOINTS.length-1,Math.round(t.pct*(WAYPOINTS.length-1)));
- document.getElementById("routeStatus").innerHTML=`Prontidão <b>${Math.round(t.pct*100)}%</b> — ${t.ownedCount} de ${t.totalCount} itens · você está na altura de <b>${esc(WAYPOINTS[wpIdx])}</b>`;
-}
-function gearNavs(){
- document.getElementById("seg").innerHTML=[["all","Tudo"],["buy","Comprar"],["have","Já tenho"]].map(([k,l])=>`<button class="${state.status===k?"on":""}" data-action="status" data-status="${k}">${l}</button>`).join("");
- document.getElementById("cats").innerHTML=`<button class="${state.cat==="all"?"on":""}" data-action="cat" data-cat="all">Todas</button>`+CATS.map(c=>`<button class="${state.cat===c.id?"on":""}" data-action="cat" data-cat="${c.id}"><span class="cn">${c.n}</span>${c.label}</button>`).join("");
-}
-function gearFiltered(){
- const q=state.query.trim().toLowerCase();
- return state.items.filter(i=>{
-  if(state.cat!=="all"&&i.category!==state.cat)return false;
-  if(state.status==="buy"&&i.owned)return false;
-  if(state.status==="have"&&!i.owned)return false;
-  if(q&&!(i.name.toLowerCase().includes(q)||(i.model||"").toLowerCase().includes(q)))return false;
-  return true;
- });
-}
-function gearCard(it){
- return `<div class="card${it.owned?" owned":""}" data-id="${it.id}">
-  <button class="tick${it.owned?" on":""}" data-action="toggle" data-id="${it.id}" aria-label="Marcar já tenho">${ICON.check}</button>
-  <div class="card-main">
-   <div class="card-top"><span class="nm">${esc(it.name)}</span>${it.verify&&!it.owned?`<span class="tag warn">${ICON.warn} verificar</span>`:""}${it.qty===0?`<span class="tag muted">opcional</span>`:""}</div>
-   <div class="mdl">${esc(it.model)}${it.spec&&it.spec!=="—"?`<span class="spec"> · ${esc(it.spec)}</span>`:""}</div>
-   ${it.notes?`<button class="why" data-action="why" data-id="${it.id}">${ICON.chev} por que levar</button><div class="note" data-note="${it.id}">${esc(it.notes)}</div>`:""}
-  </div>
-  <div class="card-right">
-   <div class="fields">
-    <label class="fld"><span>qtd</span><input type="number" min="0" inputmode="numeric" value="${it.qty}" data-field="qty" data-id="${it.id}"></label>
-    <label class="fld price"><span>R$/un</span><input type="number" min="0" inputmode="numeric" value="${it.price}" data-field="price" data-id="${it.id}"></label>
-   </div>
-   <div class="sub-row"><span class="mo-badge">${esc(it.month)}</span><span class="line-total">${brl(it.price*it.qty)}</span></div>
-   ${state.confirmDel===it.id?`<div class="del-confirm"><button class="del-yes" data-action="gdel-yes" data-id="${it.id}">remover</button><button class="del-no" data-action="gdel-no">cancelar</button></div>`:`<button class="del" data-action="gdel" data-id="${it.id}" aria-label="Remover">${ICON.trash}</button>`}
-  </div></div>`;
-}
-function gearList(){
- const items=gearFiltered(), el=document.getElementById("list");
- if(!items.length){el.innerHTML=`<div class="empty">Nada com esse filtro. <button class="link" data-action="clear-filters">Limpar filtros</button>.</div>`;return;}
- const groups=CATS.map(c=>({c,list:items.filter(i=>i.category===c.id)})).filter(g=>g.list.length);
- el.innerHTML=groups.map(({c,list})=>`<div class="grp"><div class="grp-hd"><span class="grp-n">${c.n}</span>${c.label}<span class="grp-ct">${list.filter(i=>i.owned).length}/${list.length}</span></div>${list.map(gearCard).join("")}</div>`).join("");
-}
-function gearFooter(){
- const add=state.adding?`<div class="add-panel">
-   <div class="add-row"><input class="add-name" id="d-name" placeholder="Nome do item"><input class="add-model" id="d-model" placeholder="Modelo (opcional)"></div>
-   <div class="add-row"><select id="d-cat">${CATS.map(c=>`<option value="${c.id}">${c.label}</option>`).join("")}</select><select id="d-month">${MONTHS.map(m=>`<option value="${m}">${m}</option>`).join("")}</select><input class="add-num" id="d-qty" type="number" min="0" placeholder="qtd" value="1"><input class="add-num" id="d-price" type="number" min="0" placeholder="R$"></div>
-   <div class="add-btns"><button class="btn primary" data-action="add-save">${ICON.plus} Adicionar</button><button class="btn ghost" data-action="add-cancel">Cancelar</button></div>
-  </div>`:`<button class="btn add-open" data-action="add-open">${ICON.plus} Adicionar item</button>`;
- const reset=state.confirmReset?`<div class="reset-confirm"><span>Restaurar a lista de equipamento original?</span><button class="btn danger" data-action="greset-yes">Restaurar</button><button class="btn ghost" data-action="greset-no">Não</button></div>`:`<button class="btn ghost" data-action="greset-open">${ICON.reset} Restaurar equipamento</button>`;
- document.getElementById("footer").innerHTML=`${add}<div class="tools"><button class="btn" data-action="export">${ICON.down} Exportar backup</button><button class="btn" data-action="import">${ICON.up} Importar backup</button></div>${reset}`;
+function doLogin() {
+  var email=document.getElementById('loginEmail').value;
+  var pass=document.getElementById('loginPass').value;
+  if(!pass){document.getElementById('loginError').textContent='Digite a senha.';return;}
+  document.getElementById('loginError').textContent='';
+  auth.signInWithEmailAndPassword(email,pass).catch(function(){
+    document.getElementById('loginError').textContent='Senha incorreta. Tente novamente.';
+  });
 }
 
-/* ---------- ORG ---------- */
-function renderOrg(){
- const done=state.targets.filter(t=>t.done).length, tot=state.targets.length;
- document.getElementById("view").innerHTML=`
-  <div class="view-hero">
-   <h2>Organização & Treino</h2>
-   <p>As frentes que te levam pronto até a largada. O treino físico é tão parte do equipamento quanto a barraca — corpo despreparado não se compra em dezembro.</p>
-   <div class="prog"><i style="width:${tot?done/tot*100:0}%"></i></div>
-   <p style="margin-top:6px"><b>${done}/${tot}</b> metas concluídas · prontidão organizacional <b>${tot?Math.round(done/tot*100):0}%</b></p>
-  </div>
-  <div class="oview" id="oview"></div>
-  <div class="footer-actions" id="ofooter"></div>
-  <p class="disclaimer">Cada meta abre o "por quê". Adicione as suas — cada expedição tem detalhes próprios.</p>`;
- orgList();orgFooter();
-}
-function orgList(){
- const el=document.getElementById("oview");
- el.innerHTML=ORG_GROUPS.map(g=>{
-  const list=state.targets.filter(t=>t.group===g.id);
-  if(!list.length)return "";
-  const done=list.filter(t=>t.done).length;
-  return `<div class="ogroup"><div class="ogroup-hd"><span class="gi">${g.n}</span><span class="gt">${g.label}</span><span class="gc">${done}/${list.length}</span></div>
-   <div class="prog"><i style="width:${done/list.length*100}%"></i></div>
-   ${list.map(orgCard).join("")}</div>`;
- }).join("");
-}
-function orgCard(t){
- return `<div class="otarget${t.done?" done":""}">
-  <button class="tick${t.done?" on":""}" data-action="otoggle" data-id="${t.id}" aria-label="Concluir meta">${ICON.check}</button>
-  <div class="ot-main">
-   <div class="ot-top"><span class="ot-title">${esc(t.title)}</span><span class="mo-badge">${esc(t.deadline)}</span></div>
-   ${t.detail?`<div class="ot-detail">${esc(t.detail)}</div>`:""}
-  </div>
-  <div class="ot-right">
-   ${state.orgDel===t.id?`<div class="del-confirm"><button class="del-yes" data-action="odel-yes" data-id="${t.id}">remover</button><button class="del-no" data-action="odel-no">x</button></div>`:`<button class="del" data-action="odel" data-id="${t.id}" aria-label="Remover">${ICON.trash}</button>`}
-  </div></div>`;
-}
-function orgFooter(){
- const add=state.orgAdding?`<div class="add-panel">
-   <input class="add-name" id="o-title" placeholder="Nova meta">
-   <textarea id="o-detail" rows="2" placeholder="Por que importa (opcional)"></textarea>
-   <div class="add-row"><select id="o-group">${ORG_GROUPS.map(g=>`<option value="${g.id}">${g.label}</option>`).join("")}</select><select id="o-deadline">${MONTHS.concat(["Jan"]).map(m=>`<option value="${m}">${m}</option>`).join("")}</select></div>
-   <div class="add-btns"><button class="btn primary" data-action="oadd-save">${ICON.plus} Adicionar meta</button><button class="btn ghost" data-action="oadd-cancel">Cancelar</button></div>
-  </div>`:`<button class="btn add-open" data-action="oadd-open">${ICON.plus} Adicionar meta</button>`;
- document.getElementById("ofooter").innerHTML=add;
+function doLogout() {
+  auth.signOut();
 }
 
-/* ---------- MAP ---------- */
-function renderMap(){
- const total=STOPS[STOPS.length-1].km, days=6, avg=Math.round(total/days);
- document.getElementById("view").innerHTML=`
-  <div class="view-hero">
-   <h2>Mapa de trecho & pontos de interesse</h2>
-   <p>Visão estratégica da rota. A navegação de verdade na estrada é do OsmAnd/Maps.me (offline) — este mapa te mostra o quadro geral: distâncias, onde há serviço e, principalmente, <b>onde não há</b>.</p>
-  </div>
-  <section class="mstats">
-   <div class="stat"><span class="stat-k">Distância total (aprox.)</span><span class="stat-v">${total} km</span></div>
-   <div class="stat"><span class="stat-k">Dias (piso)</span><span class="stat-v">${days}</span></div>
-   <div class="stat"><span class="stat-k">Média/dia</span><span class="stat-v">${avg} km</span></div>
-  </section>
-  <div class="legend">
-   <span class="pill camping">camping</span><span class="pill agua">água</span><span class="pill serv">serviços</span><span class="pill front">fronteira</span><span class="pill perigo">sem serviços</span><span class="pill destino">destino</span>
-  </div>
-  <div class="rmap">${STOPS.map(stopHTML).join("")}</div>
-  <div class="poi-sec"><h3>Meus pontos de interesse</h3><div id="poilist"></div><div class="footer-actions" id="pfooter"></div></div>
-  <p class="disclaimer">Distâncias são aproximadas para planejamento — confirme na sua ferramenta de rota. Adicione seus pontos: campings reservados, lojas de bike, contatos.</p>`;
- poiList();poiFooter();
-}
-function stopHTML(s,i){
- const cls=(i===0?"first":i===STOPS.length-1?"last":"")+(s.danger?" leg-danger":"");
- const open=state.openStop===i;
- return `<div class="stop ${cls}"><div class="node"></div>
-  <div class="stop-card${open?" open":""}" data-action="stop" data-i="${i}">
-   <div class="stop-hd"><span class="stop-name">${esc(s.name)}</span><span class="stop-km">${s.km} km <span class="stop-leg">(${esc(s.leg)})</span></span></div>
-   <div class="stop-tags">${s.tags.map(t=>`<span class="pill ${t}">${TAGLABEL[t]||t}</span>`).join("")}</div>
-   <div class="stop-note${s.danger?" danger":""}">${esc(s.note)}</div>
-  </div></div>`;
-}
-function poiList(){
- const el=document.getElementById("poilist");
- if(!state.pois.length){el.innerHTML=`<div class="empty" style="padding:18px 4px;text-align:left">Nenhum ponto ainda. Adicione um camping reservado, uma loja de bike, um contato de emergência na rota.</div>`;return;}
- el.innerHTML=state.pois.map(p=>`<div class="poi"><div class="poi-main"><div class="poi-name">${esc(p.name)}${p.where?` <span class="stop-leg mono">· ${esc(p.where)}</span>`:""}</div>${p.note?`<div class="poi-note">${esc(p.note)}</div>`:""}</div>${state.poiDel===p.id?`<div class="del-confirm"><button class="del-yes" data-action="pdel-yes" data-id="${p.id}">remover</button><button class="del-no" data-action="pdel-no">x</button></div>`:`<button class="del" data-action="pdel" data-id="${p.id}" aria-label="Remover">${ICON.trash}</button>`}</div>`).join("");
-}
-function poiFooter(){
- const add=state.poiAdding?`<div class="add-panel">
-   <div class="add-row"><input class="add-name" id="p-name" placeholder="Nome do ponto"><input class="add-model" id="p-where" placeholder="Onde / trecho (opcional)"></div>
-   <textarea id="p-note" rows="2" placeholder="Observação (reserva, telefone, horário…)"></textarea>
-   <div class="add-btns"><button class="btn primary" data-action="padd-save">${ICON.plus} Adicionar ponto</button><button class="btn ghost" data-action="padd-cancel">Cancelar</button></div>
-  </div>`:`<button class="btn add-open" data-action="padd-open">${ICON.plus} Adicionar ponto</button>`;
- document.getElementById("pfooter").innerHTML=add;
-}
-
-/* ---------- export / import ---------- */
-function exportData(){
- const bundle={version:3,exportedAt:new Date().toISOString(),gear:state.items,targets:state.targets,pois:state.pois};
- const blob=new Blob([JSON.stringify(bundle,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob),a=document.createElement("a"),d=new Date().toISOString().slice(0,10);
- a.href=url;a.download=`expedicao-chui-montevideu-${d}.json`;a.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-function importData(obj){
- if(Array.isArray(obj)){state.items=normGear(obj);saveGear();}
- else if(obj&&typeof obj==="object"){
-  if(Array.isArray(obj.gear)){state.items=normGear(obj.gear);saveGear();}
-  if(Array.isArray(obj.targets)){state.targets=obj.targets.map(t=>({id:t.id||uid(),group:t.group||"logistica",title:t.title||"Meta",deadline:t.deadline||"Dez",detail:t.detail||"",done:!!t.done}));saveOrg();}
-  if(Array.isArray(obj.pois)){state.pois=obj.pois.map(p=>({id:p.id||uid(),name:p.name||"Ponto",where:p.where||"",note:p.note||""}));savePoi();}
- } else throw 0;
- state.cat="all";state.status="all";state.query="";renderView();
-}
-function normGear(a){return a.map(x=>({id:x.id||uid(),category:x.category||"documentos",name:x.name||"Item",model:x.model||"—",spec:x.spec||"—",qty:Number(x.qty)||0,month:x.month||"Dez",price:Number(x.price)||0,owned:!!x.owned,notes:x.notes||"",verify:!!x.verify}));}
-
-/* ---------- boot + events ---------- */
-function app(){
- document.getElementById("app").innerHTML=shell();
- renderView();
-
- document.getElementById("app").addEventListener("click",e=>{
-  const b=e.target.closest("[data-action]");if(!b)return;
-  const a=b.dataset.action,id=b.dataset.id;
-  // nav
-  if(a==="view"){state.view=b.dataset.view;renderView();window.scrollTo({top:0});return;}
-  // gear
-  if(a==="toggle"){state.items=state.items.map(i=>i.id===id?{...i,owned:!i.owned}:i);saveGear();gearSummary();gearList();}
-  else if(a==="why"){const n=document.querySelector(`[data-note="${id}"]`);if(n){n.classList.toggle("open");b.classList.toggle("open");}}
-  else if(a==="gdel"){state.confirmDel=id;gearList();}
-  else if(a==="gdel-yes"){state.confirmDel=null;state.items=state.items.filter(i=>i.id!==id);saveGear();gearSummary();gearList();}
-  else if(a==="gdel-no"){state.confirmDel=null;gearList();}
-  else if(a==="cat"){state.cat=b.dataset.cat;gearNavs();gearList();}
-  else if(a==="status"){state.status=b.dataset.status;gearNavs();gearList();}
-  else if(a==="clear-search"){state.query="";const s=document.getElementById("search");if(s)s.value="";const c=document.querySelector('[data-action="clear-search"]');if(c)c.style.display="none";gearList();}
-  else if(a==="clear-filters"){state.cat="all";state.status="all";state.query="";const s=document.getElementById("search");if(s)s.value="";gearNavs();gearList();}
-  else if(a==="add-open"){state.adding=true;gearFooter();}
-  else if(a==="add-cancel"){state.adding=false;gearFooter();}
-  else if(a==="add-save"){const name=v("d-name");if(!name)return;const it={id:uid(),category:v("d-cat"),name,model:v("d-model")||"—",spec:"—",qty:Math.max(0,parseInt(v("d-qty"))||1),month:v("d-month"),price:Math.max(0,parseFloat(v("d-price"))||0),owned:false,notes:"Item adicionado por você.",verify:false};state.adding=false;state.cat=it.category;state.items=[...state.items,it];saveGear();gearSummary();gearNavs();gearList();gearFooter();}
-  else if(a==="greset-open"){state.confirmReset=true;gearFooter();}
-  else if(a==="greset-no"){state.confirmReset=false;gearFooter();}
-  else if(a==="greset-yes"){state.confirmReset=false;state.cat="all";state.status="all";state.items=seedGear();saveGear();renderGear();}
-  else if(a==="export"){exportData();}
-  else if(a==="import"){document.getElementById("importFile").click();}
-  // org
-  else if(a==="otoggle"){state.targets=state.targets.map(t=>t.id===id?{...t,done:!t.done}:t);saveOrg();renderOrg();}
-  else if(a==="odel"){state.orgDel=id;orgList();}
-  else if(a==="odel-yes"){state.orgDel=null;state.targets=state.targets.filter(t=>t.id!==id);saveOrg();renderOrg();}
-  else if(a==="odel-no"){state.orgDel=null;orgList();}
-  else if(a==="oadd-open"){state.orgAdding=true;orgFooter();}
-  else if(a==="oadd-cancel"){state.orgAdding=false;orgFooter();}
-  else if(a==="oadd-save"){const title=v("o-title");if(!title)return;state.targets=[...state.targets,{id:uid(),group:v("o-group"),title,deadline:v("o-deadline"),detail:v("o-detail"),done:false}];state.orgAdding=false;saveOrg();renderOrg();}
-  // map / poi
-  else if(a==="stop"){const i=+b.dataset.i;state.openStop=state.openStop===i?null:i;const card=b;document.querySelectorAll(".stop-card").forEach(c=>c.classList.remove("open"));if(state.openStop===i)card.classList.add("open");}
-  else if(a==="pdel"){state.poiDel=id;poiList();}
-  else if(a==="pdel-yes"){state.poiDel=null;state.pois=state.pois.filter(p=>p.id!==id);savePoi();poiList();}
-  else if(a==="pdel-no"){state.poiDel=null;poiList();}
-  else if(a==="padd-open"){state.poiAdding=true;poiFooter();}
-  else if(a==="padd-cancel"){state.poiAdding=false;poiFooter();}
-  else if(a==="padd-save"){const name=v("p-name");if(!name)return;state.pois=[...state.pois,{id:uid(),name,where:v("p-where"),note:v("p-note")}];state.poiAdding=false;savePoi();poiList();poiFooter();}
- });
-
- document.getElementById("app").addEventListener("input",e=>{
-  const t=e.target;
-  if(t.id==="search"){state.query=t.value;const c=document.querySelector('[data-action="clear-search"]');if(c)c.style.display=t.value?"":"none";gearList();return;}
-  if(t.dataset&&t.dataset.field){
-   const id=t.dataset.id,field=t.dataset.field;let val=field==="qty"?parseInt(t.value):parseFloat(t.value);if(isNaN(val)||val<0)val=0;
-   state.items=state.items.map(i=>i.id===id?{...i,[field]:val}:i);saveGear();
-   const card=t.closest(".card"),it=state.items.find(i=>i.id===id);
-   if(card)card.querySelector(".line-total").textContent=brl(it.price*it.qty);
-   gearSummary();
+auth.onAuthStateChanged(function(user) {
+  if(user) {
+    currentUser=user.email===USER_EMAILS.r?'r':'y';
+    showApp();
+    startListeners();
+  } else {
+    currentUser=null;
+    document.getElementById('appHeader').style.display='none';
+    document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('loginPass').value='';
+    document.getElementById('loginPass').style.display='none';
+    document.getElementById('loginBtn').style.display='none';
+    document.getElementById('loginError').textContent='';
+    selectedUser=null;
+    document.querySelectorAll('.login-user-btn').forEach(function(b){b.style.opacity='1';});
   }
- });
+});
 
- document.getElementById("importFile").addEventListener("change",e=>{
-  const file=e.target.files[0];if(!file)return;const r=new FileReader();
-  r.onload=()=>{try{importData(JSON.parse(r.result));}catch(err){alert("Arquivo inválido. Selecione um backup exportado por este app.");}e.target.value="";};
-  r.readAsText(file);
- });
+function showApp() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('appHeader').style.display='flex';
+  document.getElementById('appHeader').style.flexDirection='column';
+  var chip=document.getElementById('chip');
+  chip.className='chip '+currentUser;
+  document.getElementById('chipName').textContent=currentUser==='r'?'Raphael':'Yasmim';
+  showView('cal');
+  if(window.Notification&&Notification.permission==='default') document.getElementById('notifBanner').classList.remove('hidden');
+  if(window.Notification&&Notification.permission==='granted') askNotif();
 }
-function v(id){const el=document.getElementById(id);return el?el.value.trim():"";}
 
-app();
-if("serviceWorker" in navigator && location.protocol.startsWith("http")){navigator.serviceWorker.register("./sw.js").catch(()=>{});}
+// NOTIF
+function askNotif() {
+  if(!('Notification' in window))return;
+  Notification.requestPermission().then(function(p){
+    if(p!=='granted')return;
+    document.getElementById('notifBanner').classList.add('hidden');
+    try{
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.ready.then(function(reg){
+          firebase.messaging().getToken({vapidKey:VAPID,serviceWorkerRegistration:reg})
+            .then(function(t){if(t&&currentUser)db.ref('fcmTokens/'+currentUser).set(t);})
+            .catch(function(){});
+        });
+      }
+    }catch(e){}
+  });
+}
+
+function sendNotif(title,body) {
+  if(!currentUser)return;
+  db.ref('notifQueue').push({from:currentUser,to:currentUser==='r'?'y':'r',title:title,body:body,ts:Date.now()}).catch(function(){});
+}
+
+// SYNC
+function setSy(s,l){document.getElementById('sd').className='sd '+s;document.getElementById('sl').textContent=l;}
+
+// LISTENERS
+function startListeners() {
+  db.ref('overrides').on('value',function(s){ov=s.val()||{};if(currentUser)render();});
+  db.ref('events').on('value',function(s){evs=s.val()||{};if(currentUser){render();if(mdk)renderEvList();}});
+  db.ref('health').on('value',function(s){healthItems=s.val()||{};renderHealth();});
+  db.ref('contacts').on('value',function(s){contacts=s.val()||{};renderContacts();});
+  db.ref('reimbs').on('value',function(s){reimbs=s.val()||{};renderReimbs();});
+  setSy('on','conectado · tempo real');
+}
+
+// VIEW
+function showView(v) {
+  document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
+  document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('view-'+v).classList.add('active');
+  document.getElementById('nb-'+v).classList.add('active');
+}
+
+// HELPERS
+function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function wmon(d){var x=new Date(d),w=x.getDay();x.setDate(x.getDate()+(w===0?-6:1-w));x.setHours(0,0,0,0);return x;}
+function defOwner(d){
+  var isA=Math.round((wmon(d)-REF_MON)/(7*24*3600*1000))%2===0,w=d.getDay();
+  if(isA){if(w===1||w===2)return'r';if(w===3||w===4)return'y';return'r';}
+  else{if(w===1||w===2)return'y';if(w===3||w===4)return'r';return'y';}
+}
+function owner(d){return ov[dk(d)]||defOwner(d);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function uname(u){return u==='r'?'Raphael':'Yasmim';}
+function formatDate(str){if(!str)return'';var p=str.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+
+// CALENDAR
+function render() {
+  if(!currentUser)return;
+  document.getElementById('mtitle').textContent=MONTHS[vm]+' '+vy;
+  var grid=document.getElementById('grid');grid.innerHTML='';
+  var fd=new Date(vy,vm,1).getDay(),dim=new Date(vy,vm+1,0).getDate();
+  var rc=0,yc=0;
+  for(var i=0;i<fd;i++){var ce=document.createElement('div');ce.className='dc empty';ce.innerHTML='<div class="dn">&nbsp;</div>';grid.appendChild(ce);}
+  for(var d=1;d<=dim;d++){
+    var dt=new Date(vy,vm,d);dt.setHours(0,0,0,0);
+    var k=dk(dt),ow=owner(dt),isOv=!!ov[k],devs=evs[k]||[],isToday=dt.getTime()===today.getTime();
+    if(ow==='r')rc++;else yc++;
+    var c=document.createElement('div');
+    c.className='dc '+ow+(isOv?' ov':'');
+    var inner='<div class="dn'+(isToday?' today-num':'')+'">'+d+'</div><div class="od"></div>';
+    if(devs.length){inner+='<div class="evdots">';for(var j=0;j<Math.min(devs.length,3);j++)inner+='<div class="evd"></div>';inner+='</div>';}
+    if(isToday)inner+='<div class="today-ring"></div>';
+    c.innerHTML=inner;
+    c.onclick=(function(dt2){return function(){openMo(dt2);};})(dt);
+    grid.appendChild(c);
+  }
+  document.getElementById('stats').innerHTML=
+    '<div class="sc r"><div class="sn">Raphael</div><div class="sd2">'+rc+'</div><div class="sl">dias este mês</div></div>'+
+    '<div class="sc y"><div class="sn">Yasmim</div><div class="sd2">'+yc+'</div><div class="sl">dias este mês</div></div>';
+  var to=owner(today),tn=uname(to),te=to==='r'?'💚':'💜';
+  document.getElementById('tdb').style.background=to==='r'?'var(--r)':'var(--y)';
+  document.getElementById('ttx').innerHTML='Hoje, <strong>'+WDAYS[today.getDay()]+', '+today.getDate()+' de '+MONTHS[today.getMonth()]+'</strong>, a Amélia está com <strong>'+tn+'</strong> '+te;
+  renderUp();
+}
+
+function renderUp(){
+  var panel=document.getElementById('up'),list=document.getElementById('ulist');
+  var tk=dk(today),rows=[];
+  Object.keys(evs).sort().forEach(function(k){
+    if(k<tk)return;
+    var p=k.split('-');
+    if(+p[0]!==vy||+p[1]-1!==vm)return;
+    (evs[k]||[]).forEach(function(ev){rows.push({day:+p[2],month:+p[1]-1,text:ev});});
+  });
+  if(!rows.length){panel.classList.remove('has');list.innerHTML='';return;}
+  panel.classList.add('has');
+  list.innerHTML=rows.map(function(r){return '<div class="urow"><div class="uod"></div><span class="udate">'+r.day+'/'+String(r.month+1).padStart(2,'0')+'</span><span class="utxt">'+esc(r.text)+'</span></div>';}).join('');
+}
+
+// MODAL DIA
+function openMo(date){
+  mdk=dk(date);
+  var dow=WDAYS[date.getDay()];
+  document.getElementById('mdate').textContent=dow.charAt(0).toUpperCase()+dow.slice(1)+', '+date.getDate()+' de '+MONTHS[date.getMonth()]+' de '+date.getFullYear();
+  updOB(owner(date));renderEvList();
+  document.getElementById('evinput').value='';
+  document.getElementById('mo').classList.add('open');
+  setTimeout(function(){document.getElementById('evinput').focus();},200);
+}
+function closeMo(){document.getElementById('mo').classList.remove('open');mdk=null;render();}
+document.getElementById('mo').addEventListener('click',function(e){if(e.target===this)closeMo();});
+
+function updOB(ow){
+  document.getElementById('br').className='ob'+(ow==='r'?' ar':'');
+  document.getElementById('by').className='ob'+(ow==='y'?' ay':'');
+  document.getElementById('mtitle2').textContent='Com '+uname(ow)+' '+(ow==='r'?'💚':'💜');
+}
+
+function setOwner(ow){
+  if(!mdk)return;
+  db.ref('overrides/'+mdk).set(ow);
+  var p=mdk.split('-'),ds=p[2]+'/'+p[1]+'/'+p[0];
+  sendNotif('📅 '+uname(currentUser)+' alterou o calendário','Dia '+ds+' → '+uname(ow));
+  updOB(ow);
+}
+function resetOwner(){
+  if(!mdk||!ov[mdk])return;
+  db.ref('overrides/'+mdk).remove();
+  updOB(defOwner(new Date(mdk)));
+}
+
+function renderEvList(){
+  var list=document.getElementById('evlist'),ev=evs[mdk]||[];
+  if(!ev.length){list.innerHTML='<div class="empt">Nenhum compromisso ainda</div>';return;}
+  list.innerHTML=ev.map(function(e,i){return '<div class="evi"><span class="eic">📌</span><span class="etx">'+esc(e)+'</span><button class="edl" onclick="delEv('+i+')">✕</button></div>';}).join('');
+}
+function addEv(){
+  var inp=document.getElementById('evinput'),txt=inp.value.trim();
+  if(!txt||!mdk)return;
+  var list=(evs[mdk]||[]).concat([txt]);
+  db.ref('events/'+mdk).set(list);
+  var p=mdk.split('-'),ds=p[2]+'/'+p[1];
+  sendNotif('📌 '+uname(currentUser)+' adicionou compromisso',ds+': '+txt);
+  inp.value='';
+}
+function delEv(idx){
+  if(!mdk||!evs[mdk])return;
+  var removed=evs[mdk][idx];
+  var list=evs[mdk].filter(function(_,i){return i!==idx;});
+  if(!list.length)db.ref('events/'+mdk).remove();
+  else db.ref('events/'+mdk).set(list);
+  sendNotif('🗑️ '+uname(currentUser)+' removeu compromisso',removed);
+}
+
+document.getElementById('prev').onclick=function(){vm--;if(vm<0){vm=11;vy--;}render();};
+document.getElementById('next').onclick=function(){vm++;if(vm>11){vm=0;vy++;}render();};
+
+// SAÚDE
+function openHealthAdd(){document.getElementById('hName').value='';document.getElementById('moHealth').classList.add('open');setTimeout(function(){document.getElementById('hName').focus();},100);}
+function saveHealth(){
+  var name=document.getElementById('hName').value.trim();
+  if(!name)return;
+  var key=Date.now().toString();
+  db.ref('health/'+key).set({name:name,done:false,date:null,time:null,createdAt:Date.now()});
+  sendNotif('🏥 '+uname(currentUser)+' adicionou tarefa de saúde',name);
+  closeOverlay('moHealth');
+}
+
+function openHealthDate(key){
+  healthDateKey=key;
+  var item=healthItems[key];
+  document.getElementById('healthDateTitle').textContent='Marcar: '+item.name;
+  document.getElementById('hDate').value=item.date||'';
+  document.getElementById('hTime').value=item.time||'09:00';
+  document.getElementById('moHealthDate').classList.add('open');
+}
+function saveHealthDate(){
+  if(!healthDateKey)return;
+  var date=document.getElementById('hDate').value;
+  var time=document.getElementById('hTime').value;
+  if(!date){closeOverlay('moHealthDate');return;}
+  db.ref('health/'+healthDateKey).update({date:date,time:time});
+  var timeStr=time?' às '+time:'';
+  var item=healthItems[healthDateKey];
+  var evList=(evs[date]||[]).concat([item.name+timeStr]);
+  db.ref('events/'+date).set(evList);
+  sendNotif('🏥 '+uname(currentUser)+' marcou data',item.name+' em '+formatDate(date)+timeStr);
+  closeOverlay('moHealthDate');
+}
+
+function toggleHealthDone(key){
+  var item=healthItems[key],newDone=!item.done;
+  db.ref('health/'+key+'/done').set(newDone);
+  if(newDone&&item.date&&evs[item.date]){
+    var filtered=(evs[item.date]||[]).filter(function(e){return!e.startsWith(item.name);});
+    if(!filtered.length)db.ref('events/'+item.date).remove();
+    else db.ref('events/'+item.date).set(filtered);
+  }
+}
+
+function deleteHealth(key){
+  if(!confirm('Remover esta tarefa?'))return;
+  var item=healthItems[key];
+  if(item.date&&evs[item.date]){
+    var filtered=(evs[item.date]||[]).filter(function(e){return!e.startsWith(item.name);});
+    if(!filtered.length)db.ref('events/'+item.date).remove();
+    else db.ref('events/'+item.date).set(filtered);
+  }
+  db.ref('health/'+key).remove();
+}
+
+function renderHealth(){
+  var list=document.getElementById('healthList');if(!list)return;
+  var keys=Object.keys(healthItems).sort(function(a,b){
+    var ia=healthItems[a],ib=healthItems[b];
+    if(ia.done!==ib.done)return ia.done?1:-1;
+    return (ia.createdAt||0)-(ib.createdAt||0);
+  });
+  if(!keys.length){list.innerHTML='<div class="empty-state"><div class="es-icon">🏥</div><div class="es-text">Nenhuma tarefa de saúde ainda</div></div>';return;}
+  list.innerHTML=keys.map(function(k){
+    var it=healthItems[k];
+    var dateStr=it.date?(formatDate(it.date)+(it.time?' às '+it.time:'')):'Sem data marcada';
+    return '<div class="health-item'+(it.done?' done':'')+'">'+
+      '<div class="hi-info"><div class="hi-name">'+esc(it.name)+'</div>'+
+      '<div class="hi-date'+(it.date?' has-date':'')+'">'+dateStr+'</div></div>'+
+      '<div class="hi-actions">'+
+      '<button class="hi-btn mark" onclick="openHealthDate(\''+k+'\')">📅</button>'+
+      '<button class="hi-btn check'+(it.done?' done':'')+'" onclick="toggleHealthDone(\''+k+'\')">'+(it.done?'✓':'✓')+'</button>'+
+      '<button style="background:none;border:none;cursor:pointer;color:#ddd;font-size:1rem;padding:4px" onclick="deleteHealth(\''+k+'\')">🗑️</button>'+
+      '</div></div>';
+  }).join('');
+}
+
+// CONTATOS
+function openContactAdd(){['cName','cSpec','cPhone'].forEach(function(id){document.getElementById(id).value='';});document.getElementById('moContact').classList.add('open');setTimeout(function(){document.getElementById('cName').focus();},100);}
+function saveContact(){
+  var name=document.getElementById('cName').value.trim();
+  var spec=document.getElementById('cSpec').value.trim();
+  var phone=document.getElementById('cPhone').value.trim();
+  if(!name)return;
+  var key=Date.now().toString();
+  db.ref('contacts/'+key).set({name:name,spec:spec,phone:phone,createdAt:Date.now()});
+  sendNotif('📋 '+uname(currentUser)+' adicionou contato',name+(spec?' · '+spec:''));
+  closeOverlay('moContact');
+}
+function deleteContact(key){if(!confirm('Remover este contato?'))return;db.ref('contacts/'+key).remove();}
+
+function renderContacts(){
+  var list=document.getElementById('contactsList');if(!list)return;
+  var keys=Object.keys(contacts).sort(function(a,b){return(contacts[a].name||'').localeCompare(contacts[b].name||'');});
+  if(!keys.length){list.innerHTML='<div class="empty-state"><div class="es-icon">📋</div><div class="es-text">Nenhum contato cadastrado</div></div>';return;}
+  list.innerHTML=keys.map(function(k){
+    var c=contacts[k];
+    return '<div class="contact-item">'+
+      '<div class="contact-avatar">👨‍⚕️</div>'+
+      '<div class="contact-info">'+
+      '<div class="contact-name">'+esc(c.name||'')+'</div>'+
+      (c.spec?'<div class="contact-spec">'+esc(c.spec)+'</div>':'')+
+      (c.phone?'<div class="contact-phone">📞 '+esc(c.phone)+'</div>':'')+
+      '</div>'+
+      '<button class="contact-del" onclick="deleteContact(\''+k+'\')">🗑️</button>'+
+      '</div>';
+  }).join('');
+}
+
+// REEMBOLSOS
+function openReimbAdd(){
+  ['rDesc','rValue'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('rDate').value='';
+  document.getElementById('fiName').textContent='';
+  document.getElementById('rFile').value='';
+  document.getElementById('moReimb').classList.add('open');
+}
+function onFileSelect(input){var f=input.files[0];document.getElementById('fiName').textContent=f?f.name:'';}
+function saveReimb(){
+  var desc=document.getElementById('rDesc').value.trim();
+  var date=document.getElementById('rDate').value;
+  var value=document.getElementById('rValue').value;
+  var file=document.getElementById('rFile').files[0];
+  if(!desc)return;
+  var key=Date.now().toString();
+  if(file){
+    var ref=storage.ref('reimbs/'+key+'/'+file.name);
+    ref.put(file).then(function(){
+      return ref.getDownloadURL();
+    }).then(function(url){
+      db.ref('reimbs/'+key).set({desc:desc,date:date,value:value?parseFloat(value):null,fileUrl:url,fileName:file.name,reimbursed:false,createdAt:Date.now()});
+      sendNotif('📄 '+uname(currentUser)+' adicionou reembolso',desc+(value?' · R$ '+parseFloat(value).toFixed(2):''));
+    }).catch(function(e){console.error('Upload:',e);alert('Erro no upload do arquivo.');});
+  } else {
+    db.ref('reimbs/'+key).set({desc:desc,date:date,value:value?parseFloat(value):null,fileUrl:null,fileName:null,reimbursed:false,createdAt:Date.now()});
+    sendNotif('📄 '+uname(currentUser)+' adicionou reembolso',desc+(value?' · R$ '+parseFloat(value).toFixed(2):''));
+  }
+  closeOverlay('moReimb');
+}
+function toggleReimb(key){db.ref('reimbs/'+key+'/reimbursed').set(!reimbs[key].reimbursed);}
+function deleteReimb(key){if(!confirm('Remover este reembolso?'))return;db.ref('reimbs/'+key).remove();}
+
+function renderReimbs(){
+  var list=document.getElementById('reimbList');if(!list)return;
+  var keys=Object.keys(reimbs).sort(function(a,b){return(reimbs[b].createdAt||0)-(reimbs[a].createdAt||0);});
+  if(!keys.length){list.innerHTML='<div class="empty-state"><div class="es-icon">📄</div><div class="es-text">Nenhum reembolso cadastrado</div></div>';return;}
+  list.innerHTML=keys.map(function(k){
+    var r=reimbs[k];
+    return '<div class="reimb-item'+(r.reimbursed?' reimbursed':'')+'">'+
+      '<div class="reimb-icon">'+(r.fileName&&r.fileName.endsWith('.pdf')?'📄':'🖼️')+'</div>'+
+      '<div class="reimb-info">'+
+      '<div class="reimb-desc">'+esc(r.desc||'')+'</div>'+
+      '<div class="reimb-meta">'+(r.date?formatDate(r.date):'Sem data')+'</div>'+
+      (r.value?'<div class="reimb-value">R$ '+r.value.toFixed(2)+'</div>':'')+
+      '</div>'+
+      '<div class="reimb-actions">'+
+      '<button class="reimb-check" onclick="toggleReimb(\''+k+'\')">'+(r.reimbursed?'✓ Solicitado':'Solicitar')+'</button>'+
+      (r.fileUrl?'<a class="reimb-view" href="'+r.fileUrl+'" target="_blank">Ver arquivo</a>':'')+
+      '<button class="reimb-del" onclick="deleteReimb(\''+k+'\')">🗑️</button>'+
+      '</div></div>';
+  }).join('');
+}
+
+// MODAIS
+function closeOverlay(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(function(el){
+  el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+});
+
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(function(){});
 </script>
 </body>
 </html>
