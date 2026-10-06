@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard da Amélia</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --r:#2d7a4f;--rl:#e8f5ee;--rm:#a8d5b8;
+    --y:#7c3fa0;--yl:#f3eafa;--ym:#c9a0e0;
+    --pink:#f9a8d4;--pink2:#ec4899;
+    --bg:#f8f7fc;--card:#fff;--tx:#1a1a2e;--mu:#888;--bo:#e8e4f0;
+    --green:#22c55e;--amber:#f59e0b;--red:#ef4444;--blue:#3b82f6;
+  }
+  body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+  .header{background:linear-gradient(135deg,#fce7f3,#f3e8ff);padding:18px 24px;border-bottom:1.5px solid var(--bo);display:flex;align-items:center;justify-content:space-between}
+  .header-left{display:flex;align-items:center;gap:12px}
+  .header-icon{width:42px;height:42px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+  .header-title{font-size:1.2rem;font-weight:900}
+  .header-sub{font-size:.75rem;color:var(--mu);font-weight:600;margin-top:2px}
+  .refresh-btn{padding:7px 16px;border-radius:20px;border:1.5px solid var(--bo);background:var(--card);font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;color:var(--mu);display:flex;align-items:center;gap:6px}
+  .refresh-btn:hover{border-color:var(--pink2);color:var(--pink2)}
+  .main{padding:20px;max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+  .cards-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:580px){.cards-row{grid-template-columns:1fr}}
+  .day-card{background:var(--card);border-radius:16px;border:1.5px solid var(--bo);padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+  .day-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+  .day-card.r{border-left:4px solid var(--r)}
+  .day-card.y{border-left:4px solid var(--y)}
+  .day-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);margin-bottom:5px}
+  .day-date{font-size:1rem;font-weight:800;margin-bottom:7px}
+  .day-owner{display:flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700}
+  .odot{width:9px;height:9px;border-radius:50%}
+  .day-events{margin-top:10px;display:flex;flex-direction:column;gap:4px}
+  .ev-pill{font-size:.72rem;font-weight:600;color:#92400e;background:#fff8e1;border-radius:7px;padding:3px 8px}
+  .section{background:var(--card);border-radius:16px;border:1.5px solid var(--bo);overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+  .sec-head{padding:14px 18px;border-bottom:1.5px solid var(--bo);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#fafafa,#f8f7fc)}
+  .sec-title{font-size:.95rem;font-weight:800;display:flex;align-items:center;gap:7px}
+  .badge{border-radius:20px;padding:2px 10px;font-size:.7rem;font-weight:800;color:#fff}
+  .badge.pink{background:var(--pink2)}
+  .badge.amber{background:var(--amber)}
+  .badge.green{background:var(--green)}
+  .sec-body{padding:14px 18px}
+  .week-group{margin-bottom:12px}
+  .week-group:last-child{margin-bottom:0}
+  .week-dlabel{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);margin-bottom:5px}
+  .week-ev{display:flex;align-items:center;gap:9px;padding:7px 11px;background:var(--bg);border-radius:9px;margin-bottom:4px}
+  .week-ev:last-child{margin-bottom:0}
+  .wdot{width:7px;height:7px;border-radius:50%;background:var(--amber);flex-shrink:0}
+  .wtext{font-size:.82rem;font-weight:600}
+  .health-item{display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--bg);border-radius:9px;margin-bottom:6px}
+  .health-item:last-child{margin-bottom:0}
+  .hdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  .hinfo{flex:1}
+  .hname{font-size:.83rem;font-weight:700}
+  .hdate{font-size:.7rem;color:var(--mu);font-weight:600;margin-top:1px}
+  .hsec-title{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);margin:10px 0 6px;padding-bottom:4px;border-bottom:1px dashed var(--bo)}
+  .hsec-title:first-child{margin-top:0}
+  .reimb-box{display:flex;align-items:center;gap:14px;padding:14px;background:linear-gradient(135deg,#fff8e1,#fef3c7);border-radius:12px;border:1.5px solid #f59e0b40}
+  .reimb-count{font-size:2.8rem;font-weight:900;color:var(--amber);line-height:1}
+  .reimb-lbl{font-size:.85rem;font-weight:700;color:#92400e}
+  .reimb-val{font-size:.72rem;color:var(--amber);font-weight:600;margin-top:2px}
+  .empty{text-align:center;padding:20px;color:var(--mu);font-size:.82rem;font-weight:600}
+  .empty-icon{font-size:1.8rem;margin-bottom:6px}
+  .spinner{width:32px;height:32px;border:3px solid var(--bo);border-top-color:var(--pink2);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading-box{text-align:center;padding:36px;color:var(--mu);font-size:.85rem;font-weight:600}
+  .error-box{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:12px;padding:14px;color:#991b1b;font-size:.83rem;font-weight:600}
+  .mo{position:fixed;inset:0;background:rgba(20,10,40,.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;opacity:0;pointer-events:none;transition:opacity .18s}
+  .mo.open{opacity:1;pointer-events:all}
+  .md{background:var(--card);border-radius:20px;width:100%;max-width:420px;max-height:82vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:translateY(16px);transition:transform .18s;position:relative}
+  .mo.open .md{transform:translateY(0)}
+  .mh{padding:18px 22px 12px;border-bottom:1.5px solid var(--bo)}
+  .mt{font-size:1rem;font-weight:800}
+  .ms{font-size:.77rem;color:var(--mu);margin-top:3px}
+  .mb{padding:14px 22px 22px;overflow-y:auto;flex:1}
+  .mcl{position:absolute;top:14px;right:14px;background:var(--bg);border:1.5px solid var(--bo);border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-icon">🌸</div>
+    <div>
+      <div class="header-title">Dashboard da Amélia</div>
+      <div class="header-sub" id="lastUpdate">Carregando...</div>
+    </div>
+  </div>
+  <button class="refresh-btn" id="refreshBtn" onclick="loadData()">↺ Atualizar</button>
+</div>
+
+<div class="main" id="main">
+  <div class="loading-box"><div class="spinner"></div>Buscando dados...</div>
+</div>
+
+<div class="mo" id="mo" onclick="if(event.target===this)closeMo()">
+  <div class="md">
+    <button class="mcl" onclick="closeMo()">✕</button>
+    <div class="mh"><div class="mt" id="mTitle"></div><div class="ms" id="mSub"></div></div>
+    <div class="mb" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+const DB = 'https://calendario-amelia-2202c-default-rtdb.firebaseio.com';
+const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const WDS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const REF = new Date(2026,5,9);
+let D = {};
+
+function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function wmon(d){const x=new Date(d),w=x.getDay();x.setDate(x.getDate()+(w===0?-6:1-w));x.setHours(0,0,0,0);return x;}
+function defOwner(d){const isA=Math.round((wmon(d)-REF)/(7*24*3600*1000))%2===0,w=d.getDay();if(isA){if(w===1||w===2)return'r';if(w===3||w===4)return'y';return'r';}else{if(w===1||w===2)return'y';if(w===3||w===4)return'r';return'y';}}
+function owner(d){return(D.ov&&D.ov[dk(d)])||defOwner(d);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fDate(d){return WDS[d.getDay()]+', '+d.getDate()+' de '+MONTHS[d.getMonth()];}
+function fSimple(s){if(!s)return'';const p=s.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+
+async function loadData(){
+  document.getElementById('refreshBtn').textContent='↺ Atualizando...';
+  document.getElementById('main').innerHTML='<div class="loading-box"><div class="spinner"></div>Buscando dados...</div>';
+  try{
+    const [ev,ov,hl,rb] = await Promise.all([
+      fetch(DB+'/events.json').then(r=>r.json()),
+      fetch(DB+'/overrides.json').then(r=>r.json()),
+      fetch(DB+'/health.json').then(r=>r.json()),
+      fetch(DB+'/reimbs.json').then(r=>r.json())
+    ]);
+    D = {ev:ev||{}, ov:ov||{}, hl:hl||{}, rb:rb||{}};
+    render();
+    document.getElementById('lastUpdate').textContent='Atualizado às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){
+    document.getElementById('main').innerHTML='<div class="error-box">❌ Erro ao carregar dados: '+esc(e.message)+'</div>';
+  }
+  document.getElementById('refreshBtn').textContent='↺ Atualizar';
+}
+
+function render(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const tom=new Date(today);tom.setDate(today.getDate()+1);
+  const to=owner(today),toc=to==='r'?'var(--r)':'var(--y)',ton=to==='r'?'Raphael':'Yasmim';
+  const oo=owner(tom),ooc=oo==='r'?'var(--r)':'var(--y)',oon=oo==='r'?'Raphael':'Yasmim';
+  const tev=D.ev[dk(today)]||[];
+  const oev=D.ev[dk(tom)]||[];
+
+  // Week
+  const week=[];
+  for(let i=0;i<7;i++){const d=new Date(today);d.setDate(today.getDate()+i);const evs=D.ev[dk(d)]||[];if(evs.length)week.push({d,evs});}
+
+  // Health
+  const hl=Object.entries(D.hl).map(([k,v])=>({...v,k})).filter(h=>!h.done);
+  const hwDate=hl.filter(h=>h.date).sort((a,b)=>a.date.localeCompare(b.date));
+  const hwNoDate=hl.filter(h=>!h.date).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
+
+  // Reimbs
+  const rb=Object.values(D.rb).filter(r=>!r.reimbursed);
+  const rbVal=rb.reduce((s,r)=>s+(r.value||0),0);
+
+  document.getElementById('main').innerHTML=`
+    <div class="cards-row">
+      <div class="day-card ${to}" onclick="openDay('${dk(today)}','Hoje')">
+        <div class="day-label">Hoje</div>
+        <div class="day-date">${fDate(today)}</div>
+        <div class="day-owner"><div class="odot" style="background:${toc}"></div><span style="color:${toc}">${ton}</span></div>
+        ${tev.length?'<div class="day-events">'+tev.map(e=>'<span class="ev-pill">📌 '+esc(e)+'</span>').join('')+'</div>':''}
+      </div>
+      <div class="day-card ${oo}" onclick="openDay('${dk(tom)}','Amanhã')">
+        <div class="day-label">Amanhã</div>
+        <div class="day-date">${fDate(tom)}</div>
+        <div class="day-owner"><div class="odot" style="background:${ooc}"></div><span style="color:${ooc}">${oon}</span></div>
+        ${oev.length?'<div class="day-events">'+oev.map(e=>'<span class="ev-pill">📌 '+esc(e)+'</span>').join('')+'</div>':''}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-title">📅 Compromissos da Semana</div>
+        ${week.length?'<span class="badge amber">'+week.reduce((s,d)=>s+d.evs.length,0)+'</span>':''}
+      </div>
+      <div class="sec-body">
+        ${week.length?week.map(d=>'<div class="week-group"><div class="week-dlabel">'+fDate(d.d)+'</div>'+d.evs.map(e=>'<div class="week-ev"><div class="wdot"></div><div class="wtext">'+esc(e)+'</div></div>').join('')+'</div>').join(''):'<div class="empty"><div class="empty-icon">🎉</div>Nenhum compromisso essa semana!</div>'}
+      </div>
+    </div>
+
+    <div class="cards-row">
+      <div class="section" style="cursor:pointer" onclick="openHealth()">
+        <div class="sec-head">
+          <div class="sec-title">🏥 Saúde</div>
+          ${hl.length?'<span class="badge amber">'+hl.length+' pendente'+(hl.length>1?'s':'')+'</span>':'<span class="badge green">OK ✓</span>'}
+        </div>
+        <div class="sec-body">
+          ${hwDate.slice(0,3).map(h=>'<div class="health-item"><div class="hdot" style="background:var(--amber)"></div><div class="hinfo"><div class="hname">'+esc(h.name)+'</div><div class="hdate">📅 '+fSimple(h.date)+(h.time?' às '+h.time:'')+'</div></div></div>').join('')}
+          ${hwNoDate.slice(0,2).map(h=>'<div class="health-item"><div class="hdot" style="background:var(--red)"></div><div class="hinfo"><div class="hname">'+esc(h.name)+'</div><div class="hdate">A agendar</div></div></div>').join('')}
+          ${!hl.length?'<div class="empty"><div class="empty-icon">✅</div>Tudo em dia!</div>':''}
+          ${hl.length>5?'<div style="font-size:.72rem;color:var(--mu);text-align:center;margin-top:8px;font-weight:700">+ '+(hl.length-5)+' mais → clique para ver tudo</div>':''}
+        </div>
+      </div>
+
+      <div class="section" style="cursor:pointer" onclick="openReimb()">
+        <div class="sec-head">
+          <div class="sec-title">📄 Reembolsos</div>
+          ${rb.length?'<span class="badge amber">'+rb.length+' pendente'+(rb.length>1?'s':'')+'</span>':'<span class="badge green">OK ✓</span>'}
+        </div>
+        <div class="sec-body">
+          <div class="reimb-box">
+            <div class="reimb-count">${rb.length}</div>
+            <div>
+              <div class="reimb-lbl">NF${rb.length!==1?'s':''} a reembolsar</div>
+              ${rbVal>0?'<div class="reimb-val">Total: R$ '+rbVal.toFixed(2)+'</div>':''}
+            </div>
+          </div>
+          ${!rb.length?'<div class="empty" style="margin-top:10px"><div class="empty-icon">✅</div>Nenhum pendente!</div>':''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function openDay(key,label){
+  const[y,m,d]=key.split('-').map(Number);
+  const dt=new Date(y,m-1,d);
+  const ow=owner(dt),on=ow==='r'?'Raphael':'Yasmim';
+  const evs=D.ev[key]||[];
+  document.getElementById('mTitle').textContent=label+' — '+fDate(dt);
+  document.getElementById('mSub').textContent='Com '+on;
+  document.getElementById('mBody').innerHTML=evs.length
+    ?evs.map(e=>'<div class="week-ev" style="margin-bottom:8px"><div class="wdot"></div><div class="wtext">'+esc(e)+'</div></div>').join('')
+    :'<div class="empty"><div class="empty-icon">🎉</div>Nenhum compromisso!</div>';
+  document.getElementById('mo').classList.add('open');
+}
+
+function openHealth(){
+  const hl=Object.entries(D.hl).map(([k,v])=>({...v,k})).filter(h=>!h.done);
+  const hwDate=hl.filter(h=>h.date).sort((a,b)=>a.date.localeCompare(b.date));
+  const hwNoDate=hl.filter(h=>!h.date).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
+  document.getElementById('mTitle').textContent='🏥 Tarefas de Saúde';
+  document.getElementById('mSub').textContent=hl.length+' tarefa'+(hl.length!==1?'s':'')+' pendente'+(hl.length!==1?'s':'');
+  let html='';
+  if(hwDate.length){html+='<div class="hsec-title">📅 Com data marcada</div>';html+=hwDate.map(h=>'<div class="health-item"><div class="hdot" style="background:var(--amber)"></div><div class="hinfo"><div class="hname">'+esc(h.name)+'</div><div class="hdate">'+fSimple(h.date)+(h.time?' às '+h.time:'')+'</div></div></div>').join('');}
+  if(hwNoDate.length){html+='<div class="hsec-title">⏳ Sem data marcada</div>';html+=hwNoDate.map(h=>'<div class="health-item"><div class="hdot" style="background:var(--red)"></div><div class="hinfo"><div class="hname">'+esc(h.name)+'</div><div class="hdate">A agendar</div></div></div>').join('');}
+  if(!hl.length)html='<div class="empty"><div class="empty-icon">✅</div>Tudo em dia com a saúde!</div>';
+  document.getElementById('mBody').innerHTML=html;
+  document.getElementById('mo').classList.add('open');
+}
+
+function openReimb(){
+  const rb=Object.entries(D.rb).map(([k,v])=>({...v,k})).filter(r=>!r.reimbursed).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  document.getElementById('mTitle').textContent='📄 Reembolsos Pendentes';
+  document.getElementById('mSub').textContent=rb.length+' NF'+(rb.length!==1?'s':'')+' a solicitar';
+  document.getElementById('mBody').innerHTML=rb.length
+    ?rb.map(r=>'<div class="health-item" style="margin-bottom:10px"><div style="font-size:1.3rem">'+(r.fileName&&r.fileName.endsWith('.pdf')?'📄':'🖼️')+'</div><div class="hinfo"><div class="hname">'+esc(r.desc||'')+'</div><div class="hdate">'+(r.date?fSimple(r.date):'Sem data')+(r.value?' · R$ '+r.value.toFixed(2):'')+'</div></div>'+(r.fileUrl?'<a href="'+r.fileUrl+'" target="_blank" style="font-size:.7rem;color:var(--blue);font-weight:700;white-space:nowrap;text-decoration:none">Ver</a>':'')+'</div>').join('')
+    :'<div class="empty"><div class="empty-icon">✅</div>Nenhum reembolso pendente!</div>';
+  document.getElementById('mo').classList.add('open');
+}
+
+function closeMo(){document.getElementById('mo').classList.remove('open');}
+
+loadData();
+</script>
+</body>
+</html>
