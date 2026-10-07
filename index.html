@@ -170,6 +170,47 @@
   .contact-phone{font-size:.8rem;color:var(--mu);font-weight:600}
   .contact-del{background:none;border:none;cursor:pointer;font-size:1rem;color:#ddd;padding:4px}
 
+  /* ESCOLA */
+  .escola-section{margin-bottom:20px}
+  .escola-section-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--mu);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  .escola-section-title span{flex:1;height:1px;background:var(--bo);display:block}
+  .mens-item{background:var(--card);border-radius:14px;border:1.5px solid var(--bo);padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .mens-item.pendente{border-color:#fbbf24;background:#fffbeb}
+  .mens-item.pago{border-color:var(--green);background:#f0fdf4;opacity:.75}
+  .mens-icon{font-size:1.4rem;flex-shrink:0}
+  .mens-info{flex:1;min-width:0}
+  .mens-desc{font-size:.88rem;font-weight:700;margin-bottom:2px}
+  .mens-item.pago .mens-desc{text-decoration:line-through;color:var(--mu)}
+  .mens-meta{font-size:.72rem;color:var(--mu);font-weight:600}
+  .mens-venc{font-size:.72rem;font-weight:800;margin-top:2px}
+  .mens-item.pendente .mens-venc{color:#d97706}
+  .mens-valor{font-size:.95rem;font-weight:800;color:#d97706;flex-shrink:0}
+  .mens-item.pago .mens-valor{color:var(--green)}
+
+  .resumo-card{background:var(--card);border-radius:16px;border:1.5px solid var(--bo);padding:14px 16px;margin-bottom:10px}
+  .resumo-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bo)}
+  .resumo-row:last-child{border-bottom:none}
+  .resumo-icon{font-size:1.1rem;flex-shrink:0;width:24px;text-align:center}
+  .resumo-label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--mu);width:70px;flex-shrink:0}
+  .resumo-val{font-size:.85rem;font-weight:700;flex:1}
+  .resumo-badge{padding:3px 9px;border-radius:20px;font-size:.72rem;font-weight:800}
+  .resumo-badge.ok{background:#dcfce7;color:#16a34a}
+  .resumo-badge.falt{background:#fee2e2;color:#dc2626}
+  .refeicoes-list{display:flex;flex-direction:column;gap:4px;margin-top:2px}
+  .ref-item{display:flex;align-items:center;justify-content:space-between;font-size:.8rem;padding:3px 0}
+  .ref-item-nome{font-weight:600;flex:1}
+  .ref-aval{padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:800;background:var(--bg);border:1px solid var(--bo);color:var(--mu)}
+  .ref-aval.bem{background:#dcfce7;color:#16a34a;border-color:#bbf7d0}
+  .ref-aval.metade{background:#fef9c3;color:#ca8a04;border-color:#fef08a}
+  .ref-aval.nao{background:#fee2e2;color:#dc2626;border-color:#fecaca}
+
+  .com-item{background:var(--card);border-radius:12px;border:1.5px solid var(--bo);padding:10px 14px;margin-bottom:8px}
+  .com-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px}
+  .com-titulo{font-size:.88rem;font-weight:800;flex:1}
+  .com-data{font-size:.7rem;color:var(--mu);font-weight:700;white-space:nowrap;flex-shrink:0}
+  .com-desc{font-size:.78rem;color:var(--mu);font-weight:600;line-height:1.5}
+  .com-anexo{font-size:.68rem;color:var(--pink2);font-weight:700;margin-top:4px}
+
   /* REEMBOLSOS */
   .reimb-item{background:var(--card);border-radius:14px;border:1.5px solid var(--bo);padding:12px 14px;display:flex;align-items:center;gap:10px}
   .reimb-item.reimbursed{border-color:var(--green);background:#f0fdf4}
@@ -239,6 +280,7 @@
     <button class="nav-btn" id="nb-health" onclick="showView('health')">🏥</button>
     <button class="nav-btn" id="nb-contacts" onclick="showView('contacts')">📋</button>
     <button class="nav-btn" id="nb-reimb" onclick="showView('reimb')">📄</button>
+    <button class="nav-btn" id="nb-escola" onclick="showView('escola')">🏫</button>
   </div>
 </div>
 
@@ -284,6 +326,29 @@
 <div class="view" id="view-reimb">
   <div class="section-header"><h2>📄 Reembolsos</h2><button class="add-btn" onclick="openReimbAdd()">+ Adicionar</button></div>
   <div class="reimb-list" id="reimbList"></div>
+</div>
+
+<!-- ESCOLA -->
+<div class="view" id="view-escola">
+  <div class="section-header" style="margin-top:4px"><h2>🏫 Escola</h2><button class="add-btn" id="escolaSyncBtn" onclick="escolaRefresh()">↺ Atualizar</button></div>
+
+  <!-- Mensalidades -->
+  <div class="escola-section">
+    <div class="escola-section-title">💰 Mensalidades <span></span></div>
+    <div id="escolaMensalidades"><div class="empty-state"><div class="es-icon">💰</div><div class="es-text">Carregando...</div></div></div>
+  </div>
+
+  <!-- Resumo do Dia -->
+  <div class="escola-section">
+    <div class="escola-section-title">📋 Resumo do dia de hoje <span></span></div>
+    <div id="escolaResumoDia"><div class="empty-state"><div class="es-icon">📋</div><div class="es-text">Carregando...</div></div></div>
+  </div>
+
+  <!-- Comunicados -->
+  <div class="escola-section">
+    <div class="escola-section-title">📢 Comunicados <span></span></div>
+    <div id="escolaComunicados"><div class="empty-state"><div class="es-icon">📢</div><div class="es-text">Carregando...</div></div></div>
+  </div>
 </div>
 
 <!-- MODAL DIA -->
@@ -404,6 +469,7 @@ var USER_EMAILS={r:"raphael@amelia.com",y:"yasmim@amelia.com"};
 
 var currentUser=null, selectedUser=null;
 var ov={}, evs={}, healthItems={}, contacts={}, reimbs={};
+var escolaMensalidades=[], escolaResumoDia={}, escolaComunicados=[];
 var mdk=null, healthDateKey=null;
 var today=new Date(); today.setHours(0,0,0,0);
 var vy=today.getFullYear(), vm=today.getMonth();
@@ -501,6 +567,11 @@ function startListeners() {
   db.ref('health').on('value',function(s){healthItems=s.val()||{};renderHealth();});
   db.ref('contacts').on('value',function(s){contacts=s.val()||{};renderContacts();});
   db.ref('reimbs').on('value',function(s){reimbs=s.val()||{};renderReimbs();});
+  db.ref('escola/mensalidades').on('value',function(s){escolaMensalidades=s.val()||[];renderEscolaMensalidades();});
+  db.ref('escola/comunicados').on('value',function(s){escolaComunicados=s.val()||[];renderEscolaComunicados();});
+  // Resumo do dia: escuta a entrada de hoje
+  var todayKey=dk(today);
+  db.ref('escola/resumoDia/'+todayKey).on('value',function(s){escolaResumoDia=s.val()||{};renderEscolaResumoDia();});
   setSy('on','conectado · tempo real');
 }
 
@@ -794,6 +865,131 @@ function closeOverlay(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.overlay').forEach(function(el){
   el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 });
+
+// ESCOLA
+function escolaRefresh() {
+  var btn = document.getElementById('escolaSyncBtn');
+  if(btn) { btn.textContent='⏳'; btn.disabled=true; }
+  // Mostra loading
+  ['escolaMensalidades','escolaResumoDia','escolaComunicados'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.innerHTML='<div class="empty-state"><div class="es-text">Sincronizando com a escola...</div></div>';
+  });
+  setTimeout(function(){
+    if(btn) { btn.textContent='↺ Atualizar'; btn.disabled=false; }
+  }, 3000);
+}
+
+function formatDateBR(isoStr) {
+  if(!isoStr) return '';
+  var p = isoStr.split('-');
+  if(p.length < 3) return isoStr;
+  return p[2]+'/'+p[1]+'/'+p[0];
+}
+
+function renderEscolaMensalidades() {
+  var el = document.getElementById('escolaMensalidades');
+  if(!el) return;
+  var items = Array.isArray(escolaMensalidades) ? escolaMensalidades : Object.values(escolaMensalidades);
+  if(!items || !items.length) {
+    el.innerHTML = '<div class="empty-state"><div class="es-icon">✅</div><div class="es-text">Sem mensalidades pendentes</div></div>';
+    return;
+  }
+  // Ordena: pendentes primeiro, depois por vencimento
+  var sorted = items.slice().sort(function(a,b){
+    if(a.pago !== b.pago) return a.pago ? 1 : -1;
+    return (a.vencimento||'').localeCompare(b.vencimento||'');
+  });
+  el.innerHTML = sorted.map(function(m){
+    var isPago = m.pago === true || m.pago === 'true' || m.pago === 1;
+    var cls = isPago ? 'pago' : 'pendente';
+    var icon = isPago ? '✅' : '⚠️';
+    var vencStr = m.vencimento ? 'Venc: '+formatDateBR(m.vencimento) : '';
+    var emissStr = m.emissao ? ' · Emissão: '+formatDateBR(m.emissao) : '';
+    return '<div class="mens-item '+cls+'">' +
+      '<div class="mens-icon">'+icon+'</div>' +
+      '<div class="mens-info">' +
+        '<div class="mens-desc">'+esc(m.descricao||'')+'</div>' +
+        '<div class="mens-meta">'+(m.turma?esc(m.turma)+' · ':'')+esc(m.tipo||'')+emissStr+'</div>' +
+        (vencStr?'<div class="mens-venc">'+vencStr+(isPago?' · Pago':'')+'</div>':'') +
+      '</div>' +
+      (m.valor?'<div class="mens-valor">'+esc(m.valor)+'</div>':'') +
+      '</div>';
+  }).join('');
+}
+
+function renderEscolaResumoDia() {
+  var el = document.getElementById('escolaResumoDia');
+  if(!el) return;
+  var r = escolaResumoDia;
+  if(!r || !r.data) {
+    el.innerHTML = '<div class="empty-state"><div class="es-icon">📋</div><div class="es-text">Sem resumo do dia ainda — sincronize após a escola atualizar</div></div>';
+    return;
+  }
+  var html = '<div class="resumo-card">';
+
+  // Presença
+  html += '<div class="resumo-row"><div class="resumo-icon">🏫</div><div class="resumo-label">Presença</div><div class="resumo-val">';
+  if(r.faltou) html += '<span class="resumo-badge falt">Faltou</span>';
+  else html += '<span class="resumo-badge ok">Presente</span>';
+  html += '</div></div>';
+
+  // Entrada / saída
+  if(r.horaEntrada||r.horaSaida) {
+    html += '<div class="resumo-row"><div class="resumo-icon">🕐</div><div class="resumo-label">Horário</div><div class="resumo-val">';
+    if(r.horaEntrada) html += 'Entrada: <strong>'+esc(r.horaEntrada)+'</strong>';
+    if(r.horaEntrada&&r.horaSaida) html += '&nbsp;·&nbsp;';
+    if(r.horaSaida) html += 'Saída: <strong>'+esc(r.horaSaida)+'</strong>';
+    html += '</div></div>';
+  }
+
+  // Refeições
+  var refs = Array.isArray(r.refeicoes) ? r.refeicoes : [];
+  if(refs.length) {
+    html += '<div class="resumo-row" style="align-items:flex-start"><div class="resumo-icon">🍽️</div><div class="resumo-label">Refeições</div><div class="resumo-val"><div class="refeicoes-list">';
+    refs.forEach(function(ref){
+      var aval = (ref.avaliacao||'').trim();
+      var avalCls = '';
+      if(/bem/i.test(aval)) avalCls='bem';
+      else if(/metade/i.test(aval)) avalCls='metade';
+      else if(/não|nao|recusou/i.test(aval)) avalCls='nao';
+      html += '<div class="ref-item"><span class="ref-item-nome">'+esc(ref.item||'')+'</span>'+(aval?'<span class="ref-aval '+avalCls+'">'+esc(aval)+'</span>':'')+'</div>';
+    });
+    html += '</div></div></div>';
+  }
+
+  // Observações
+  if(r.observacoes) {
+    html += '<div class="resumo-row" style="align-items:flex-start"><div class="resumo-icon">💬</div><div class="resumo-label">Obs</div><div class="resumo-val" style="font-size:.82rem;color:var(--tx);line-height:1.5">'+esc(r.observacoes)+'</div></div>';
+  }
+  if(r.recadoCasa) {
+    html += '<div class="resumo-row" style="align-items:flex-start"><div class="resumo-icon">🏠</div><div class="resumo-label">Recado</div><div class="resumo-val" style="font-size:.82rem;line-height:1.5">'+esc(r.recadoCasa)+'</div></div>';
+  }
+
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function renderEscolaComunicados() {
+  var el = document.getElementById('escolaComunicados');
+  if(!el) return;
+  var items = Array.isArray(escolaComunicados) ? escolaComunicados : Object.values(escolaComunicados);
+  if(!items || !items.length) {
+    el.innerHTML = '<div class="empty-state"><div class="es-icon">📢</div><div class="es-text">Nenhum comunicado</div></div>';
+    return;
+  }
+  // Ordena por data decrescente
+  var sorted = items.slice().sort(function(a,b){
+    return (b.data||'').localeCompare(a.data||'');
+  });
+  el.innerHTML = sorted.map(function(c){
+    return '<div class="com-item">' +
+      '<div class="com-header"><div class="com-titulo">'+esc(c.titulo||'')+'</div><div class="com-data">'+formatDateBR(c.data||'')+'</div></div>' +
+      (c.descricao?'<div class="com-desc">'+esc(c.descricao)+'</div>':'') +
+      (c.temAnexo?'<div class="com-anexo">📎 Possui anexo</div>':'') +
+      '</div>';
+  }).join('');
+}
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(function(){});
 </script>
