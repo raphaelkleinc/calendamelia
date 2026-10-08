@@ -176,7 +176,11 @@
   .escola-section-title span{flex:1;height:1px;background:var(--bo);display:block}
 
   /* ESCOLA SUB-TABS */
-  .escola-tabs{display:flex;gap:0;background:var(--card);border-radius:14px;border:1.5px solid var(--bo);padding:4px;margin-bottom:14px;overflow:hidden}
+  .sync-escola-badge{font-size:.62rem;font-weight:700;border-radius:20px;padding:2px 7px;white-space:nowrap;letter-spacing:.2px}
+.sync-escola-badge.ok{color:#16a34a;background:#dcfce7}
+.sync-escola-badge.old{color:#b45309;background:#fef9c3}
+.sync-escola-badge.err{color:#dc2626;background:#fee2e2}
+.escola-tabs{display:flex;gap:0;background:var(--card);border-radius:14px;border:1.5px solid var(--bo);padding:4px;margin-bottom:14px;overflow:hidden}
   .escola-tab{flex:1;padding:9px 6px;border-radius:10px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;color:var(--mu);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s;line-height:1.2}
   .escola-tab .et-icon{font-size:1.15rem}
   .escola-tab .et-label{font-size:.68rem;letter-spacing:.2px}
@@ -339,7 +343,7 @@
 
 <!-- ESCOLA -->
 <div class="view" id="view-escola">
-  <div class="section-header" style="margin-top:4px"><h2>🏫 Escola</h2><button class="add-btn" id="escolaSyncBtn" onclick="escolaRefresh()">↺ Atualizar</button></div>
+  <div class="section-header" style="margin-top:4px"><h2>🏫 Escola</h2><div style="display:flex;align-items:center;gap:8px"><span id="escolaSyncBadge"></span><button class="add-btn" id="escolaSyncBtn" onclick="escolaRefresh()">↺ Atualizar</button></div></div>
 
   <!-- Sub-abas -->
   <div class="escola-tabs">
@@ -591,6 +595,7 @@ function startListeners() {
   // Resumo do dia: escuta a entrada de hoje
   var todayKey=dk(today);
   db.ref('escola/resumoDia/'+todayKey).on('value',function(s){escolaResumoDia=s.val()||{};renderEscolaResumoDia();});
+  db.ref('escola/syncAt').on('value',function(s){renderEscolaSyncBadge(s.val());});
   setSy('on','conectado · tempo real');
 }
 
@@ -895,6 +900,20 @@ function escolaTab(name) {
     if(btn) btn.classList.toggle('active', t===name);
     if(sub) sub.classList.toggle('active', t===name);
   });
+}
+
+function renderEscolaSyncBadge(data) {
+  var el = document.getElementById('escolaSyncBadge');
+  if (!el) return;
+  if (!data || !data.ts) { el.innerHTML = ''; return; }
+  var d = new Date(data.ts);
+  var diffMin = Math.round((Date.now() - data.ts) / 60000);
+  var timeStr = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  var dateStr = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+  var today = new Date(); today.setHours(0,0,0,0);
+  var label = d >= today ? timeStr : dateStr+' '+timeStr;
+  var cls = diffMin < 90 ? 'ok' : diffMin < 1440 ? 'old' : 'err';
+  el.innerHTML = '<span class="sync-escola-badge '+cls+'">🔄 '+label+'</span>';
 }
 
 function escolaRefresh() {
