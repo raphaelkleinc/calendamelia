@@ -87,6 +87,10 @@
   .mt{font-size:1rem;font-weight:800}
   .ms{font-size:.77rem;color:var(--mu);margin-top:3px}
   .mb{padding:14px 22px 22px;overflow-y:auto;flex:1}
+  .sync-badge{font-size:.65rem;font-weight:700;color:var(--mu);background:rgba(0,0,0,.06);border-radius:20px;padding:2px 8px;white-space:nowrap;letter-spacing:.2px}
+  .sync-badge.ok{color:#16a34a;background:#dcfce7}
+  .sync-badge.old{color:#b45309;background:#fef9c3}
+  .sync-badge.err{color:#dc2626;background:#fee2e2}
   .mcl{position:absolute;top:14px;right:14px;background:var(--bg);border:1.5px solid var(--bo);border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif}
 </style>
 </head>
@@ -100,7 +104,7 @@
       <div class="header-sub" id="lastUpdate">Carregando...</div>
     </div>
   </div>
-  <button class="refresh-btn" id="refreshBtn" onclick="loadData()">↺ Atualizar</button>
+  <div style="display:flex;align-items:center;gap:8px"><span id="syncBadge"></span><button class="refresh-btn" id="refreshBtn" onclick="loadData()">↺ Atualizar</button></div>
 </div>
 
 <div class="main" id="main">
@@ -135,20 +139,39 @@ async function loadData(){
   document.getElementById('refreshBtn').textContent='↺ Atualizando...';
   document.getElementById('main').innerHTML='<div class="loading-box"><div class="spinner"></div>Buscando dados...</div>';
   try{
-    const [ev,ov,hl,rb,mens] = await Promise.all([
+    const [ev,ov,hl,rb,mens,syncAt] = await Promise.all([
       fetch(DB+'/events.json').then(r=>r.json()),
       fetch(DB+'/overrides.json').then(r=>r.json()),
       fetch(DB+'/health.json').then(r=>r.json()),
       fetch(DB+'/reimbs.json').then(r=>r.json()),
-      fetch(DB+'/escola/mensalidades.json').then(r=>r.json())
+      fetch(DB+'/escola/mensalidades.json').then(r=>r.json()),
+      fetch(DB+'/escola/syncAt.json').then(r=>r.json())
     ]);
-    D = {ev:ev||{}, ov:ov||{}, hl:hl||{}, rb:rb||{}, mens:mens||{}};
+    D = {ev:ev||{}, ov:ov||{}, hl:hl||{}, rb:rb||{}, mens:mens||{}, syncAt:syncAt||null};
+    renderSyncBadge();
     render();
     document.getElementById('lastUpdate').textContent='Atualizado às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
   }catch(e){
     document.getElementById('main').innerHTML='<div class="error-box">❌ Erro ao carregar dados: '+esc(e.message)+'</div>';
   }
   document.getElementById('refreshBtn').textContent='↺ Atualizar';
+}
+
+function renderSyncBadge(){
+  const el = document.getElementById('syncBadge');
+  if(!el) return;
+  const s = D.syncAt;
+  if(!s || !s.ts){el.innerHTML='';return;}
+  const d = new Date(s.ts);
+  const now = Date.now();
+  const diffMin = Math.round((now - s.ts) / 60000);
+  const timeStr = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  const dateStr = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+  const today = new Date(); today.setHours(0,0,0,0);
+  const isToday = d >= today;
+  const label = isToday ? timeStr : dateStr+' '+timeStr;
+  const cls = diffMin < 90 ? 'ok' : diffMin < 1440 ? 'old' : 'err';
+  el.innerHTML = '<span class="sync-badge '+cls+'">🔄 escola '+label+'</span>';
 }
 
 function render(){
