@@ -39,6 +39,10 @@
   .login-input{padding:12px 14px;border-radius:12px;border:1.5px solid var(--bo);font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:var(--tx);background:#fff;outline:none;width:100%}
   .login-btn-main{padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#ec4899,#7c3fa0);color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer}
   .login-error{font-size:.8rem;color:var(--red);text-align:center;min-height:18px}
+  .login-google-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;border-radius:14px;border:2px solid var(--bo);background:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;width:100%;max-width:320px;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .login-google-btn:hover{background:#f8f8f8;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+  .login-google-btn svg{width:22px;height:22px;flex-shrink:0}
+  .login-loading{font-size:.85rem;color:var(--mu);text-align:center;min-height:18px}
 
   /* HEADER */
   #appHeader{background:linear-gradient(135deg,#fce7f3,#f3e8ff);padding:10px 14px;border-bottom:1.5px solid var(--bo);display:flex;flex-direction:column;gap:8px}
@@ -258,16 +262,18 @@
 <div id="loginScreen">
   <img src="icon-192.png" class="login-icon" alt="Amélia">
   <div class="login-title">Calendário da Amélia</div>
-  <div class="login-sub">Bem-vindo! Faça login para continuar.</div>
-  <div class="login-form">
-    <div class="login-select">
-      <button class="login-user-btn r" onclick="selectUser('r')"><div class="udot"></div>Raphael</button>
-      <button class="login-user-btn y" onclick="selectUser('y')"><div class="udot"></div>Yasmim</button>
-    </div>
-    <input class="login-input" id="loginEmail" type="email" style="display:none">
-    <input class="login-input" id="loginPass" type="password" placeholder="Senha" style="display:none" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn-main" id="loginBtn" onclick="doLogin()" style="display:none">Entrar</button>
-    <div class="login-error" id="loginError"></div>
+  <div class="login-sub">Entre com sua conta Google para continuar.</div>
+  <button class="login-google-btn" onclick="doGoogleLogin()">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Entrar com Google
+  </button>
+  <div class="login-loading" id="loginLoading"></div>
+  <div class="login-error" id="loginError"></div>
   </div>
 </div>
 
@@ -487,7 +493,7 @@ firebase.initializeApp({
 });
 var auth=firebase.auth(), db=firebase.database(), storage=firebase.storage();
 var VAPID="BPUanq3Gib0FCP-Y3RrhxWX4-ovsmndL2lFDVg7asHi2tqo0bYvDAnQi1vN4ksXCGsSXe6oqIZYMExYupEMkGq4";
-var USER_EMAILS={r:"raphael@amelia.com",y:"yasmim@amelia.com"};
+var ALLOWED_EMAILS=['raphaelkcesar@gmail.com'];
 
 var currentUser=null, selectedUser=null;
 var ov={}, evs={}, healthItems={}, contacts={}, reimbs={};
@@ -500,24 +506,15 @@ var WDAYS=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira
 var REF_MON=new Date(2026,5,9);
 
 // AUTH
-function selectUser(u) {
-  selectedUser=u;
-  document.getElementById('loginEmail').value=USER_EMAILS[u];
-  document.getElementById('loginPass').style.display='block';
-  document.getElementById('loginBtn').style.display='block';
-  document.getElementById('loginError').textContent='';
-  document.querySelectorAll('.login-user-btn').forEach(function(b){b.style.opacity='.5';});
-  document.querySelector('.login-user-btn.'+u).style.opacity='1';
-  setTimeout(function(){document.getElementById('loginPass').focus();},100);
-}
-
-function doLogin() {
-  var email=document.getElementById('loginEmail').value;
-  var pass=document.getElementById('loginPass').value;
-  if(!pass){document.getElementById('loginError').textContent='Digite a senha.';return;}
-  document.getElementById('loginError').textContent='';
-  auth.signInWithEmailAndPassword(email,pass).catch(function(){
-    document.getElementById('loginError').textContent='Senha incorreta. Tente novamente.';
+function doGoogleLogin() {
+  var loading=document.getElementById('loginLoading');
+  var err=document.getElementById('loginError');
+  if(loading) loading.textContent='Abrindo conta Google...';
+  if(err) err.textContent='';
+  var provider=new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch(function(e){
+    if(loading) loading.textContent='';
+    if(err) err.textContent='Não foi possível entrar. Tente novamente.';
   });
 }
 
@@ -527,7 +524,14 @@ function doLogout() {
 
 auth.onAuthStateChanged(function(user) {
   if(user) {
-    currentUser=user.email===USER_EMAILS.r?'r':'y';
+    if(ALLOWED_EMAILS.indexOf(user.email)===-1){
+      auth.signOut();
+      document.getElementById('loginError').textContent='Acesso não autorizado: '+user.email;
+      return;
+    }
+    // Detecta usuário pelo email
+    if(user.email==='raphaelkcesar@gmail.com') currentUser='r';
+    else currentUser='y';
     showApp();
     startListeners();
   } else {
@@ -535,12 +539,10 @@ auth.onAuthStateChanged(function(user) {
     document.getElementById('appHeader').style.display='none';
     document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
     document.getElementById('loginScreen').classList.remove('hidden');
-    document.getElementById('loginPass').value='';
-    document.getElementById('loginPass').style.display='none';
-    document.getElementById('loginBtn').style.display='none';
-    document.getElementById('loginError').textContent='';
-    selectedUser=null;
-    document.querySelectorAll('.login-user-btn').forEach(function(b){b.style.opacity='1';});
+    var loading=document.getElementById('loginLoading');
+    var err=document.getElementById('loginError');
+    if(loading) loading.textContent='';
+    if(err) err.textContent='';
   }
 });
 
