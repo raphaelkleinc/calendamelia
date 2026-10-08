@@ -226,6 +226,17 @@
   .resumo-badge.falt{background:#fee2e2;color:#dc2626}
   .refeicoes-list{display:flex;flex-direction:column;gap:4px;margin-top:2px}
   .ref-item{display:flex;align-items:center;justify-content:space-between;font-size:.8rem;padding:3px 0}
+  /* Histórico dia a dia */
+  .hist-dia-item{background:var(--card);border-radius:14px;border:1.5px solid var(--bo);margin-bottom:8px;overflow:hidden}
+  .hist-dia-item.open{border-color:var(--acc)}
+  .hist-dia-header{display:flex;align-items:center;gap:0;padding:12px 14px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+  .hist-dia-header:active{opacity:.7}
+  .hist-dia-date{font-size:.9rem;font-weight:800;color:var(--tx);flex:1}
+  .hist-dia-arrow{font-size:.65rem;color:var(--mu);margin-left:10px;flex-shrink:0}
+  .hist-dia-body{padding:0 14px 12px;display:flex;flex-direction:column;gap:8px}
+  .hist-obs-row{display:flex;gap:8px;align-items:flex-start}
+  .hist-obs-icon{font-size:1rem;flex-shrink:0;width:22px;text-align:center;margin-top:1px}
+  .hist-obs-txt{font-size:.83rem;line-height:1.55;color:var(--tx);flex:1}
   .ref-item-nome{font-weight:600;flex:1}
   .ref-aval{padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:800;background:var(--bg);border:1px solid var(--bo);color:var(--mu)}
   .ref-aval.bem{background:#dcfce7;color:#16a34a;border-color:#bbf7d0}
@@ -514,7 +525,7 @@ var READONLY_EMAILS=['gabrieladasilvaferreira@gmail.com'];
 
 var currentUser=null, selectedUser=null;
 var ov={}, evs={}, healthItems={}, contacts={}, reimbs={};
-var escolaMensalidades=[], escolaResumoDia={}, escolaComunicados=[];
+var escolaMensalidades=[], escolaResumoDia={}, escolaResumoDiaHistorico={}, escolaComunicados=[];
 var mdk=null, healthDateKey=null;
 var today=new Date(); today.setHours(0,0,0,0);
 var vy=today.getFullYear(), vm=today.getMonth();
@@ -616,9 +627,8 @@ function startListeners() {
   db.ref('reimbs').on('value',function(s){reimbs=s.val()||{};renderReimbs();});
   db.ref('escola/mensalidades').on('value',function(s){escolaMensalidades=s.val()||[];renderEscolaMensalidades();});
   db.ref('escola/comunicados').on('value',function(s){escolaComunicados=s.val()||[];renderEscolaComunicados();});
-  // Resumo do dia: escuta a entrada de hoje
-  var todayKey=dk(today);
-  db.ref('escola/resumoDia/'+todayKey).on('value',function(s){escolaResumoDia=s.val()||{};renderEscolaResumoDia();});
+  // Resumo do dia: escuta todo o histórico
+  db.ref('escola/resumoDia').on('value',function(s){escolaResumoDiaHistorico=s.val()||{};renderEscolaResumoDia();});
   db.ref('escola/syncAt').on('value',function(s){renderEscolaSyncGlobal(s.val());});
   setSy('on','conectado · tempo real');
 }
@@ -981,53 +991,56 @@ function renderEscolaMensalidades() {
 function renderEscolaResumoDia() {
   var el = document.getElementById('escolaResumoDia');
   if(!el) return;
-  var r = escolaResumoDia;
-  if(!r || !r.data) {
+  var hist = escolaResumoDiaHistorico;
+  var keys = Object.keys(hist||{}).sort().reverse(); // mais recente primeiro
+  if(!keys.length) {
     el.innerHTML = '<div class="empty-state"><div class="es-icon">📋</div><div class="es-text">Sem resumo do dia ainda — sincronize após a escola atualizar</div></div>';
     return;
   }
-  var html = '<div class="resumo-card">';
-
-  // Presença
-  html += '<div class="resumo-row"><div class="resumo-icon">🏫</div><div class="resumo-label">Presença</div><div class="resumo-val">';
-  if(r.faltou) html += '<span class="resumo-badge falt">Faltou</span>';
-  else html += '<span class="resumo-badge ok">Presente</span>';
-  html += '</div></div>';
-
-  // Entrada / saída
-  if(r.horaEntrada||r.horaSaida) {
-    html += '<div class="resumo-row"><div class="resumo-icon">🕐</div><div class="resumo-label">Horário</div><div class="resumo-val">';
-    if(r.horaEntrada) html += 'Entrada: <strong>'+esc(r.horaEntrada)+'</strong>';
-    if(r.horaEntrada&&r.horaSaida) html += '&nbsp;·&nbsp;';
-    if(r.horaSaida) html += 'Saída: <strong>'+esc(r.horaSaida)+'</strong>';
-    html += '</div></div>';
-  }
-
-  // Refeições
-  var refs = Array.isArray(r.refeicoes) ? r.refeicoes : [];
-  if(refs.length) {
-    html += '<div class="resumo-row" style="align-items:flex-start"><div class="resumo-icon">🍽️</div><div class="resumo-label">Refeições</div><div class="resumo-val"><div class="refeicoes-list">';
-    refs.forEach(function(ref){
-      var aval = (ref.avaliacao||'').trim();
-      var avalCls = '';
-      if(/bem/i.test(aval)) avalCls='bem';
-      else if(/metade/i.test(aval)) avalCls='metade';
-      else if(/não|nao|recusou/i.test(aval)) avalCls='nao';
-      html += '<div class="ref-item"><span class="ref-item-nome">'+esc(ref.item||'')+'</span>'+(aval?'<span class="ref-aval '+avalCls+'">'+esc(aval)+'</span>':'')+'</div>';
-    });
-    html += '</div></div></div>';
-  }
-
-  // Observações
-  if(r.observacoes) {
-    html += '<div class="resumo-row" style="align-items:flex-start"><div class="resumo-icon">💬</div><div class="resumo-label">Obs</div><div class="resumo-val" style="font-size:.82rem;color:var(--tx);line-height:1.5">'+esc(r.observacoes)+'</div></div>';
-  }
-  if(r.recadoCasa) {
-    html += '<div class="resumo-row" style="align-items:flex-start"><div class="resumo-icon">🏠</div><div class="resumo-label">Recado</div><div class="resumo-val" style="font-size:.82rem;line-height:1.5">'+esc(r.recadoCasa)+'</div></div>';
-  }
-
-  html += '</div>';
+  var html = '';
+  keys.forEach(function(key, idx) {
+    var r = hist[key];
+    if(!r) return;
+    // Formata a data: "2026-10-08" → "08/10/2026"
+    var parts = key.split('-');
+    var label = parts.length===3 ? parts[2]+'/'+parts[1]+'/'+parts[0] : key;
+    // Indicador de falta
+    var badge = r.faltou ? '<span class="resumo-badge falt" style="margin-left:8px">Faltou</span>' : '<span class="resumo-badge ok" style="margin-left:8px">Presente</span>';
+    // Conteúdo: apenas observações e recado de casa
+    var obsHtml = '';
+    if(r.observacoes) {
+      obsHtml += '<div class="hist-obs-row"><span class="hist-obs-icon">💬</span><span class="hist-obs-txt">'+esc(r.observacoes)+'</span></div>';
+    }
+    if(r.recadoCasa) {
+      obsHtml += '<div class="hist-obs-row"><span class="hist-obs-icon">🏠</span><span class="hist-obs-txt">'+esc(r.recadoCasa)+'</span></div>';
+    }
+    if(!obsHtml) obsHtml = '<div class="hist-obs-row" style="color:var(--mu);font-size:.8rem">Sem observações registradas.</div>';
+    // Primeiro item começa aberto
+    var isOpen = idx===0;
+    html += '<div class="hist-dia-item'+(isOpen?' open':'')+'">';
+    html += '<div class="hist-dia-header" onclick="toggleHistDia(this)">';
+    html += '<span class="hist-dia-date">'+label+'</span>'+badge;
+    html += '<span class="hist-dia-arrow">'+(isOpen?'▲':'▼')+'</span>';
+    html += '</div>';
+    html += '<div class="hist-dia-body"'+(isOpen?'':' style="display:none"')+'>'+obsHtml+'</div>';
+    html += '</div>';
+  });
   el.innerHTML = html;
+}
+function toggleHistDia(header) {
+  var item = header.parentElement;
+  var body = item.querySelector('.hist-dia-body');
+  var arrow = header.querySelector('.hist-dia-arrow');
+  var isOpen = item.classList.contains('open');
+  if(isOpen) {
+    item.classList.remove('open');
+    body.style.display='none';
+    arrow.textContent='▼';
+  } else {
+    item.classList.add('open');
+    body.style.display='block';
+    arrow.textContent='▲';
+  }
 }
 
 function renderEscolaComunicados() {
