@@ -50,6 +50,21 @@
   .h-left{display:flex;align-items:center;gap:8px}
   .h-icon{width:32px;height:32px;border-radius:50%;object-fit:cover}
   .h-title{font-size:.92rem;font-weight:800}
+  /* MODO LEITURA */
+  body.readonly .add-btn,
+  body.readonly .aer,
+  body.readonly .ob,
+  body.readonly .rb,
+  body.readonly .hi-btn,
+  body.readonly .contact-del,
+  body.readonly .reimb-check,
+  body.readonly .reimb-del,
+  body.readonly #notifBanner,
+  body.readonly [onclick="openHealthAdd()"],
+  body.readonly [onclick="openContactAdd()"],
+  body.readonly [onclick="openReimbAdd()"] { display:none!important }
+  body.readonly .readonly-badge{display:inline-flex!important}
+  .readonly-badge{display:none;align-items:center;gap:4px;font-size:.7rem;font-weight:700;color:#7c3fa0;background:#f3eafa;border-radius:20px;padding:2px 8px}
   .chip{display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;font-size:.78rem;font-weight:700;cursor:pointer;border:1.5px solid transparent}
   .chip.r{background:var(--rl);border-color:var(--r);color:var(--r)}
   .chip.y{background:var(--yl);border-color:var(--y);color:var(--y)}
@@ -287,6 +302,7 @@
         <span id="escolaSyncGlobal"></span>
       </div>
     </div>
+    <span class="readonly-badge">👁 só leitura</span>
     <div class="chip" id="chip" onclick="doLogout()">
       <div class="chip-dot"></div>
       <span id="chipName"></span>
@@ -494,6 +510,7 @@ firebase.initializeApp({
 var auth=firebase.auth(), db=firebase.database(), storage=firebase.storage();
 var VAPID="BPUanq3Gib0FCP-Y3RrhxWX4-ovsmndL2lFDVg7asHi2tqo0bYvDAnQi1vN4ksXCGsSXe6oqIZYMExYupEMkGq4";
 var ALLOWED_EMAILS=['raphaelkcesar@gmail.com','yasmimvellar@gmail.com','gabrieladasilvaferreira@gmail.com'];
+var READONLY_EMAILS=['gabrieladasilvaferreira@gmail.com'];
 
 var currentUser=null, selectedUser=null;
 var ov={}, evs={}, healthItems={}, contacts={}, reimbs={};
@@ -532,7 +549,12 @@ auth.onAuthStateChanged(function(user) {
     // Detecta usuário pelo email
     if(user.email==='raphaelkcesar@gmail.com') currentUser='r';
     else if(user.email==='yasmimvellar@gmail.com') currentUser='y';
-    else currentUser='y';
+    else currentUser='r';
+    if(READONLY_EMAILS.indexOf(user.email)!==-1){
+      document.body.classList.add('readonly');
+    } else {
+      document.body.classList.remove('readonly');
+    }
     showApp();
     startListeners();
   } else {
