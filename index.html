@@ -493,7 +493,7 @@ firebase.initializeApp({
 });
 var auth=firebase.auth(), db=firebase.database(), storage=firebase.storage();
 var VAPID="BPUanq3Gib0FCP-Y3RrhxWX4-ovsmndL2lFDVg7asHi2tqo0bYvDAnQi1vN4ksXCGsSXe6oqIZYMExYupEMkGq4";
-var ALLOWED_EMAILS=['raphaelkcesar@gmail.com'];
+var ALLOWED_EMAILS=['raphaelkcesar@gmail.com','yasmimvellar@gmail.com'];
 
 var currentUser=null, selectedUser=null;
 var ov={}, evs={}, healthItems={}, contacts={}, reimbs={};
@@ -531,6 +531,7 @@ auth.onAuthStateChanged(function(user) {
     }
     // Detecta usuário pelo email
     if(user.email==='raphaelkcesar@gmail.com') currentUser='r';
+    else if(user.email==='yasmimvellar@gmail.com') currentUser='y';
     else currentUser='y';
     showApp();
     startListeners();
