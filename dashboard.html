@@ -272,18 +272,6 @@ function render(){
               ${mensVal>0?'<div class="mens-val">Total: R$ '+mensVal.toFixed(2)+'</div>':''}
             </div>
           </div>
-          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
-            ${mensPend.slice(0,3).map(m=>`
-              <div class="mens-item">
-                <div class="mens-item-dot" style="background:var(--pink2)"></div>
-                <div class="mens-item-info">
-                  <div class="mens-item-name">${esc(m.descricao||'Parcela')}</div>
-                  <div class="mens-item-date">Venc: ${fSimple(m.vencimento)}</div>
-                </div>
-                <div class="mens-item-val">${esc(m.valor||'')}</div>
-              </div>`).join('')}
-            ${mensPend.length>3?'<div style="font-size:.72rem;color:var(--mu);text-align:center;margin-top:4px;font-weight:700">+ '+(mensPend.length-3)+' mais → clique para ver tudo</div>':''}
-          </div>
         `:'<div class="empty"><div class="empty-icon">✅</div>Todas as mensalidades em dia!</div>'}
       </div>
     </div>
