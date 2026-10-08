@@ -176,11 +176,7 @@
   .escola-section-title span{flex:1;height:1px;background:var(--bo);display:block}
 
   /* ESCOLA SUB-TABS */
-  .sync-escola-badge{font-size:.62rem;font-weight:700;border-radius:20px;padding:2px 7px;white-space:nowrap;letter-spacing:.2px}
-.sync-escola-badge.ok{color:#16a34a;background:#dcfce7}
-.sync-escola-badge.old{color:#b45309;background:#fef9c3}
-.sync-escola-badge.err{color:#dc2626;background:#fee2e2}
-.escola-tabs{display:flex;gap:0;background:var(--card);border-radius:14px;border:1.5px solid var(--bo);padding:4px;margin-bottom:14px;overflow:hidden}
+  .escola-tabs{display:flex;gap:0;background:var(--card);border-radius:14px;border:1.5px solid var(--bo);padding:4px;margin-bottom:14px;overflow:hidden}
   .escola-tab{flex:1;padding:9px 6px;border-radius:10px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;color:var(--mu);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s;line-height:1.2}
   .escola-tab .et-icon{font-size:1.15rem}
   .escola-tab .et-label{font-size:.68rem;letter-spacing:.2px}
@@ -280,7 +276,10 @@
   <div class="header-row1">
     <div class="h-left">
       <img src="icon-192.png" class="h-icon" alt="">
-      <div class="h-title">Calendário da Amélia</div>
+      <div>
+        <div class="h-title">Calendário da Amélia</div>
+        <span id="escolaSyncGlobal"></span>
+      </div>
     </div>
     <div class="chip" id="chip" onclick="doLogout()">
       <div class="chip-dot"></div>
@@ -343,7 +342,7 @@
 
 <!-- ESCOLA -->
 <div class="view" id="view-escola">
-  <div class="section-header" style="margin-top:4px"><h2>🏫 Escola</h2><div style="display:flex;align-items:center;gap:8px"><span id="escolaSyncBadge"></span><button class="add-btn" id="escolaSyncBtn" onclick="escolaRefresh()">↺ Atualizar</button></div></div>
+  <div class="section-header" style="margin-top:4px"><h2>🏫 Escola</h2></div>
 
   <!-- Sub-abas -->
   <div class="escola-tabs">
@@ -595,7 +594,7 @@ function startListeners() {
   // Resumo do dia: escuta a entrada de hoje
   var todayKey=dk(today);
   db.ref('escola/resumoDia/'+todayKey).on('value',function(s){escolaResumoDia=s.val()||{};renderEscolaResumoDia();});
-  db.ref('escola/syncAt').on('value',function(s){renderEscolaSyncBadge(s.val());});
+  db.ref('escola/syncAt').on('value',function(s){renderEscolaSyncGlobal(s.val());});
   setSy('on','conectado · tempo real');
 }
 
@@ -902,8 +901,8 @@ function escolaTab(name) {
   });
 }
 
-function renderEscolaSyncBadge(data) {
-  var el = document.getElementById('escolaSyncBadge');
+function renderEscolaSyncGlobal(data) {
+  var el = document.getElementById('escolaSyncGlobal');
   if (!el) return;
   if (!data || !data.ts) { el.innerHTML = ''; return; }
   var d = new Date(data.ts);
@@ -913,20 +912,7 @@ function renderEscolaSyncBadge(data) {
   var today = new Date(); today.setHours(0,0,0,0);
   var label = d >= today ? timeStr : dateStr+' '+timeStr;
   var cls = diffMin < 90 ? 'ok' : diffMin < 1440 ? 'old' : 'err';
-  el.innerHTML = '<span class="sync-escola-badge '+cls+'">🔄 '+label+'</span>';
-}
-
-function escolaRefresh() {
-  var btn = document.getElementById('escolaSyncBtn');
-  if(btn) { btn.textContent='⏳'; btn.disabled=true; }
-  // Mostra loading
-  ['escolaMensalidades','escolaResumoDia','escolaComunicados'].forEach(function(id){
-    var el=document.getElementById(id);
-    if(el) el.innerHTML='<div class="empty-state"><div class="es-text">Sincronizando com a escola...</div></div>';
-  });
-  setTimeout(function(){
-    if(btn) { btn.textContent='↺ Atualizar'; btn.disabled=false; }
-  }, 3000);
+  el.innerHTML = '<span class="escola-sync-global '+cls+'">🏫 sync '+label+'</span>';
 }
 
 function formatDateBR(isoStr) {
