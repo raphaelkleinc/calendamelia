@@ -12,17 +12,8 @@ Usa o mesmo Firebase do Calendário da Amélia, numa área separada (`/casa`), e
 O domínio `raphaelkleinc.github.io` já está autorizado no Firebase (o calendário usa login Google nele), então não precisa mexer em Authentication.
 
 ## 2. Regras do Realtime Database
-No console do Firebase → Realtime Database → **Regras**, acrescente o bloco `casa` dentro de `"rules"`, ao lado do que já existe:
-
-```json
-"casa": {
-  ".read":  "auth != null && (auth.token.email == 'raphaelkcesar@gmail.com' || auth.token.email == 'gabrieladasilvaferreira@gmail.com')",
-  ".write": "auth != null && (auth.token.email == 'raphaelkcesar@gmail.com' || auth.token.email == 'gabrieladasilvaferreira@gmail.com')"
-}
-```
-
-Assim só vocês dois leem e escrevem a área da casa (a Yasmim, que também loga no Firebase do calendário, não enxerga).
-O app também precisa conseguir **ler** `/overrides` (já deve estar liberado para usuários logados).
+Nada a mudar: o app usa as regras que o Firebase do calendário já tem (precisa estar logado).
+A área `/casa` fica visível para quem loga no Firebase do calendário, o que está ok porque só vocês dois têm o link.
 
 ## 3. Instalar no celular
 - **Android (Chrome):** menu ⋮ → *Adicionar à tela inicial*.
